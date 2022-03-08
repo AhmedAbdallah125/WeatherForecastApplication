@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">WeatherForecastApplication</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="_24_hour_weather_report">24-Hour Weather Report</string>
+    <string name="_7_day_weather_report">7-Day Weather Report</string>
+    <string name="tomorrow">Tomorrow</string>
 </resources>

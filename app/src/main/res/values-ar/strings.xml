@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="_24_hour_weather_report">تقرير الطقس خلال ۲٤ ساعه </string>
+    <string name="_7_day_weather_report">تقرير الطقس خلال ٧ ساعه</string>
+    <string name="tomorrow">غدا</string>
+</resources>

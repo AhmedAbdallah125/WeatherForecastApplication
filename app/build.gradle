@@ -34,6 +34,8 @@ android {
 }
 
 dependencies {
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.4.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.4.1'
     def lifecycle_version = "2.5.0-alpha03"
     def arch_version = "2.1.0"
     def lottieVersion = "3.4.0"

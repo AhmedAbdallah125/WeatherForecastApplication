@@ -1,5 +1,6 @@
 package com.example.weatherforecastapplication
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +17,9 @@ class SplashScreen : AppCompatActivity() {
         setContentView(binding.root)
         // will be go to main Screen
         splashScreenScope.launch(Dispatchers.Default) {
-            delay(3000)
+            delay(500)
+            var intent = Intent(this@SplashScreen,HomeActivity::class.java)
+            startActivity(intent)
             finish()
         }
     }
