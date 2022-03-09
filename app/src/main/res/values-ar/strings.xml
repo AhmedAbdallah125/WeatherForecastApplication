@@ -3,4 +3,5 @@
     <string name="_24_hour_weather_report">تقرير الطقس خلال ۲٤ ساعه </string>
     <string name="_7_day_weather_report">تقرير الطقس خلال ٧ ساعه</string>
     <string name="tomorrow">غدا</string>
+    <string name="home">الصفحه الرئيسية</string>
 </resources>
