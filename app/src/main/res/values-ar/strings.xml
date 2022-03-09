@@ -4,4 +4,11 @@
     <string name="_7_day_weather_report">تقرير الطقس خلال ٧ ساعه</string>
     <string name="tomorrow">غدا</string>
     <string name="home">الصفحه الرئيسية</string>
+    <string name="pressure">الضغط</string>
+    <string name="title_home">الصفحه الرئيسية</string>
+    <string name="Humidity">الرطوبة</string>
+    <string name="Wind">سرعة الرياح</string>
+    <string name="Visiblity">الرؤية</string>
+    <string name="Cloud">السحاب</string>
+    <string name="app_name">تطبيق الطقس</string>
 </resources>

@@ -13,3 +13,9 @@ data class WeatherHour(
     var img: Int,
     var temp: String
 )
+
+data class Condition(
+    var img: Int,
+    var des: String,
+    var name: String
+)

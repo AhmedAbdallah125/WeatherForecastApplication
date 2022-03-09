@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">WeatherForecastApplication</string>
-    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_activity_home" translatable="false">HomeActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_dashboard" translatable="false">Dashboard</string>
+    <string name="title_notifications" translatable="false">Notifications</string>
     <string name="_24_hour_weather_report">24-Hour Weather Report</string>
     <string name="_7_day_weather_report">7-Day Weather Report</string>
     <string name="tomorrow">Tomorrow</string>
     <string name="home">Home</string>
+    <string name="pressure">Pressure</string>
+    <string name="Humidity">Humidity</string>
+    <string name="Wind">Wind</string>
+    <string name="Visiblity">Visiblity</string>
+    <string name="Cloud">Cloud</string>
 </resources>

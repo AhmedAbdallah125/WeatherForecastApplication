@@ -1,18 +1,18 @@
 package com.example.weatherforecastapplication.home.view
 
-import android.graphics.drawable.GradientDrawable
-import android.icu.lang.UCharacter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
 import com.example.weatherforecastapplication.home.viewmodel.HomeViewModel
+import com.example.weatherforecastapplication.model.Condition
 import com.example.weatherforecastapplication.model.WeatherDay
 import com.example.weatherforecastapplication.model.WeatherHour
 
@@ -21,6 +21,7 @@ class HomeFragment : Fragment() {
     private var _binding: FragmentHomeBinding? = null
     private lateinit var weatherDayAdapter: WeatherDayAdapter
     private lateinit var weatherHourAdapter: WeatherHourAdapter
+    private lateinit var conditionAdapter: ConditionAdapter
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -47,6 +48,7 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initHourRecycle()
         intDayRecycle()
+        initConditions()
         addDummyData()
 
     }
@@ -81,8 +83,17 @@ class HomeFragment : Fragment() {
             WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
             WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
         )
+        var condition = listOf<Condition>(
+            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
+            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
+            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
+            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
+            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure")
+
+        )
         weatherHourAdapter.setWeatherHours(weatherHour)
         weatherDayAdapter.setWeatherDay(weatherDays)
+        conditionAdapter.setConditions(condition)
     }
 
     private fun intDayRecycle() {
@@ -93,6 +104,17 @@ class HomeFragment : Fragment() {
                 requireParentFragment().requireContext(),
                 RecyclerView.VERTICAL, false
             )
+        }
+    }
+
+    private fun initConditions() {
+        conditionAdapter = ConditionAdapter(requireParentFragment())
+        _binding?.recyViewConditionDescription.apply {
+            this?.adapter = conditionAdapter
+            this?.layoutManager = GridLayoutManager(
+                requireContext(), 3,RecyclerView.VERTICAL,false
+            )
+            this?.setHasFixedSize(true)
         }
     }
 
