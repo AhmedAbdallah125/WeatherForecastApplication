@@ -1,9 +1,8 @@
-package com.example.weatherforecastapplication.network
+package com.example.weatherforecastapplication.datasource.network
 
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import retrofit2.Response
 import retrofit2.http.GET
-import retrofit2.http.Path
 import retrofit2.http.Query
 
 private const val appId = "038b8b1da1c8d411444848dd7a345ad2"

@@ -1,10 +1,14 @@
 package com.example.weatherforecastapplication.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
+@Entity(tableName = "weather")
 data class OpenWeatherJason(
     var lat: Double? = null,
     var lon: Double? = null,
+    @PrimaryKey
     var timezone: String? = null,
     var timezoneOffset: Int? = null,
     var current: Current? = Current(),

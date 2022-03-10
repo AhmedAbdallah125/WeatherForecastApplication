@@ -1,4 +1,4 @@
-package com.example.weatherforecastapplication.network
+package com.example.weatherforecastapplication.datasource.network
 
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import retrofit2.Response
@@ -13,7 +13,6 @@ object RetrofitHelper : RemoteSource {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-
 
     private val retrofitService: RetrofitService by lazy {
         retrofit.create(RetrofitService::class.java)
