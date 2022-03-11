@@ -1,20 +1,33 @@
 package com.example.weatherforecastapplication.home.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.ListenableWorker
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
+import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
+import com.example.weatherforecastapplication.datasource.local.WeatherDataBase
+import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.home.viewmodel.HomeViewModel
-import com.example.weatherforecastapplication.model.Condition
-import com.example.weatherforecastapplication.model.WeatherDay
-import com.example.weatherforecastapplication.model.WeatherHour
+import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
+import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
+import com.example.weatherforecastapplication.model.*
+import com.example.weatherforecastapplication.model.Result.Success
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
 
@@ -23,8 +36,10 @@ class HomeFragment : Fragment() {
     private lateinit var weatherHourAdapter: WeatherHourAdapter
     private lateinit var conditionAdapter: ConditionAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    //viewModels
+    private val viewModel: WeatherViewModel by viewModels {
+        WeatherViewModelFactory(Repository(ConcreteLocalSource(requireContext()), RetrofitHelper))
+    }
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -49,51 +64,83 @@ class HomeFragment : Fragment() {
         initHourRecycle()
         intDayRecycle()
         initConditions()
-        addDummyData()
+        // trying
+        val lat = 31.4175
+        val long = 31.8144
+        viewModel.getWeather(lat, long)
+        viewModel.openWeather.observe(viewLifecycleOwner) {
+            bindViewCurrent(openWeatherJason = it)
+            // bind others
+            bindCurrentGrid(it.current)
+            bindHourlyWeather(it.hourly)
+            bindDailyWeather(it.daily)
+        }
+
 
     }
 
-    private fun addDummyData() {
-        var weatherDays = listOf<WeatherDay>(
-            WeatherDay("Tommorow", "22/7", R.drawable.ic_baseline_wb_sunny_24, "clear", "22 C"),
-            WeatherDay("Tommorow", "22/7", R.drawable.ic_baseline_wb_sunny_24, "clear", "22 C"),
-            WeatherDay("Tommorow", "22/7", R.drawable.ic_baseline_wb_sunny_24, "clear", "22 C"),
-            WeatherDay("Tommorow", "22/7", R.drawable.ic_baseline_wb_sunny_24, "clear", "22 C"),
-            WeatherDay("Tommorow", "22/7", R.drawable.ic_baseline_wb_sunny_24, "clear", "22 C"),
-            WeatherDay("Tommorow", "22/7", R.drawable.ic_baseline_wb_sunny_24, "clear", "22 C"),
-        )
-        var weatherHour = listOf<WeatherHour>(
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-            WeatherHour("12AM", R.drawable.ic_baseline_wb_sunny_24, "22C"),
-        )
-        var condition = listOf<Condition>(
-            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
-            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
-            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
-            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure"),
-            Condition(R.drawable.ic_baseline_wb_sunny_24, "20%", "Pressure")
+
+    private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
+        binding.txtCityName.text = openWeatherJason.timezone
+        binding.txtTodayTemp.text = openWeatherJason.current.temp.toString()
+        binding.txtTodatDesc.text = openWeatherJason.current.weather[0].description
+        binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
+    }
+
+    private fun bindCurrentGrid(current: Current) {
+        var weatherCondition = listOf<Condition>(
+            Condition(
+                R.drawable.ic_pressure,
+                ("" + current.pressure ?: 0) as String,
+                getString(
+                    R.string.Pressure
+                )
+            ),
+            Condition(
+                R.drawable.ic_humidity,
+                ("" + current.humidity ?: 0) as String,
+                getString(
+                    R.string.Humidity
+                )
+            ),
+            Condition(
+                R.drawable.ic_cloudy, ("" + current.clouds ?: 0) as String, getString(
+                    R.string.Cloud
+                )
+            ),
+            Condition(
+                R.drawable.ic_sunrise,
+                convertToTime(current.sunrise!!.toLong()),
+                getString(
+                    R.string.Sun_Rise
+                )
+            ),
+            Condition(
+                R.drawable.ic_visibility,
+                ("" + current.visibility ?: 0) as String,
+                getString(
+                    R.string.Visibility
+                )
+            ),
+            Condition(
+                R.drawable.ic_windspeed,
+                ("" + current.windSpeed ?: 0) as String,
+                getString(
+                    R.string.WindSpeed
+                )
+            )
 
         )
-        weatherHourAdapter.setWeatherHours(weatherHour)
-        weatherDayAdapter.setWeatherDay(weatherDays)
-        conditionAdapter.setConditions(condition)
+
+        conditionAdapter.setConditions(weatherCondition)
+    }
+
+    private fun bindDailyWeather(dailyList: List<Daily>) {
+        weatherDayAdapter.setWeatherDay(dailyList)
+    }
+
+    private fun bindHourlyWeather(hourlyList: List<Hourly>) {
+        weatherHourAdapter.setWeatherHours(hourlyList)
     }
 
     private fun intDayRecycle() {
@@ -112,7 +159,7 @@ class HomeFragment : Fragment() {
         _binding?.recyViewConditionDescription.apply {
             this?.adapter = conditionAdapter
             this?.layoutManager = GridLayoutManager(
-                requireContext(), 3,RecyclerView.VERTICAL,false
+                requireContext(), 3, RecyclerView.VERTICAL, false
             )
             this?.setHasFixedSize(true)
         }

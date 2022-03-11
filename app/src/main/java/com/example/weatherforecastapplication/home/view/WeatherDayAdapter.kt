@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapplication.databinding.CardLayoutDayWeatherBinding
-import com.example.weatherforecastapplication.model.WeatherDay
+import com.example.weatherforecastapplication.model.*
 
 class WeatherDayAdapter(
     private val fragment: Fragment,
 
     ) : RecyclerView.Adapter<WeatherDayAdapter.ViewHolder>() {
-    private var weatherDays = emptyList<WeatherDay>()
-    fun setWeatherDay(weatherDays: List<WeatherDay>) {
+    private var weatherDays = emptyList<Daily>()
+    fun setWeatherDay(weatherDays: List<Daily>) {
         this.weatherDays = weatherDays
         notifyDataSetChanged()
     }
@@ -31,15 +31,15 @@ class WeatherDayAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherDayAdapter.ViewHolder, position: Int) {
-        holder.binding.txtOneDay.text = weatherDays[position].day
-        holder.binding.txtOneDes.text = weatherDays[position].des
-        holder.binding.txtOneHistory.text = weatherDays[position].history
-        holder.binding.txtOneTemp.text = weatherDays[position].temp
-        holder.binding.imgOne.setImageResource(weatherDays[position].img)
+        holder.binding.txtOneDay.text = convertToDay(weatherDays[position + 1].dt!!)
+        holder.binding.txtOneDes.text = weatherDays[position].weather[0].description
+        holder.binding.txtOneHistory.text = convertToDate(weatherDays[position + 1].dt!!)
+        holder.binding.txtOneTemp.text = (weatherDays[position + 1].temp?.day ?: 0).toString()
+        holder.binding.imgOne.setImageResource(getIconImage(weatherDays[position + 1].weather[0].icon!!))
     }
 
     override fun getItemCount(): Int {
-        return weatherDays.size
+        return weatherDays.size - 1
     }
 
     inner class ViewHolder(

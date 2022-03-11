@@ -16,6 +16,7 @@ class ConditionAdapter(
     private var conditionList = emptyList<Condition>()
     fun setConditions(conditions: List<Condition>) {
         this.conditionList = conditions
+        notifyDataSetChanged()
     }
 
 

@@ -23,15 +23,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="3 AM"
-        android:textSize="12sp"
+        android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/img_wea_hour"
-        android:layout_width="16dp"
-        android:layout_height="16dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="@+id/txt_weat_hour"
         app:layout_constraintStart_toStartOf="@+id/txt_weat_hour"
@@ -45,7 +45,7 @@
         android:layout_marginTop="8dp"
         android:paddingBottom="8dp"
         android:text="13 c"
-        android:textSize="12sp"
+        android:textSize="14sp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/txt_weat_hour"

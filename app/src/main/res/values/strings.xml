@@ -13,4 +13,8 @@
     <string name="Wind">Wind</string>
     <string name="Visiblity">Visiblity</string>
     <string name="Cloud">Cloud</string>
+    <string name="Pressure">Pressure</string>
+    <string name="Sun_Rise">Sun Rise</string>
+    <string name="Visibility">Visibility</string>
+    <string name="WindSpeed">Wind Speed</string>
 </resources>

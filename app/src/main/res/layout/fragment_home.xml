@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="32dp"
 
             android:text="@string/_24_hour_weather_report"
             android:textSize="16sp"
@@ -106,9 +106,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recy_view_hour_weather"
             android:layout_width="match_parent"
-            android:layout_height="112dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:backgroundTint="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +157,7 @@
             android:id="@+id/txt_7_day_weat_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
 
             android:text="@string/_7_day_weather_report"
             android:textSize="16sp"
@@ -171,9 +170,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txt_7_day_weat_report"
             tools:listitem="@layout/card_layout_day_weather" />
+
+        <ImageView
+            android:id="@+id/img_current"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_todat_desc"
+            app:layout_constraintStart_toEndOf="@+id/txt_city_name"
+            app:layout_constraintTop_toTopOf="@+id/txt_city_name"
+            app:srcCompat="@drawable/a02d" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

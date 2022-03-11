@@ -3,6 +3,7 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_day_one"
 
     app:cardCornerRadius="24dp"
@@ -10,7 +11,6 @@
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="16dp"
@@ -23,8 +23,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:paddingBottom="0dp">
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp">
 
         <TextView
             android:id="@+id/txt_one_day"
@@ -33,42 +33,38 @@
             app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginStart="8dp"
             android:text="@string/tomorrow"
-            android:textSize="16sp" />
+            android:textSize="14sp" />
 
         <ImageView
             android:id="@+id/img_one"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_baseline_wb_sunny_24"
             app:layout_constraintStart_toEndOf="@+id/txt_one_history"
-            app:layout_constraintTop_toTopOf="@+id/txt_one_day"
-            app:layout_constraintVertical_bias="0.0"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:src="@drawable/ic_baseline_wb_sunny_24" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/txt_one_des"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
-            app:layout_constraintStart_toEndOf="@+id/img_one"
-            app:layout_constraintTop_toTopOf="@+id/txt_one_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
             android:text="clear"
-            android:textSize="16sp" />
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
+            app:layout_constraintEnd_toStartOf="@id/txt_one_temp"
+            app:layout_constraintTop_toTopOf="@+id/txt_one_day" />
 
         <TextView
             android:id="@+id/txt_one_history"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
-            app:layout_constraintStart_toEndOf="@+id/txt_one_day"
-            app:layout_constraintTop_toTopOf="@+id/txt_one_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="24/5"
-            android:textSize="16sp" />
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
+            app:layout_constraintStart_toEndOf="@+id/txt_one_day"
+            app:layout_constraintTop_toTopOf="@+id/txt_one_day" />
 
         <TextView
             android:id="@+id/txt_one_temp"
@@ -77,8 +73,7 @@
             app:layout_constraintTop_toTopOf="@+id/txt_one_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="23 c"
-            android:textSize="16sp" />
+            android:layout_marginEnd="14sp"
+            android:textSize="14sp" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

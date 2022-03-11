@@ -6,15 +6,14 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapplication.databinding.CardLayoutDayWeatherBinding
 import com.example.weatherforecastapplication.databinding.CardLayoutHoursWeatherBinding
-import com.example.weatherforecastapplication.model.WeatherDay
-import com.example.weatherforecastapplication.model.WeatherHour
+import com.example.weatherforecastapplication.model.*
 
 class WeatherHourAdapter(
     private val fragment: Fragment,
 
     ) : RecyclerView.Adapter<WeatherHourAdapter.ViewHolder>() {
-    private var weatherHours = emptyList<WeatherHour>()
-    fun setWeatherHours(weatherHours: List<WeatherHour>) {
+    private var weatherHours = emptyList<Hourly>()
+    fun setWeatherHours(weatherHours: List<Hourly>) {
         this.weatherHours = weatherHours
         notifyDataSetChanged()
     }
@@ -33,13 +32,13 @@ class WeatherHourAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherHourAdapter.ViewHolder, position: Int) {
-        holder.binding.txtWeatHour.text = weatherHours[position].time
-        holder.binding.txtWeatherTemp.text = weatherHours[position].temp
-        holder.binding.imgWeaHour.setImageResource(weatherHours[position].img)
+        holder.binding.txtWeatHour.text = convertToTime(weatherHours[position + 1].dt)
+        holder.binding.txtWeatherTemp.text = weatherHours[position + 1].temp.toString()
+        holder.binding.imgWeaHour.setImageResource(getIconImage(weatherHours[position + 1].weather[0].icon!!))
     }
 
     override fun getItemCount(): Int {
-        return weatherHours.size
+        return weatherHours.size - 1
     }
 
     inner class ViewHolder(

@@ -11,4 +11,8 @@
     <string name="Visiblity">الرؤية</string>
     <string name="Cloud">السحاب</string>
     <string name="app_name">تطبيق الطقس</string>
+    <string name="Pressure">Pressure</string>
+    <string name="Sun_Rise">Sun Rise</string>
+    <string name="Visibility">Visibility</string>
+    <string name="WindSpeed">Wind Speed</string>
 </resources>
