@@ -8,24 +8,27 @@ import androidx.room.TypeConverters
 import com.example.weatherforecastapplication.model.Converters
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Weather
+//, exportSchema = false
 
-@Database(entities = [OpenWeatherJason::class], version = 1, exportSchema = false)
+@Database(entities = [OpenWeatherJason::class], version = 2)
 @TypeConverters(Converters::class)
-abstract class WeatherDataBase : RoomDatabase() {
+abstract class WeatherDB : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
 
     companion object {
         // Singleton prevents multiple instances of database opening at the
         // same time.
         @Volatile
-        private var INSTANCE: WeatherDataBase? = null
-        fun getDataBase(context: Context): WeatherDataBase {
+        private var INSTANCE: WeatherDB? = null
+        fun getDataBase(context: Context): WeatherDB {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
-                    WeatherDataBase::class.java,
+                    WeatherDB::class.java,
                     "weather_db"
-                ).build()
+                )
+                    .fallbackToDestructiveMigration()
+                    .build()
                 INSTANCE = instance
                 instance
             }

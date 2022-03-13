@@ -1,20 +1,25 @@
 package com.example.weatherforecastapplication.model
 
+import androidx.annotation.NonNull
+import androidx.annotation.Nullable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "weather")
 data class OpenWeatherJason(
-    var lat: Double? = null,
-    var lon: Double? = null,
+    @SerializedName("lat") var lat: Double,
+    @SerializedName("lon") var lon: Double,
     @PrimaryKey
-    var timezone: String = "aa",
-    var timezoneOffset: Int? = null,
-    var current: Current = Current(),
-    var hourly: List<Hourly> = arrayListOf(),
-    var daily: List<Daily> = arrayListOf(),
-    var alerts: List<Alerts> = arrayListOf()
+    @NonNull
+    @SerializedName("timezone") var timezone: String,
+    @SerializedName("timezone_offset") var timezoneOffset: Int,
+    @SerializedName("current") var current: Current,
+    @SerializedName("hourly") var hourly: List<Hourly>,
+    @SerializedName("daily") var daily: List<Daily>,
+//    @Nullable
+//    @SerializedName("alerts")
+//    var alerts: List<Alerts?> = ArrayList()
 )
 
 data class Weather(
@@ -25,7 +30,7 @@ data class Weather(
 )
 
 data class Current(
-    @SerializedName("dt") var dt: Long? = null,
+    @SerializedName("dt") var dt: Long,
     @SerializedName("sunrise") var sunrise: Int? = null,
     @SerializedName("sunset") var sunset: Int? = null,
     @SerializedName("temp") var temp: Double? = null,
@@ -56,7 +61,7 @@ data class Hourly(
     @SerializedName("wind_speed") var windSpeed: Double? = null,
     @SerializedName("wind_deg") var windDeg: Int? = null,
     @SerializedName("wind_gust") var windGust: Double? = null,
-    @SerializedName("weather") var weather: List<Weather> = arrayListOf(),
+    @SerializedName("weather") var weather: ArrayList<Weather> = arrayListOf(),
     @SerializedName("pop") var pop: Double? = null
 )
 
@@ -83,7 +88,7 @@ data class FeelsLike(
 
 data class Daily(
 
-    @SerializedName("dt") var dt: Long? = null,
+    @SerializedName("dt") var dt: Long,
     @SerializedName("sunrise") var sunrise: Int? = null,
     @SerializedName("sunset") var sunset: Int? = null,
     @SerializedName("moonrise") var moonrise: Int? = null,
@@ -97,13 +102,12 @@ data class Daily(
     @SerializedName("wind_speed") var windSpeed: Double? = null,
     @SerializedName("wind_deg") var windDeg: Int? = null,
     @SerializedName("wind_gust") var windGust: Double? = null,
-    @SerializedName("weather") var weather: List<Weather> = arrayListOf(),
+    @SerializedName("weather") var weather: ArrayList<Weather> = arrayListOf(),
     @SerializedName("clouds") var clouds: Int? = null,
     @SerializedName("pop") var pop: Double? = null,
     @SerializedName("uvi") var uvi: Double? = null
 
 )
-
 data class Alerts(
 
     @SerializedName("sender_name") var senderName: String? = null,
@@ -111,9 +115,10 @@ data class Alerts(
     @SerializedName("start") var start: Int? = null,
     @SerializedName("end") var end: Int? = null,
     @SerializedName("description") var description: String? = null,
-    @SerializedName("tags") var tags: List<String> = arrayListOf()
+    @SerializedName("tags") var tags: ArrayList<String> = arrayListOf()
 
 )
+
 
 enum class Units(var unit: String) {
     IMPERIAL("imperial"),

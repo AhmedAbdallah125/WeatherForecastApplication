@@ -1,16 +1,20 @@
 package com.example.weatherforecastapplication.model
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.SharedPreferences
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.weatherforecastapplication.R
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 fun getIconImage(icon: String): Int {
-    var iconValue: Int
+    val iconValue: Int
     when (icon) {
         "01d" -> iconValue = R.drawable.a01d
         "01n" -> iconValue = R.drawable.a01n
@@ -36,20 +40,22 @@ fun getIconImage(icon: String): Int {
 }
 
 // convert to hours
+@SuppressLint("SimpleDateFormat")
 fun convertToTime(dt: Long): String {
-    val date = Date(TimeUnit.SECONDS.toMillis(dt))
+    val date = Date(dt * 1000)
     val format = SimpleDateFormat("h:mm a")
     return format.format(date)
 }
 
 // now Day friday
 fun convertToDay(dt: Long): String {
-    var calendar = Calendar.getInstance()
+    val calendar = Calendar.getInstance()
     calendar.timeInMillis = dt
     return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.ENGLISH)
 }
 
 // return now day history
+@SuppressLint("SimpleDateFormat")
 fun convertToDate(dt: Long): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("d MMM, yyyy")
@@ -83,6 +89,27 @@ fun isConnected(context: Context): Boolean {
     }
     return false
 }
+
+fun initSharedPref(context: Context): SharedPreferences {
+    return context.getSharedPreferences(
+        context.getString(R.string.shared_pref),
+        Context.MODE_PRIVATE
+    )
+
+}
+
+fun checkSharedTimeZone(context: Context): Boolean {
+    val sharedPref = initSharedPref(context)
+    return sharedPref.getString(context.getString(R.string.TIMEZONE),"null").isNullOrEmpty()
+}
+
+
+fun checkShared(context: Context): Boolean {
+    val sharedPref = initSharedPref(context)
+    return sharedPref.getFloat(context.getString(R.string.LAT), 0f) == 0f
+}
+
+
 //
 //// history of Days
 //fun convertLongToDay(time: Long): String {
@@ -90,3 +117,5 @@ fun isConnected(context: Context): Boolean {
 //    val format = SimpleDateFormat("EEE, d MMM yyyy")
 //    return format.format(date)
 //}
+
+//        ‏

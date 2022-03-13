@@ -1,10 +1,12 @@
 package com.example.weatherforecastapplication.model
 
 import android.util.Log
+import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.datasource.local.LocalSourceInterface
 import com.example.weatherforecastapplication.datasource.network.RemoteSource
 import kotlinx.coroutines.*
 import retrofit2.Response
+import  com.example.weatherforecastapplication.model.initSharedPref
 
 class Repository(
     private val localSourceInterface: LocalSourceInterface,
@@ -19,7 +21,18 @@ class Repository(
         } catch (exception: Exception) {
             Log.i("AA", "Ex: " + exception.message)
         }
-        var result = localSourceInterface.getWeather(lat, long)
+        // get from timezone
+        val sharedPreferences = initSharedPref(localSourceInterface.getContext())
+        val latShared = sharedPreferences.getFloat(
+            localSourceInterface.getContext().getString(R.string.LAT),
+            0F
+        )
+        val lonShared = sharedPreferences.getFloat(
+            localSourceInterface.getContext().getString(R.string.LON),
+            0F
+        )
+
+        var result = localSourceInterface.getWeather(latShared.toDouble(), lonShared.toDouble())
         return if (result == null) {
             Result.Error("this is not exist")
         } else {
@@ -38,9 +51,23 @@ class Repository(
         try {
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
             if (response.isSuccessful) {
-                Log.i("AA", "EnteredHre: ")
+                val sharedPreferences = initSharedPref(localSourceInterface.getContext())
+                sharedPreferences.edit().apply {
+                    putString(
+                        localSourceInterface.getContext().getString(R.string.TIMEZONE),
+                        response.body()!!.timezone
+                    )
+                    putFloat(
+                        localSourceInterface.getContext().getString(R.string.LAT),
+                        response.body()!!.lat!!.toFloat()
+                    )
+                    putFloat(
+                        localSourceInterface.getContext().getString(R.string.LON),
+                        response.body()!!.lon!!.toFloat()
+                    )
+                    apply()
+                }
 
-                Log.i("AA", "updateCurrentWeatherTimeZone: " + "Succesuful")
                 // must insert
                 localSourceInterface.insertWeather(response.body()!!)
             }

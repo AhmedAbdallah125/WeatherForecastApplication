@@ -22,4 +22,26 @@
         android:name="com.example.weatherforecastapplication.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/settingScreen"
+        android:name="com.example.weatherforecastapplication.SettingScreen"
+        android:label="fragment_setting_screen"
+        tools:layout="@layout/fragment_setting_screen" />
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.example.weatherforecastapplication.MapsFragment"
+        android:label="fragment_maps"
+        tools:layout="@layout/fragment_maps" >
+        <action
+            android:id="@+id/action_mapsFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
+    <dialog
+        android:id="@+id/customDialog"
+        android:name="com.example.weatherforecastapplication.home.view.CustomDialog"
+        android:label="CustomDialog" >
+        <action
+            android:id="@+id/action_customDialog_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </dialog>
 </navigation>

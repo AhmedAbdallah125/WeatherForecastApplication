@@ -11,8 +11,20 @@
     <string name="Visiblity">الرؤية</string>
     <string name="Cloud">السحاب</string>
     <string name="app_name">تطبيق الطقس</string>
-    <string name="Pressure">Pressure</string>
-    <string name="Sun_Rise">Sun Rise</string>
-    <string name="Visibility">Visibility</string>
-    <string name="WindSpeed">Wind Speed</string>
+    <string name="Pressure">الضغط</string>
+    <string name="Sun_Rise">شروق الشمس</string>
+    <string name="Visibility">الرؤية</string>
+    <string name="WindSpeed">سرعةالرياح</string>
+    <string name="weather_setup">أعدادات الطقس</string>
+    <string name="location">الموقع</string>
+    <string name="gps">GPS</string>
+    <string name="map">خريطة</string>
+    <string name="settings">الاعدادات</string>
+    <string name="language">Language</string>
+    <string name="English">English</string>
+    <string name="arabic">Arabic</string>
+    <string name="temperature">Temperature</string>
+    <string name="celsius">Celsius</string>
+    <string name="Kelvin">Kelvin</string>
+    <string name="fahrenheit">Fahrenheit</string>
 </resources>

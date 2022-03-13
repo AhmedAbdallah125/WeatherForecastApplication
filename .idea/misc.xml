@@ -3,13 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/round_corner.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/activity_home.xml" value="0.4474885844748858" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/card_layout_day_weather.xml" value="0.3192771084337349" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/card_layout_grid_item.xml" value="0.5" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/card_layout_hours_weather.xml" value="0.25" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/dialog_intial_setup.xml" value="0.33" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_custom_dialog.xml" value="0.18297101449275363" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_dashboard.xml" value="0.22" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_home.xml" value="0.26666666666666666" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_maps.xml" value="0.18297101449275363" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_setting.xml" value="0.2" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_setting_screen.xml" value="0.18297101449275363" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>

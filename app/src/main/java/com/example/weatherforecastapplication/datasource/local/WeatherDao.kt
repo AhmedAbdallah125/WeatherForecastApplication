@@ -17,9 +17,12 @@ interface WeatherDao {
     @Query("Select * from weather where  lat =:lat AND lon =:lon")
     suspend fun getCurrentWeather(lat: Double, lon: Double): OpenWeatherJason
 
+
     @Update()
     suspend fun updateWeather(openWeatherJason: OpenWeatherJason)
 
     @Delete()
     suspend fun deleteWeatherTimeZone(openWeatherJason: OpenWeatherJason)
+    // ensure exist or not
+
 }

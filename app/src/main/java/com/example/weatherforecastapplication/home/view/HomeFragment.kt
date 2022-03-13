@@ -1,33 +1,28 @@
 package com.example.weatherforecastapplication.home.view
 
+import android.content.SharedPreferences
+import android.location.Address
+import android.location.Geocoder
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.coroutineScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.work.ListenableWorker
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.local.WeatherDataBase
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.home.viewmodel.HomeViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
 import com.example.weatherforecastapplication.model.*
-import com.example.weatherforecastapplication.model.Result.Success
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.util.*
 
 class HomeFragment : Fragment() {
 
@@ -35,6 +30,7 @@ class HomeFragment : Fragment() {
     private lateinit var weatherDayAdapter: WeatherDayAdapter
     private lateinit var weatherHourAdapter: WeatherHourAdapter
     private lateinit var conditionAdapter: ConditionAdapter
+    private lateinit var sharedPreferences: SharedPreferences
 
     //viewModels
     private val viewModel: WeatherViewModel by viewModels {
@@ -64,10 +60,12 @@ class HomeFragment : Fragment() {
         initHourRecycle()
         intDayRecycle()
         initConditions()
+        sharedPreferences = initSharedPref(requireContext())
         // trying
-        val lat = 31.4175
-        val long = 31.8144
-        viewModel.getWeather(lat, long)
+        val lat = sharedPreferences.getFloat(getString(R.string.LAT), 0f)
+        val long = sharedPreferences.getFloat(getString(R.string.LON), 0f)
+        Log.i("AA", "lat:"+lat)
+        viewModel.getWeather(lat.toDouble(), long.toDouble())
         viewModel.openWeather.observe(viewLifecycleOwner) {
             bindViewCurrent(openWeatherJason = it)
             // bind others
@@ -81,14 +79,17 @@ class HomeFragment : Fragment() {
 
 
     private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
-        binding.txtCityName.text = openWeatherJason.timezone
+        binding.txtCityName.text = getCityText(
+            openWeatherJason.lat!!.toDouble(), openWeatherJason.lon!!.toDouble()
+        )
+
         binding.txtTodayTemp.text = openWeatherJason.current.temp.toString()
         binding.txtTodatDesc.text = openWeatherJason.current.weather[0].description
         binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
     }
 
     private fun bindCurrentGrid(current: Current) {
-        var weatherCondition = listOf<Condition>(
+        val weatherCondition = listOf<Condition>(
             Condition(
                 R.drawable.ic_pressure,
                 ("" + current.pressure ?: 0) as String,
@@ -179,5 +180,17 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun getCityText(lat: Double, lon: Double): String {
+        var city = "Unknown!"
+        val geocoder = Geocoder(requireContext(), Locale("en"))
+        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
+        if (addresses.isNotEmpty()) {
+            val state = addresses[0].adminArea
+            val country = addresses[0].countryName
+            city = "$state, $country"
+        }
+        return city
     }
 }

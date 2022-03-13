@@ -9,13 +9,12 @@ import kotlinx.coroutines.withContext
 
 class ConcreteLocalSource(
     private val context: Context,
-    private val weatherDao: WeatherDao = WeatherDataBase.getDataBase(context)
+    private val weatherDao: WeatherDao = WeatherDB.getDataBase(context)
         .weatherDao()
 ) : LocalSourceInterface {
 
     override suspend fun insertWeather(openWeatherJason: OpenWeatherJason) {
         withContext(Dispatchers.IO) {
-            Log.i("AA", "The entered is: " + openWeatherJason.toString())
             weatherDao.insertWeather(openWeatherJason)
         }
     }
@@ -30,6 +29,10 @@ class ConcreteLocalSource(
 
     override suspend fun updateWeather(openWeatherJason: OpenWeatherJason) {
         TODO("Not yet implemented")
+    }
+
+    override fun getContext(): Context {
+        return context
     }
 
 }

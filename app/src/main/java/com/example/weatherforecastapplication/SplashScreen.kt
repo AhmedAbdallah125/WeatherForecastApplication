@@ -5,11 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.example.weatherforecastapplication.databinding.ScreenSplashBinding
+import com.example.weatherforecastapplication.home.view.HomeActivity
 import kotlinx.coroutines.*
 
 class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ScreenSplashBinding
-    private val splashScreenScope =lifecycleScope
+    private val splashScreenScope = lifecycleScope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +19,7 @@ class SplashScreen : AppCompatActivity() {
         // will be go to main Screen
         splashScreenScope.launch(Dispatchers.Default) {
             delay(500)
-            var intent = Intent(this@SplashScreen,HomeActivity::class.java)
+            val intent = Intent(this@SplashScreen, HomeActivity::class.java)
             startActivity(intent)
             finish()
         }
