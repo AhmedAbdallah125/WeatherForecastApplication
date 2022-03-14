@@ -33,7 +33,9 @@ class WeatherHourAdapter(
 
     override fun onBindViewHolder(holder: WeatherHourAdapter.ViewHolder, position: Int) {
         holder.binding.txtWeatHour.text = convertToTime(weatherHours[position + 1].dt)
-        holder.binding.txtWeatherTemp.text = weatherHours[position + 1].temp.toString()
+        holder.binding.txtWeatherTemp.text = weatherHours[position + 1].temp.toString().plus(
+            getCurrentTemperature(fragment.requireContext())
+        )
         holder.binding.imgWeaHour.setImageResource(getIconImage(weatherHours[position + 1]!!.weather[0]!!.icon!!))
     }
 

@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class WeatherViewModel(private val myRepository: IRepository) : ViewModel() {
+    // get from shared the required Data
     var openWeather: MutableLiveData<OpenWeatherJason> = MutableLiveData()
     fun getWeather(
         lat: Double,

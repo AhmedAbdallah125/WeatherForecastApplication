@@ -55,7 +55,6 @@ fun convertToDay(dt: Long): String {
 }
 
 // return now day history
-@SuppressLint("SimpleDateFormat")
 fun convertToDate(dt: Long): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("d MMM, yyyy")
@@ -98,9 +97,10 @@ fun initSharedPref(context: Context): SharedPreferences {
 
 }
 
+
 fun checkSharedTimeZone(context: Context): Boolean {
     val sharedPref = initSharedPref(context)
-    return sharedPref.getString(context.getString(R.string.TIMEZONE),"null").isNullOrEmpty()
+    return sharedPref.getString(context.getString(R.string.TIMEZONE), "null").isNullOrEmpty()
 }
 
 
@@ -112,10 +112,82 @@ fun checkShared(context: Context): Boolean {
 
 //
 //// history of Days
-//fun convertLongToDay(time: Long): String {
-//    val date = Date(TimeUnit.SECONDS.toMillis(time))
-//    val format = SimpleDateFormat("EEE, d MMM yyyy")
-//    return format.format(date)
-//}
+fun convertLongToDay(time: Long): String {
+    val date = Date(TimeUnit.SECONDS.toMillis(time))
+    val format = SimpleDateFormat("EEE")
+    return format.format(date)
+}
 
-//        ‏
+// for Lan
+fun initLan(lan: String, context: Context) {
+    initSharedPref(context).edit().apply {
+        putString(context.getString(R.string.LAN), lan)
+        apply()
+    }
+}
+
+// for Unit
+fun initUNIT(unit: String, context: Context) {
+    initSharedPref(context).edit().apply {
+        putString(context.getString(R.string.UNITS), unit)
+        apply()
+    }
+}
+
+// for choosing location way
+fun initLocation(location: String, context: Context) {
+    initSharedPref(context).edit().apply {
+        putString(context.getString(R.string.LOCATIONCHOICE), location)
+        apply()
+    }
+}
+
+fun getCurrentLan(context: Context): String {
+    return initSharedPref(context).getString(
+        context.getString(R.string.LAN),
+        Languages.ENGLISH.name
+    ) ?: Languages.ENGLISH.name
+}
+
+fun getCurrentUnit(context: Context): String {
+    return initSharedPref(context).getString(
+        context.getString(R.string.UNITS),
+        Units.METRIC.name
+    ) ?: Units.METRIC.name
+}
+
+// getUnits
+fun getCurrentTemperature(context: Context): String {
+    return when (getCurrentUnit(context)) {
+        Units.METRIC.name -> {
+            context.getString(R.string.Celsusi)
+        }
+        Units.IMPERIAL.name -> {
+            context.getString(R.string.Ferherhit)
+        }
+        Units.STANDARD.name -> {
+            context.getString(R.string.KELVIN)
+        }
+        else -> {
+            context.getString(R.string.Celsusi)
+        }
+    }
+}
+
+// get Speed
+fun getCurrentSpeed(context: Context): String {
+
+    return when (getCurrentUnit(context)) {
+
+        Units.IMPERIAL.name -> {
+            context.getString(R.string.MiliPerHour)
+        }
+
+        else -> {
+            context.getString(R.string.MeterPerSecond)
+
+        }
+    }
+
+
+}

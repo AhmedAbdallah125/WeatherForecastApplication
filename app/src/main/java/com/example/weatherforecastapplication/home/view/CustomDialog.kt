@@ -3,6 +3,7 @@ package com.example.weatherforecastapplication.home.view
 import android.Manifest
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +19,8 @@ import androidx.navigation.Navigation
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.DialogIntialSetupBinding
 import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
+import com.example.weatherforecastapplication.model.initSharedPref
+import com.example.weatherforecastapplication.model.isConnected
 
 
 class CustomDialog : DialogFragment() {
@@ -45,14 +48,38 @@ class CustomDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         appContext = requireActivity().applicationContext
         binding.setupDialogButton.setOnClickListener {
-            if (binding.radioButtonGPS.isChecked) {
-//                checkLocationPermission()
-                viewModel.selectedLocProvider(0)
-            } else if (binding.radioButtonMaps.isChecked) {
-//                viewModel.selectedLocProvider(1)
-                Navigation.findNavController(view).navigate(R.id.action_customDialog_to_mapsFragment)
+
+            // init for first
+            initSharedPref(requireContext()).edit().apply() {
+                putBoolean(getString(R.string.FIRST), false)
+                apply()
+            }
+            if (!isConnected(requireContext())) {
+                viewModel.selectedLocProvider(3)
+            } else {
+                if (binding.radioButtonGPS.isChecked) {
+                    // init for GPS
+                    initSharedPref(requireContext()).edit().apply() {
+                        //false meaning GPS
+                        putInt(getString(R.string.LOCATION), 1)
+                        apply()
+                    }
+                } else if (binding.radioButtonMaps.isChecked) {
+                    // true means MAPs
+                    initSharedPref(requireContext()).edit()
+                        .apply {
+                            putInt(getString(R.string.MAP), 1)
+                            apply()
+                        }
+                }
             }
             dialog!!.dismiss()
+            val activity = getActivity();
+            if (activity is DialogInterface.OnDismissListener) {
+                (activity as (DialogInterface.OnDismissListener)).onDismiss(dialog);
+
+
+            }
         }
     }
 

@@ -16,30 +16,30 @@ class Repository(
     override suspend fun getCurrentWeather(
         lat: Double, long: Double, lan: String, unit: String
     ): Result<OpenWeatherJason> {
-        try {
-            updateCurrentWeatherTimeZone(lat, long, lan, unit)
-        } catch (exception: Exception) {
-            Log.i("AA", "Ex: " + exception.message)
+//        var job = CoroutineScope(ioDispatcher).launch {
+        if (isConnected(localSourceInterface.getContext())) {
+            try {
+                updateCurrentWeatherTimeZone(lat, long, lan, unit)
+            } catch (exception: Exception) {
+                Log.i("AA", "Ex: " + exception.message)
+            }
         }
-        // get from timezone
+//        }
+//        job.join()
+
         val sharedPreferences = initSharedPref(localSourceInterface.getContext())
-        val latShared = sharedPreferences.getFloat(
-            localSourceInterface.getContext().getString(R.string.LAT),
-            0F
-        )
-        val lonShared = sharedPreferences.getFloat(
-            localSourceInterface.getContext().getString(R.string.LON),
-            0F
+        val timeZone = sharedPreferences.getString(
+            localSourceInterface.getContext().getString(R.string.TIMEZONE), ""
         )
 
-        var result = localSourceInterface.getWeather(latShared.toDouble(), lonShared.toDouble())
+
+        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!)
+//        Log.i("AA", "getCurrentWeather: " + result.timezone)
         return if (result == null) {
             Result.Error("this is not exist")
         } else {
             Result.Success(result)
         }
-
-
     }
 
     private suspend fun updateCurrentWeatherTimeZone(
@@ -67,7 +67,12 @@ class Repository(
                     )
                     apply()
                 }
-
+                Log.i(
+                    "AA",
+                    "inONline:lat  " + sharedPreferences.getFloat(
+                        localSourceInterface.getContext().getString(R.string.LAT), 0f
+                    )
+                )
                 // must insert
                 localSourceInterface.insertWeather(response.body()!!)
             }

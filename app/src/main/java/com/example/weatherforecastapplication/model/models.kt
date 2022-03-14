@@ -108,6 +108,7 @@ data class Daily(
     @SerializedName("uvi") var uvi: Double? = null
 
 )
+
 data class Alerts(
 
     @SerializedName("sender_name") var senderName: String? = null,
@@ -123,10 +124,16 @@ data class Alerts(
 enum class Units(var unit: String) {
     IMPERIAL("imperial"),
     METRIC("metric"),
+    STANDARD("standard")
 
 }
 
 enum class Languages(var language: String) {
     ENGLISH("en"),
     ARABIC("ar")
+}
+
+enum class Location(var location: String) {
+    MAP("MAP"),
+    GPS("GPS")
 }

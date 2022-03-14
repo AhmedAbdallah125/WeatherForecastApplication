@@ -1,6 +1,7 @@
 package com.example.weatherforecastapplication.home.view
 
 import android.Manifest
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
@@ -21,17 +22,16 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.ActivityHomeBinding
 import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
-import com.example.weatherforecastapplication.model.checkShared
-import com.example.weatherforecastapplication.model.initSharedPref
-import com.google.android.gms.location.LocationCallback
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationResult
-import com.google.android.gms.location.LocationServices
+import com.example.weatherforecastapplication.model.*
+import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.util.*
+import kotlin.math.log
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
 
     // for permission
     private val permission = arrayOf<String>(
@@ -49,27 +49,20 @@ class HomeActivity : AppCompatActivity() {
         // init shared pref
         sharedPreferences = initSharedPref(this)
 
-        if (checkShared(this)) {
+        if (isFirst()) {
             // check with shared
+            // here init first shared for all
+            initUNIT(Units.METRIC.name,this)
+            initLan(Locale.getDefault().language,this)
             binding.container.visibility = View.INVISIBLE
             CustomDialog().show(supportFragmentManager, "MyCustomFragment")
         }
-
-
-        viewModel.selectedLocProvider.observe(this) {
-            binding.container.visibility = View.VISIBLE
-            when (it) {
-                0 -> {
-                    // must get permission and save it
-                    getLocation()
-                    Log.i(
-                        "AA",
-                        "Lat is: " + sharedPreferences.getFloat(getString(R.string.LAT), 0f)
-                    )
-                }
-                1 -> {
-
-                }
+        // check if MA
+        if (checkGPS()) {
+            getLocation()
+            initSharedPref(this).edit().apply {
+                putInt(getString(R.string.LOCATION), 2)
+                apply()
             }
 
         }
@@ -89,6 +82,9 @@ class HomeActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
     }
 
+    private fun checkGPS(): Boolean {
+        return initSharedPref(this).getInt(getString(R.string.LOCATION), 0) == 1
+    }
 
     private fun checkLocationPermission(): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -123,31 +119,34 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun getLocation() {
+
         val locationRequest: LocationRequest = LocationRequest.create()
         locationRequest.apply {
             interval = 1000
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
+
         if (checkLocationPermission()) {
             if (isLocationProviderEnabled()) {
-                val fusedLocationProviderClient =
+                fusedLocationProviderClient =
                     LocationServices.getFusedLocationProviderClient(this)
                 fusedLocationProviderClient.requestLocationUpdates(
                     locationRequest,
                     locationCallback,
                     Looper.getMainLooper()
                 )
-//                fusedLocationProviderClient.removeLocationUpdates(locationCallback)
             } else {
                 enableLocationSetting()
             }
         } else {
             requestPermission()
+
         }
     }
 
     private fun requestPermission() {
         ActivityCompat.requestPermissions(this, permission, requestId)
+//        if (!checkLocationPermission()) requestPermission()
 
     }
 
@@ -166,10 +165,16 @@ class HomeActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "location permission granted", Toast.LENGTH_SHORT).show()
                 getLocation()
+                finish()
+                startActivity(intent)
             }
         }
 
 
+    }
+
+    private fun isFirst(): Boolean {
+        return initSharedPref(this).getBoolean(getString(R.string.FIRST), true)
     }
 
     private fun isLocationProviderEnabled(): Boolean {
@@ -192,13 +197,20 @@ class HomeActivity : AppCompatActivity() {
                 Log.i("AA", "The Result is: " + location.latitude)
                 apply()
             }
+            fusedLocationProviderClient.removeLocationUpdates(this)
+            Log.i("HOSSAM", "onLocationResult: ")
 
-            Log.i("AA", "onLocationResult: ")
         }
     }
 
     private fun enableLocationSetting() {
         val settingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
         startActivity(settingIntent)
+    }
+
+    override fun onDismiss(p0: DialogInterface?) {
+
+        finish()
+        startActivity(intent)
     }
 }

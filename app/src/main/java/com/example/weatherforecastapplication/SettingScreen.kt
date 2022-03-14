@@ -23,5 +23,6 @@ class SettingScreen : Fragment() {
         return inflater.inflate(R.layout.fragment_setting_screen, container, false)
     }
 
+    // init UI from shared
 
 }

@@ -27,4 +27,10 @@
     <string name="celsius">Celsius</string>
     <string name="Kelvin">Kelvin</string>
     <string name="fahrenheit">Fahrenheit</string>
+    <string name="Celsusi">°C</string>
+    <string name="Ferherhit">F</string>
+    <string name="KELVIN">°K</string>
+    <string name="MeterPerSecond">م/ث</string>
+    <string name="MiliPerHour">ملى/الساعه </string>
+    <string name="Pascal">PA</string>
 </resources>

@@ -35,4 +35,17 @@
     <string name="Kelvin">Kelvin</string>
     <string name="fahrenheit">Fahrenheit</string>
     <string name="TIMEZONE">TIMEZONE</string>
+    <string name="MAP">MAP</string>
+    <string name="FIRST">FIRST</string>
+    <string name="GPS">GPS</string>
+    <string name="LOCATION">LOCATION</string>
+    <string name="LAN">LAN</string>
+    <string name="UNITS">UNITS</string>
+    <string name="LOCATIONCHOICE">LOCATIONCHOICE</string>
+    <string name="Celsusi">°C</string>
+    <string name="Ferherhit">F</string>
+    <string name="KELVIN">°K</string>
+    <string name="MeterPerSecond">m/s</string>
+    <string name="MiliPerHour">mil/hour</string>
+    <string name="Pascal">PA</string>
 </resources>

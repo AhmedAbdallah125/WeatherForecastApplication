@@ -1,5 +1,6 @@
 package com.example.weatherforecastapplication.home.view
 
+import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.location.Address
 import android.location.Geocoder
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,7 @@ import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
+import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
 import com.example.weatherforecastapplication.home.viewmodel.HomeViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
@@ -36,6 +39,7 @@ class HomeFragment : Fragment() {
     private val viewModel: WeatherViewModel by viewModels {
         WeatherViewModelFactory(Repository(ConcreteLocalSource(requireContext()), RetrofitHelper))
     }
+
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -43,15 +47,10 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val homeViewModel =
-            ViewModelProvider(this).get(HomeViewModel::class.java)
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-//        val textView: TextView = binding.textHome
-//        homeViewModel.text.observe(viewLifecycleOwner) {
-//            textView.text = it
-//        }
+
         return binding.root
     }
 
@@ -60,52 +59,82 @@ class HomeFragment : Fragment() {
         initHourRecycle()
         intDayRecycle()
         initConditions()
+        //
         sharedPreferences = initSharedPref(requireContext())
+        if (sharedPreferences.getInt(getString(R.string.MAP), 0) == 1) {
+            // means choose map
+            initSharedPref(requireContext()).edit()
+                .apply {
+                    putInt(getString(R.string.MAP), 1)
+                    apply()
+                }
+            Navigation.findNavController(requireView())
+                .navigate(R.id.action_navigation_home_to_mapsFragment)
+        }
+
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+
         // trying
         val lat = sharedPreferences.getFloat(getString(R.string.LAT), 0f)
         val long = sharedPreferences.getFloat(getString(R.string.LON), 0f)
-        Log.i("AA", "lat:"+lat)
-        viewModel.getWeather(lat.toDouble(), long.toDouble())
-        viewModel.openWeather.observe(viewLifecycleOwner) {
-            bindViewCurrent(openWeatherJason = it)
-            // bind others
-            bindCurrentGrid(it.current)
-            bindHourlyWeather(it.hourly)
-            bindDailyWeather(it.daily)
-        }
 
+        if (lat != 0f) {
+            viewModel.getWeather(
+                lat.toDouble(),
+                long.toDouble(),
+                getCurrentLan(requireContext()),
+                getCurrentUnit(requireContext())
+            )
+            viewModel.openWeather.observe(viewLifecycleOwner) {
+                bindViewCurrent(openWeatherJason = it)
+                // bind others
+                bindCurrentGrid(it.current)
+                bindHourlyWeather(it.hourly)
+                bindDailyWeather(it.daily)
+
+            }
+        }
 
     }
 
 
     private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
         binding.txtCityName.text = getCityText(
-            openWeatherJason.lat!!.toDouble(), openWeatherJason.lon!!.toDouble()
+            openWeatherJason.lat, openWeatherJason.lon
         )
 
-        binding.txtTodayTemp.text = openWeatherJason.current.temp.toString()
+
+        binding.txtTodayTemp.text = openWeatherJason.current.temp.toString().plus(
+            getCurrentTemperature(requireContext())
+        )
         binding.txtTodatDesc.text = openWeatherJason.current.weather[0].description
         binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
+        binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt))
     }
 
     private fun bindCurrentGrid(current: Current) {
         val weatherCondition = listOf<Condition>(
             Condition(
                 R.drawable.ic_pressure,
-                ("" + current.pressure ?: 0) as String,
+                ("${current.pressure ?: 0} ${getString(R.string.Pascal)}"),
                 getString(
                     R.string.Pressure
                 )
             ),
             Condition(
                 R.drawable.ic_humidity,
-                ("" + current.humidity ?: 0) as String,
+                ("${current.humidity ?: 0} %") as String,
                 getString(
                     R.string.Humidity
                 )
             ),
             Condition(
-                R.drawable.ic_cloudy, ("" + current.clouds ?: 0) as String, getString(
+                R.drawable.ic_cloudy, ("${current.clouds} "), getString(
                     R.string.Cloud
                 )
             ),
@@ -118,14 +147,14 @@ class HomeFragment : Fragment() {
             ),
             Condition(
                 R.drawable.ic_visibility,
-                ("" + current.visibility ?: 0) as String,
+                ("${current.visibility ?: 0}"),
                 getString(
                     R.string.Visibility
                 )
             ),
             Condition(
                 R.drawable.ic_windspeed,
-                ("" + current.windSpeed ?: 0) as String,
+                ("${current.windSpeed ?: 0} ${getCurrentSpeed(requireContext())} "),
                 getString(
                     R.string.WindSpeed
                 )
@@ -193,4 +222,6 @@ class HomeFragment : Fragment() {
         }
         return city
     }
+
+
 }

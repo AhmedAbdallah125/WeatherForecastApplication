@@ -31,11 +31,14 @@ class WeatherDayAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherDayAdapter.ViewHolder, position: Int) {
-        holder.binding.txtOneDay.text = convertToDay(weatherDays[position + 1].dt)
+        holder.binding.txtOneDay.text = convertLongToDay(weatherDays[position + 1].dt)
         holder.binding.txtOneDes.text = weatherDays[position].weather[0].description
         holder.binding.txtOneHistory.text = convertToDate(weatherDays[position + 1].dt)
-        holder.binding.txtOneTemp.text = (weatherDays[position + 1].temp!!.day ?: 0).toString()
-        holder.binding.imgOne.setImageResource(getIconImage(weatherDays[position + 1]!!.weather[0]!!.icon!!))
+        holder.binding.txtOneTemp.text =
+            (weatherDays[position + 1].temp!!.day ?: 0).toString().plus(
+                getCurrentTemperature(fragment.requireContext())
+            )
+        holder.binding.imgOne.setImageResource(getIconImage(weatherDays[position + 1].weather[0].icon!!))
     }
 
     override fun getItemCount(): Int {
