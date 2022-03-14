@@ -38,7 +38,6 @@ class MapsFragment : Fragment() {
                 title((it.latitude).plus(it.longitude).toString())
             }
             googleMap.addMarker(marker)
-            Log.i("AA", ":ddddddddddddddddddd ")
             initSharedPref(requireContext())
                 .edit()
                 .apply {

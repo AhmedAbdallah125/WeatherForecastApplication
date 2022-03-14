@@ -24,13 +24,14 @@
     <string name="English">English</string>
     <string name="arabic">Arabic</string>
     <string name="temperature">Temperature</string>
-    <string name="celsius">Celsius</string>
-    <string name="Kelvin">Kelvin</string>
-    <string name="fahrenheit">Fahrenheit</string>
+    <string name="celsius">درجة الحراره بالسليزيس والسرعه متر على الثانيه</string>
+    <string name="Kelvin">درجة الحراره بالكلفن والسرعه ملى متر على الساعة</string>
+    <string name="fahrenheit">درجة الحراره بالكلفن والسرعه متر على الثانيه</string>
     <string name="Celsusi">°C</string>
     <string name="Ferherhit">F</string>
     <string name="KELVIN">°K</string>
     <string name="MeterPerSecond">م/ث</string>
     <string name="MiliPerHour">ملى/الساعه </string>
-    <string name="Pascal">PA</string>
+    <string name="Pascal">باسكال</string>
+    <string name="units">Units</string>
 </resources>

@@ -33,7 +33,11 @@
         android:id="@+id/settingScreen"
         android:name="com.example.weatherforecastapplication.SettingScreen"
         android:label="fragment_setting_screen"
-        tools:layout="@layout/fragment_setting_screen" />
+        tools:layout="@layout/fragment_setting_screen" >
+        <action
+            android:id="@+id/action_settingScreen_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.example.weatherforecastapplication.MapsFragment"

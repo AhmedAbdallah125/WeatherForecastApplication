@@ -22,20 +22,21 @@
     <string name="gps">GPS</string>
     <string name="map">Map</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="shared_pref">com.example.weatherforecastapplication.GEDO</string>
-    <string name="LAT">LAT</string>
-    <string name="LON">LON</string>
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="shared_pref" translatable="false">com.example.weatherforecastapplication.GEDO</string>
+    <string name="LAT" translatable="false">LAT</string>
+    <string name="LON" translatable="false">LON</string>
     <string name="settings">Settings</string>
     <string name="language">Language</string>
     <string name="English">English</string>
     <string name="arabic">Arabic</string>
     <string name="temperature">Temperature</string>
-    <string name="celsius">Celsius</string>
-    <string name="Kelvin">Kelvin</string>
-    <string name="fahrenheit">Fahrenheit</string>
+    <string name="units">الوحدات</string>
+    <string name="celsius">Temperature is Celsius, Speed is m/s </string>
+    <string name="Kelvin">Temperature is Kelvin, Speed is m/s</string>
+    <string name="fahrenheit">Temperature is Fahrenheit, Speed is mm/h</string>
     <string name="TIMEZONE">TIMEZONE</string>
-    <string name="MAP">MAP</string>
+    <string name="MAP" translatable="false">MAP</string>
     <string name="FIRST">FIRST</string>
     <string name="GPS">GPS</string>
     <string name="LOCATION">LOCATION</string>
@@ -46,6 +47,6 @@
     <string name="Ferherhit">F</string>
     <string name="KELVIN">°K</string>
     <string name="MeterPerSecond">m/s</string>
-    <string name="MiliPerHour">mil/hour</string>
+    <string name="MiliPerHour">mm/hour</string>
     <string name="Pascal">PA</string>
 </resources>

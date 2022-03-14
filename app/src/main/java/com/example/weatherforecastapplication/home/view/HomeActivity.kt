@@ -49,11 +49,21 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
         // init shared pref
         sharedPreferences = initSharedPref(this)
 
+
         if (isFirst()) {
             // check with shared
             // here init first shared for all
-            initUNIT(Units.METRIC.name,this)
-            initLan(Locale.getDefault().language,this)
+            initUNIT(Units.METRIC.name, this)
+            when (Locale.getDefault().language.toString()) {
+                "en" -> {
+                    initLan(Languages.ENGLISH.name, this)
+                }
+                "ar" -> {
+                    initLan(Languages.ARABIC.name, this)
+
+                }
+            }
+
             binding.container.visibility = View.INVISIBLE
             CustomDialog().show(supportFragmentManager, "MyCustomFragment")
         }
