@@ -1,5 +1,6 @@
 package com.example.weatherforecastapplication
 
+import android.Manifest
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,12 @@ import com.example.weatherforecastapplication.model.*
 
 
 class SettingScreen : Fragment() {
+    // for permission
+    private val permission = arrayOf<String>(
+        Manifest.permission.ACCESS_FINE_LOCATION,
+        Manifest.permission.ACCESS_COARSE_LOCATION
+    )
+    private val requestId = 22
     private var _binding: FragmentSettingScreenBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +47,12 @@ class SettingScreen : Fragment() {
         handleRadioButton(requireContext())
         // handle Map
         binding.radioButtonMaps.setOnClickListener {
+            // init for GPS
+            initSharedPref(requireContext()).edit().apply() {
+                //1 meaning GPS
+                putInt(getString(R.string.LOCATION), 1)
+                apply()
+            }
             if (binding.radioButtonMaps.isChecked) {
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_settingScreen_to_mapsFragment)
@@ -47,14 +60,20 @@ class SettingScreen : Fragment() {
         }
         // for location
         binding.radioButtonGPS.setOnClickListener {
-            if (binding.radioButtonMaps.isChecked) {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_settingScreen_to_mapsFragment)
+            //0 means
+            if (binding.radioButtonGPS.isChecked) {
+                initSharedPref(requireContext()).edit().apply {
+                    putInt(getString(R.string.LOCATION), 1)
+                    apply()
+                }
+                Navigation.findNavController(binding.root).navigate(R.id.action_settingScreen_to_navigation_home)
             }
         }
 
 
     }
+
+
 
     private fun handleRadioButton(context: Context) {
         handleUnitRadio(context)

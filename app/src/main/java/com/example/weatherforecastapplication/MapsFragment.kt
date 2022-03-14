@@ -31,7 +31,7 @@ class MapsFragment : Fragment() {
         //            googleMap.moveCamera(CameraUpdateFactory.newLatLng(LatLng(it.latitude, it.longitude)))
 //            googleMap.uiSettings.isZoomControlsEnabled = true
         googleMap.setOnMapClickListener {
-
+//1 means GPS //2 means MAPS //3 draw Location
             // inti marker option
             val marker =MarkerOptions().apply {
                 position(it)
@@ -43,7 +43,7 @@ class MapsFragment : Fragment() {
                 .apply {
                     putFloat(getString(R.string.LON), it.longitude.toFloat())
                     putFloat(getString(R.string.LAT), it.latitude.toFloat())
-                    putInt(getString(R.string.MAP),0)
+                    putInt(getString(R.string.LOCATION),3)
                     apply()
                 }
             Navigation.findNavController(this.requireView())

@@ -37,6 +37,9 @@
         <action
             android:id="@+id/action_settingScreen_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_settingScreen_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"

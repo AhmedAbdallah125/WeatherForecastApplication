@@ -48,6 +48,7 @@ class CustomDialog : DialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         appContext = requireActivity().applicationContext
         binding.setupDialogButton.setOnClickListener {
+//1 means GPS //2 means MAPS //3 draw Location
 
             // init for first
             initSharedPref(requireContext()).edit().apply() {
@@ -68,7 +69,7 @@ class CustomDialog : DialogFragment() {
                     // true means MAPs
                     initSharedPref(requireContext()).edit()
                         .apply {
-                            putInt(getString(R.string.MAP), 1)
+                            putInt(getString(R.string.LOCATION), 2)
                             apply()
                         }
                 }
