@@ -101,6 +101,10 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onResume()
 //1 means GPS //2 means MAPS //3 draw Location
 
+        if(!isConnected(requireContext())){
+            Toast.makeText(requireContext(), "You should connect to network to get weather update", Toast.LENGTH_SHORT).show()
+        }
+
         if (checkGPS()) {
             Log.i("GEDO", "commm: ")
             getLocation()
@@ -379,8 +383,8 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun getCityText(lat: Double, lon: Double): String {
         var city = "Unknown!"
-        val geocoder = Geocoder(requireContext(), Locale("en"))
-        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
+        val geocoder = Geocoder(requireContext(), Locale(getCurrentLan(requireContext())))
+        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1,)
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea
             val country = addresses[0].countryName

@@ -34,4 +34,5 @@
     <string name="MiliPerHour">ملى/الساعه </string>
     <string name="Pascal">باسكال</string>
     <string name="units">Units</string>
+    <string name="favourite">Favourite</string>
 </resources>

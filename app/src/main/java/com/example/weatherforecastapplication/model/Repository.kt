@@ -14,7 +14,7 @@ class Repository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IRepository {
     override suspend fun getCurrentWeather(
-        lat: Double, long: Double, lan: String, unit: String
+        lat: Double, long: Double, lan: String, unit: String,isFavourite :Boolean
     ): Result<OpenWeatherJason> {
 //        var job = CoroutineScope(ioDispatcher).launch {
         if (isConnected(localSourceInterface.getContext())) {
@@ -33,7 +33,7 @@ class Repository(
         )
 
 
-        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!)
+        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!,isFavourite)
 //        Log.i("AA", "getCurrentWeather: " + result.timezone)
         return if (result == null) {
             Result.Error("this is not exist")

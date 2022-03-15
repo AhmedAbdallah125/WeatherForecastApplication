@@ -11,12 +11,13 @@ interface WeatherDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertWeather(openWeatherJason: OpenWeatherJason)
 
-    @Query("Select * from weather where  timezone =:timezone")
-    suspend fun getCurrentWeatherZone(timezone: String): OpenWeatherJason
+    // for home screen not fav
+    @Query("Select * from weather where  timezone =:timezone And isFavourite  =:isFavourite ")
+    suspend fun getCurrentWeatherZone(timezone: String, isFavourite: Boolean): OpenWeatherJason
 
     @Query("Select * from weather where  lat =:lat AND lon =:lon")
     suspend fun getCurrentWeather(lat: Double, lon: Double): OpenWeatherJason
-
+    // for fav
 
     @Update()
     suspend fun updateWeather(openWeatherJason: OpenWeatherJason)

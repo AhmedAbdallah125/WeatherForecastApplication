@@ -19,8 +19,8 @@ class ConcreteLocalSource(
         }
     }
 
-    override suspend fun getCurrentWeatherZone(timezone: String): OpenWeatherJason {
-        return weatherDao.getCurrentWeatherZone(timezone)
+    override suspend fun getCurrentWeatherZone(timezone: String,isFavourite:Boolean): OpenWeatherJason {
+        return weatherDao.getCurrentWeatherZone(timezone,isFavourite)
     }
 
     override suspend fun getWeather(lat: Double, long: Double): OpenWeatherJason {

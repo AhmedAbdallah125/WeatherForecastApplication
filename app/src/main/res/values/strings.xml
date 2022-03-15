@@ -49,4 +49,5 @@
     <string name="MeterPerSecond">m/s</string>
     <string name="MiliPerHour">mm/hour</string>
     <string name="Pascal">PA</string>
+    <string name="favourite">Favourite</string>
 </resources>

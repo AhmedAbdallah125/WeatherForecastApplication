@@ -16,10 +16,10 @@ class WeatherViewModel(private val myRepository: IRepository) : ViewModel() {
         lat: Double,
         lon: Double,
         lang: String ,
-        unit: String
+        unit: String,isFavourite :Boolean =false
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = myRepository.getCurrentWeather(lat, lon, lang, unit)
+            val response = myRepository.getCurrentWeather(lat, lon, lang, unit,isFavourite)
             if (response is Success) {
                 openWeather.postValue(response.data!!)
             } else {
