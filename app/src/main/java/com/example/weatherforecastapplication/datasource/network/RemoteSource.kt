@@ -7,7 +7,7 @@ interface RemoteSource {
     suspend fun getCurrentWeather(
         lat: Double,
         long: Double,
-        lang: String = "en",
-        tempUnit: String = "imperial"
+        lang: String ,
+        tempUnit: String
     ): Response<OpenWeatherJason>
 }

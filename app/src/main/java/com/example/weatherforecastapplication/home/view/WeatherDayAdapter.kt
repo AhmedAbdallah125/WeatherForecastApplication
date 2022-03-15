@@ -31,9 +31,9 @@ class WeatherDayAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherDayAdapter.ViewHolder, position: Int) {
-        holder.binding.txtOneDay.text = convertLongToDay(weatherDays[position + 1].dt)
+        holder.binding.txtOneDay.text = convertLongToDay(weatherDays[position + 1].dt,fragment.requireContext())
         holder.binding.txtOneDes.text = weatherDays[position].weather[0].description
-        holder.binding.txtOneHistory.text = convertToDate(weatherDays[position + 1].dt)
+        holder.binding.txtOneHistory.text = convertToDate(weatherDays[position + 1].dt,fragment.requireContext())
         holder.binding.txtOneTemp.text =
             (weatherDays[position + 1].temp!!.day ?: 0).toString().plus(
                 getCurrentTemperature(fragment.requireContext())

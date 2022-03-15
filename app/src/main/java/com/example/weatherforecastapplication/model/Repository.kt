@@ -91,13 +91,5 @@ class Repository(
         localSourceInterface.insertWeather(openWeatherJason)
     }
 
-    private suspend fun getFromRemoteFirst(lat: Double, long: Double): Response<OpenWeatherJason>? {
-        var response: Response<OpenWeatherJason>? = null
-        var deferred =
-            CoroutineScope(ioDispatcher).async {
-                response = remoteSource.getCurrentWeather(lat, long)
-            }
-        deferred.await()
-        return response
-    }
+
 }

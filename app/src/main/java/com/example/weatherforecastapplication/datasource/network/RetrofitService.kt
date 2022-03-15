@@ -13,8 +13,8 @@ interface RetrofitService {
     suspend fun getCurrentWeather(
         @Query("lat") lat: Double,
         @Query("lon") lon: Double,
-        @Query("lang") language: String = "en",
-        @Query("units") units: String = "imperial",
+        @Query("lang") language: String="ar" ,
+        @Query("units") units: String ,
         @Query("exclude") exclude: String = excludeMinutes,
         @Query("appid") appid: String = appId
     ): Response<OpenWeatherJason>

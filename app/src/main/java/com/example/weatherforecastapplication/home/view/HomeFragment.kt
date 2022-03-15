@@ -272,7 +272,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
         binding.txtTodatDesc.text = openWeatherJason.current.weather[0].description
         binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
-        binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt))
+        binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt,requireContext()))
     }
 
     private fun bindCurrentGrid(current: Current) {

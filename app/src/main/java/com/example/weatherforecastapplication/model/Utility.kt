@@ -55,9 +55,9 @@ fun convertToDay(dt: Long): String {
 }
 
 // return now day history
-fun convertToDate(dt: Long): String {
+fun convertToDate(dt: Long,context: Context): String {
     val date = Date(dt * 1000)
-    val format = SimpleDateFormat("d MMM, yyyy")
+    val format = SimpleDateFormat("d MMM, yyyy", Locale(getCurrentLan(context)))
     return format.format(date)
 }
 
@@ -112,9 +112,9 @@ fun checkShared(context: Context): Boolean {
 
 //
 //// history of Days
-fun convertLongToDay(time: Long): String {
+fun convertLongToDay(time: Long,context: Context): String {
     val date = Date(TimeUnit.SECONDS.toMillis(time))
-    val format = SimpleDateFormat("EEE")
+    val format = SimpleDateFormat("EEE",Locale(getCurrentLan(context)))
     return format.format(date)
 }
 

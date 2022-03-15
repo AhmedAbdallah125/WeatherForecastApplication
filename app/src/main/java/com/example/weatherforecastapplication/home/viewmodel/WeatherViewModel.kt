@@ -15,8 +15,8 @@ class WeatherViewModel(private val myRepository: IRepository) : ViewModel() {
     fun getWeather(
         lat: Double,
         lon: Double,
-        lang: String = Languages.ENGLISH.name,
-        unit: String = Units.METRIC.name
+        lang: String ,
+        unit: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             val response = myRepository.getCurrentWeather(lat, lon, lang, unit)
