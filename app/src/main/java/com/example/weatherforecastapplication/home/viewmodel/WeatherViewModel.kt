@@ -15,17 +15,28 @@ class WeatherViewModel(private val myRepository: IRepository) : ViewModel() {
     fun getWeather(
         lat: Double,
         lon: Double,
-        lang: String ,
-        unit: String,isFavourite :Boolean =false
+        lang: String,
+        unit: String, isFavourite: Boolean = false
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val response = myRepository.getCurrentWeather(lat, lon, lang, unit,isFavourite)
-            if (response is Success) {
-                openWeather.postValue(response.data!!)
+            if (isFavourite) {
+                val response = myRepository.getCurrentFavWeather(lat, lon, lang, unit, true)
+                if (response is Success) {
+                    openWeather.postValue(response.data!!)
+                } else {
+                    // will be handled
+                    Log.i("AA", "Failed: ")
+                }
             } else {
-                // will be handled
-                Log.i("AA", "Failed: ")
+                val response = myRepository.getCurrentWeather(lat, lon, lang, unit, isFavourite)
+                if (response is Success) {
+                    openWeather.postValue(response.data!!)
+                } else {
+                    // will be handled
+                    Log.i("AA", "Failed: ")
+                }
             }
+
 
         }
 

@@ -54,10 +54,14 @@ class FavouriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initFavWeatherRecycle()
         binding.fabAddLocation.setOnClickListener {
-            // go to map
-            // will return lat and long
-            Navigation.findNavController(requireView())
-                .navigate(R.id.action_favouriteFragment_to_mapsFragment)
+            if(isConnected(requireContext())){
+                // go to map
+                // will return lat and long
+                Navigation.findNavController(requireView())
+                    .navigate(R.id.action_favouriteFragment_to_mapsFragment)
+            }else
+                Toast.makeText(requireContext(), "You must connect to NetWork", Toast.LENGTH_SHORT).show()
+
         }
     }
 
@@ -104,8 +108,6 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun bindFavWeather(favWeathers: List<OpenWeatherJason>) {
-        Toast.makeText(requireContext(), favWeathers[0].toString(), Toast.LENGTH_SHORT).show()
-
         favWeatherAdapter.setFavWeather(favWeathers)
     }
 }

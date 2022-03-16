@@ -101,8 +101,12 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onResume()
 //1 means GPS //2 means MAPS //3 draw Location
 
-        if(!isConnected(requireContext())){
-            Toast.makeText(requireContext(), "You should connect to network to get weather update", Toast.LENGTH_SHORT).show()
+        if (!isConnected(requireContext())) {
+            Toast.makeText(
+                requireContext(),
+                "You should connect to network to get weather update",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
         if (checkGPS()) {
@@ -113,6 +117,34 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 apply()
             }
 
+        }
+        // if come from fav and condition
+        val flag = initFavSharedPref(requireContext()).getInt(getString(R.string.FAV_FLAG), 0)
+        if (flag == 1) {
+            //require get Data
+            val lat = initFavSharedPref(requireContext()).getFloat(getString(R.string.LAT), 0f)
+            val long = initFavSharedPref(requireContext()).getFloat(getString(R.string.LON), 0f)
+
+            viewModel.getWeather(
+                lat.toDouble(),
+                long.toDouble(),
+                getCurrentLan(requireContext()),
+                getCurrentUnit(requireContext())
+            )
+            viewModel.openWeather.observe(viewLifecycleOwner) {
+                bindViewCurrent(openWeatherJason = it)
+                // bind others
+                bindCurrentGrid(it.current)
+                bindHourlyWeather(it.hourly)
+                bindDailyWeather(it.daily)
+
+            }
+
+            //then update value
+            initFavSharedPref(requireContext()).edit().apply {
+                putInt(getString(R.string.FAV_FLAG), 0)
+                apply()
+            }
         }
         // trying
         val lat = sharedPreferences.getFloat(getString(R.string.LAT), 0f)
@@ -276,7 +308,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         )
         binding.txtTodatDesc.text = openWeatherJason.current.weather[0].description
         binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
-        binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt,requireContext()))
+        binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt, requireContext()))
     }
 
     private fun bindCurrentGrid(current: Current) {
@@ -326,11 +358,13 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         conditionAdapter.setConditions(weatherCondition)
     }
-//1 means GPS //2 means MAPS //3 draw Location
+
+    //1 means GPS //2 means MAPS //3 draw Location
     private fun checkGPS(): Boolean {
         return initSharedPref(requireContext()).getInt(getString(R.string.LOCATION), 3) == 1
     }
-    private fun checkMap():Boolean{
+
+    private fun checkMap(): Boolean {
         return initSharedPref(requireContext()).getInt(getString(R.string.LOCATION), 3) == 2
 
     }
@@ -384,7 +418,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private fun getCityText(lat: Double, lon: Double): String {
         var city = "Unknown!"
         val geocoder = Geocoder(requireContext(), Locale(getCurrentLan(requireContext())))
-        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1,)
+        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea
             val country = addresses[0].countryName

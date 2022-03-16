@@ -76,6 +76,52 @@ class Repository(
         }
     }
 
+    override suspend fun getCurrentFavWeather(
+        lat: Double,
+        long: Double,
+        lan: String,
+        unit: String,
+        isFavourite: Boolean
+    ): Result<OpenWeatherJason> {
+        if (isConnected(localSourceInterface.getContext())) {
+            try {
+                updateCurrentFavWeather(lat, long, lan, unit)
+            } catch (exception: Exception) {
+                Log.i("AA", "Ex: " + exception.message)
+            }
+        }
+
+
+        val timeZone = initFavSharedPref(localSourceInterface.getContext()).getString(
+            localSourceInterface.getContext().getString(R.string.TIMEZONE), ""
+        )
+
+
+        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!, isFavourite)
+//        Log.i("AA", "getCurrentWeather: " + result.timezone)
+        return if (result == null) {
+            Result.Error("this is not exist")
+        } else {
+            Result.Success(result)
+        }
+    }
+
+    private suspend fun updateCurrentFavWeather(lat: Double, long: Double, lan: String, unit: String) {
+        try {
+            val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
+            if (response.isSuccessful) {
+
+               val openWeatherJason =response.body()
+                openWeatherJason?.isFavourite=true
+                // must insert
+                localSourceInterface.insertWeather(openWeatherJason!!)
+            }
+        } catch (exception: Exception) {
+            Log.i("AA", "Exception: " + exception.message)
+            throw exception
+        }
+    }
+
     private suspend fun updateFavWeathersTimeZone(
         lat: Double,
         long: Double,

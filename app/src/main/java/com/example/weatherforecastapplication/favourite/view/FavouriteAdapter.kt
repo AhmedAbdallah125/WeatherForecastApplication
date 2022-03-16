@@ -5,7 +5,9 @@ import android.location.Geocoder
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.CardLayoutDayWeatherBinding
 import com.example.weatherforecastapplication.databinding.CardLayoutFavouriteBinding
 import com.example.weatherforecastapplication.home.view.WeatherDayAdapter
@@ -41,6 +43,23 @@ class FavouriteAdapter(
             favWeather[position].lat, favWeather[position].lon
         )
         // handle click
+        holder.binding.cardFavView.setOnClickListener {
+            // init shared
+
+            initFavSharedPref(fragment.requireContext())
+                .edit()
+                .apply {
+                    putFloat(fragment.getString(R.string.LON), favWeather[position].lon.toFloat())
+                    putFloat(fragment.getString(R.string.LAT), favWeather[position].lat.toFloat())
+                    putString(fragment.getString(R.string.TIMEZONE), favWeather[position].timezone)
+                    putInt(fragment.getString(R.string.FAV_FLAG), 1)
+                    apply()
+                }
+            // make some cond
+
+            Navigation.findNavController(fragment.requireView())
+                .navigate(R.id.action_favouriteFragment_to_navigation_home)
+        }
     }
 
     override fun getItemCount(): Int {

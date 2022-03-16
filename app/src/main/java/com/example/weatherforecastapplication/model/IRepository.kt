@@ -12,4 +12,9 @@ interface IRepository {
     ): Result<List<OpenWeatherJason>>
 
     suspend fun getLocalFavWeathers(): Result<List<OpenWeatherJason>>
+
+    //
+    suspend fun getCurrentFavWeather(
+        lat: Double, long: Double, lan: String, unit: String, isFavourite: Boolean
+    ): Result<OpenWeatherJason>
 }

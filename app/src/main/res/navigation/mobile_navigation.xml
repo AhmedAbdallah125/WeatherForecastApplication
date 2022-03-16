@@ -70,5 +70,8 @@
         <action
             android:id="@+id/action_favouriteFragment_to_mapsFragment"
             app:destination="@id/mapsFragment" />
+        <action
+            android:id="@+id/action_favouriteFragment_to_navigation_home"
+            app:destination="@id/navigation_home" />
     </fragment>
 </navigation>

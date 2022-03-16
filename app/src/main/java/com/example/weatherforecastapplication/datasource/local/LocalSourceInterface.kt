@@ -10,7 +10,7 @@ interface LocalSourceInterface {
 
     suspend fun getCurrentWeatherZone(
         timezone: String,
-        isFavourite: Boolean = false
+        isFavourite: Boolean
     ): OpenWeatherJason
 
     suspend fun getWeather(lat: Double, long: Double): OpenWeatherJason
