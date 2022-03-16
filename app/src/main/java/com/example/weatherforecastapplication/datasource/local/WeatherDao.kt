@@ -29,4 +29,9 @@ interface WeatherDao {
     //get Favourites Weathers
     @Query("Select * from weather where   isFavourite  =1 ")
     suspend fun getFavWeathersZone(): List<OpenWeatherJason>
+
+    // delete Favourite Weather
+    @Query("Delete from weather where timezone=:timezone And isFavourite=1 ")
+    suspend fun deleteFavWeather(timezone: String)
+
 }

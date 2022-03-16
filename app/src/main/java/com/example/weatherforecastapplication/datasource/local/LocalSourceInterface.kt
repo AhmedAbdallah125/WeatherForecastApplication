@@ -23,4 +23,7 @@ interface LocalSourceInterface {
 
     ): List<OpenWeatherJason>
 
+    suspend fun deleteWeather(openWeatherJason: OpenWeatherJason)
+    suspend fun deleteFavWeather(timezone: String)
+
 }

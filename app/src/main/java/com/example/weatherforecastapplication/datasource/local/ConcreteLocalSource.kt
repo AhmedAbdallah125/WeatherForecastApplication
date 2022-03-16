@@ -44,4 +44,12 @@ class ConcreteLocalSource(
         return weatherDao.getFavWeathersZone()
     }
 
+    override suspend fun deleteWeather(openWeatherJason: OpenWeatherJason) {
+        return weatherDao.deleteWeatherTimeZone(openWeatherJason)
+    }
+
+    override suspend fun deleteFavWeather(timezone: String) {
+        return weatherDao.deleteFavWeather(timezone)
+    }
+
 }

@@ -34,5 +34,9 @@
     <string name="MiliPerHour">ملى/الساعه </string>
     <string name="Pascal">باسكال</string>
     <string name="units">Units</string>
-    <string name="favourite">Favourite</string>
+    <string name="favourite">المفضلة</string>
+    <string name="Delete">Delete</string>
+    <string name="AWTD">\"Are You Want to delete \"</string>
+    <string name="SuccessDeleted">Successfully Deleted</string>
+
 </resources>

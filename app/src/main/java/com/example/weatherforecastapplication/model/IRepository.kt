@@ -17,4 +17,8 @@ interface IRepository {
     suspend fun getCurrentFavWeather(
         lat: Double, long: Double, lan: String, unit: String, isFavourite: Boolean
     ): Result<OpenWeatherJason>
+
+    //
+    suspend fun deleteWeather(openWeatherJason: OpenWeatherJason)
+    suspend fun deleteFavWeather(timzone:String)
 }

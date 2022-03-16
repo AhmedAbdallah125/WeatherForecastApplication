@@ -16,8 +16,9 @@ import java.util.*
 
 class FavouriteAdapter(
     private val fragment: Fragment,
+    private val onDelete: (String, String) -> Unit
 
-    ) : RecyclerView.Adapter<FavouriteAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<FavouriteAdapter.ViewHolder>() {
     private var favWeather = emptyList<OpenWeatherJason>()
     fun setFavWeather(favWeather: List<OpenWeatherJason>) {
         this.favWeather = favWeather
@@ -39,9 +40,10 @@ class FavouriteAdapter(
 
     override fun onBindViewHolder(holder: FavouriteAdapter.ViewHolder, position: Int) {
         // change to city
-        holder.binding.txtFavTimeZone.text = getCityText(
+        var cityName = getCityText(
             favWeather[position].lat, favWeather[position].lon
         )
+        holder.binding.txtFavTimeZone.text = cityName
         // handle click
         holder.binding.cardFavView.setOnClickListener {
             // init shared
@@ -62,7 +64,7 @@ class FavouriteAdapter(
         }
         // handle delete
         holder.binding.imgDelete.setOnClickListener {
-
+            onDelete(favWeather[position].timezone,cityName)
         }
     }
 

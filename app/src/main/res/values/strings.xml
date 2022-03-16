@@ -38,11 +38,11 @@
     <string name="TIMEZONE">TIMEZONE</string>
     <string name="MAP" translatable="false">MAP</string>
     <string name="FIRST">FIRST</string>
-    <string name="GPS">GPS</string>
+    <string name="GPS">تحديد المواقع</string>
     <string name="LOCATION">LOCATION</string>
-    <string name="LAN">LAN</string>
+    <string name="LAN" translatable="false">LAN</string>
     <string name="UNITS">UNITS</string>
-    <string name="LOCATIONCHOICE">LOCATIONCHOICE</string>
+    <string name="LOCATIONCHOICE" translatable="false">LOCATIONCHOICE</string>
     <string name="Celsusi">°C</string>
     <string name="Ferherhit">F</string>
     <string name="KELVIN">°K</string>
@@ -50,6 +50,9 @@
     <string name="MiliPerHour">mm/hour</string>
     <string name="Pascal">PA</string>
     <string name="favourite">Favourite</string>
-    <string name="shared_fav_pref">shared_fav_pref</string>
-    <string name="FAV_FLAG">FLAG</string>
+    <string name="shared_fav_pref" translatable="false">shared_fav_pref</string>
+    <string name="FAV_FLAG" translatable="false">FLAG</string>
+    <string name="Delete">Delete</string>
+    <string name="AWTD">\"Are You Want to delete \"</string>
+    <string name="SuccessDeleted">Successfully Deleted</string>
 </resources>

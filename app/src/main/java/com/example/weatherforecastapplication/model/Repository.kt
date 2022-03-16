@@ -106,6 +106,14 @@ class Repository(
         }
     }
 
+    override suspend fun deleteWeather(openWeatherJason: OpenWeatherJason) {
+
+    }
+
+    override suspend fun deleteFavWeather(timzone: String) {
+        return localSourceInterface.deleteFavWeather(timzone)
+    }
+
     private suspend fun updateCurrentFavWeather(lat: Double, long: Double, lan: String, unit: String) {
         try {
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)

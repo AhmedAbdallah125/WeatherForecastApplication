@@ -1,5 +1,6 @@
 package com.example.weatherforecastapplication.favourite.view
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,14 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentFavouriteBinding
-import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.favourite.viewmodel.FavouriteViewModel
 import com.example.weatherforecastapplication.favourite.viewmodel.FavouriteViewModelFactory
-import com.example.weatherforecastapplication.home.view.WeatherDayAdapter
-import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
-import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
 import com.example.weatherforecastapplication.model.*
 
 
@@ -54,13 +51,14 @@ class FavouriteFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initFavWeatherRecycle()
         binding.fabAddLocation.setOnClickListener {
-            if(isConnected(requireContext())){
+            if (isConnected(requireContext())) {
                 // go to map
                 // will return lat and long
                 Navigation.findNavController(requireView())
                     .navigate(R.id.action_favouriteFragment_to_mapsFragment)
-            }else
-                Toast.makeText(requireContext(), "You must connect to NetWork", Toast.LENGTH_SHORT).show()
+            } else
+                Toast.makeText(requireContext(), "You must connect to NetWork", Toast.LENGTH_SHORT)
+                    .show()
 
         }
     }
@@ -97,7 +95,7 @@ class FavouriteFragment : Fragment() {
     }
 
     private fun initFavWeatherRecycle() {
-        favWeatherAdapter = FavouriteAdapter(requireParentFragment())
+        favWeatherAdapter = FavouriteAdapter(requireParentFragment(), deleteAction)
         binding.recFavWeathers.apply {
             this.adapter = favWeatherAdapter
             this.layoutManager = LinearLayoutManager(
@@ -109,5 +107,26 @@ class FavouriteFragment : Fragment() {
 
     private fun bindFavWeather(favWeathers: List<OpenWeatherJason>) {
         favWeatherAdapter.setFavWeather(favWeathers)
+    }
+
+    // lambda
+    var deleteAction: (String, String) -> Unit = { timezone: String, cityName: String ->
+        deleteFavWeather(timezone, cityName)
+    }
+
+    private fun deleteFavWeather(timezone: String, cityName: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            viewModel.deleteFavWeather(timezone)
+            Toast.makeText(requireContext(), getString(R.string.SuccessDeleted), Toast.LENGTH_SHORT)
+                .show()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+
+        }
+        builder.setTitle(getString(R.string.Delete).plus(cityName))
+        builder.setMessage(getString(R.string.AWTD).plus(cityName))
+        builder.create().show()
+
     }
 }
