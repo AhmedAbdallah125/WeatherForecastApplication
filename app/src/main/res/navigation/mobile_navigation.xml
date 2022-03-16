@@ -50,6 +50,9 @@
             android:id="@+id/action_mapsFragment_to_navigation_home"
             app:destination="@id/navigation_home"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_mapsFragment_to_favouriteFragment"
+            app:destination="@id/favouriteFragment" />
     </fragment>
     <dialog
         android:id="@+id/customDialog"
@@ -63,5 +66,9 @@
         android:id="@+id/favouriteFragment"
         android:name="com.example.weatherforecastapplication.favourite.view.FavouriteFragment"
         android:label="fragment_favourite"
-        tools:layout="@layout/fragment_favourite" />
+        tools:layout="@layout/fragment_favourite" >
+        <action
+            android:id="@+id/action_favouriteFragment_to_mapsFragment"
+            app:destination="@id/mapsFragment" />
+    </fragment>
 </navigation>

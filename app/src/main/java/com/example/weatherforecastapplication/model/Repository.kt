@@ -14,9 +14,8 @@ class Repository(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IRepository {
     override suspend fun getCurrentWeather(
-        lat: Double, long: Double, lan: String, unit: String,isFavourite :Boolean
+        lat: Double, long: Double, lan: String, unit: String, isFavourite: Boolean
     ): Result<OpenWeatherJason> {
-//        var job = CoroutineScope(ioDispatcher).launch {
         if (isConnected(localSourceInterface.getContext())) {
             try {
                 updateCurrentWeatherTimeZone(lat, long, lan, unit)
@@ -24,8 +23,7 @@ class Repository(
                 Log.i("AA", "Ex: " + exception.message)
             }
         }
-//        }
-//        job.join()
+
 
         val sharedPreferences = initSharedPref(localSourceInterface.getContext())
         val timeZone = sharedPreferences.getString(
@@ -33,12 +31,69 @@ class Repository(
         )
 
 
-        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!,isFavourite)
+        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!, isFavourite)
 //        Log.i("AA", "getCurrentWeather: " + result.timezone)
         return if (result == null) {
             Result.Error("this is not exist")
         } else {
             Result.Success(result)
+        }
+    }
+
+    override suspend fun getFavWeathers(
+        lat: Double,
+        long: Double,
+        lan: String,
+        unit: String,
+
+        ): Result<List<OpenWeatherJason>> {
+        if (isConnected(localSourceInterface.getContext())) {
+            try {
+                updateFavWeathersTimeZone(lat, long, lan, unit)
+            } catch (exception: Exception) {
+                Log.i("AA", "Ex: " + exception.message)
+            }
+        }
+
+
+        val result = localSourceInterface.getFavWeathersZone()
+//        Log.i("AA", "getCurrentWeather: " + result.timezone)
+        return if (result == null) {
+            Result.Error("this is not exist")
+        } else {
+            Result.Success(result)
+        }
+
+    }
+
+    override suspend fun getLocalFavWeathers(): Result<List<OpenWeatherJason>> {
+        val result = localSourceInterface.getFavWeathersZone()
+//        Log.i("AA", "getCurrentWeather: " + result.timezone)
+        return if (result == null) {
+            Result.Error("this is not exist")
+        } else {
+            Result.Success(result)
+        }
+    }
+
+    private suspend fun updateFavWeathersTimeZone(
+        lat: Double,
+        long: Double,
+        lan: String,
+        unit: String
+    ) {
+        try {
+            val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
+            if (response.isSuccessful) {
+                val openWeatherJason = response.body()
+                openWeatherJason?.isFavourite = true
+
+                // must insert
+                localSourceInterface.insertWeather(openWeatherJason!!)
+            }
+        } catch (exception: Exception) {
+            Log.i("AA", "Exception: " + exception.message)
+            throw exception
         }
     }
 

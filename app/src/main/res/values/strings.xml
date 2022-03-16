@@ -50,4 +50,5 @@
     <string name="MiliPerHour">mm/hour</string>
     <string name="Pascal">PA</string>
     <string name="favourite">Favourite</string>
+    <string name="shared_fav_pref">shared_fav_pref</string>
 </resources>

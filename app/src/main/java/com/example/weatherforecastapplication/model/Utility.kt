@@ -96,7 +96,13 @@ fun initSharedPref(context: Context): SharedPreferences {
     )
 
 }
+fun initFavSharedPref(context: Context): SharedPreferences {
+    return context.getSharedPreferences(
+        context.getString(R.string.shared_fav_pref),
+        Context.MODE_PRIVATE
+    )
 
+}
 
 fun checkSharedTimeZone(context: Context): Boolean {
     val sharedPref = initSharedPref(context)

@@ -26,4 +26,7 @@ interface WeatherDao {
     suspend fun deleteWeatherTimeZone(openWeatherJason: OpenWeatherJason)
     // ensure exist or not
 
+    //get Favourites Weathers
+    @Query("Select * from weather where   isFavourite  =1 ")
+    suspend fun getFavWeathersZone(): List<OpenWeatherJason>
 }
