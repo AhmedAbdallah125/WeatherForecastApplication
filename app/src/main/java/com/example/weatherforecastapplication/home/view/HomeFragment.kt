@@ -109,27 +109,27 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             ).show()
         }
 
-        if (checkGPS()) {
-            Log.i("GEDO", "commm: ")
-            getLocation()
-            initSharedPref(requireContext()).edit().apply {
-                putInt(getString(R.string.LOCATION), 3)
-                apply()
-            }
-
-        }
+        // handle if come from map from favourite
         // if come from fav and condition
         val flag = initFavSharedPref(requireContext()).getInt(getString(R.string.FAV_FLAG), 0)
-        if (flag == 1) {
+        if (flag == 1 &&
+            Navigation.findNavController(requireView()).previousBackStackEntry?.destination?.id == R.id.favouriteFragment
+        ) {
+
+
             //require get Data
             val lat = initFavSharedPref(requireContext()).getFloat(getString(R.string.LAT), 0f)
             val long = initFavSharedPref(requireContext()).getFloat(getString(R.string.LON), 0f)
+            initFavSharedPref(requireContext()).edit().apply {
+                putInt(getString(R.string.FAV_FLAG), 0)
+                apply()
+            }
 
             viewModel.getWeather(
                 lat.toDouble(),
                 long.toDouble(),
                 getCurrentLan(requireContext()),
-                getCurrentUnit(requireContext())
+                getCurrentUnit(requireContext()),true
             )
             viewModel.openWeather.observe(viewLifecycleOwner) {
                 bindViewCurrent(openWeatherJason = it)
@@ -145,28 +145,41 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 putInt(getString(R.string.FAV_FLAG), 0)
                 apply()
             }
-        }
-        // trying
-        val lat = sharedPreferences.getFloat(getString(R.string.LAT), 0f)
-        val long = sharedPreferences.getFloat(getString(R.string.LON), 0f)
 
-        if (lat != 0f) {
-            viewModel.getWeather(
-                lat.toDouble(),
-                long.toDouble(),
-                getCurrentLan(requireContext()),
-                getCurrentUnit(requireContext())
-            )
-            viewModel.openWeather.observe(viewLifecycleOwner) {
-                bindViewCurrent(openWeatherJason = it)
-                // bind others
-                bindCurrentGrid(it.current)
-                bindHourlyWeather(it.hourly)
-                bindDailyWeather(it.daily)
+        } else {
+            if (checkGPS()) {
+                Log.i("GEDO", "commm: ")
+                getLocation()
+                initSharedPref(requireContext()).edit().apply {
+                    putInt(getString(R.string.LOCATION), 3)
+                    apply()
+                }
 
             }
+            // handle home
+            // trying
+            val lat = sharedPreferences.getFloat(getString(R.string.LAT), 0f)
+            val long = sharedPreferences.getFloat(getString(R.string.LON), 0f)
 
+            if (lat != 0f) {
+                viewModel.getWeather(
+                    lat.toDouble(),
+                    long.toDouble(),
+                    getCurrentLan(requireContext()),
+                    getCurrentUnit(requireContext()),false
+                )
+                viewModel.openWeather.observe(viewLifecycleOwner) {
+                    bindViewCurrent(openWeatherJason = it)
+                    // bind others
+                    bindCurrentGrid(it.current)
+                    bindHourlyWeather(it.hourly)
+                    bindDailyWeather(it.daily)
+
+                }
+
+            }
         }
+
 
     }
 //

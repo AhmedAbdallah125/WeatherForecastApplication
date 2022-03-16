@@ -60,6 +60,10 @@ class FavouriteAdapter(
             Navigation.findNavController(fragment.requireView())
                 .navigate(R.id.action_favouriteFragment_to_navigation_home)
         }
+        // handle delete
+        holder.binding.imgDelete.setOnClickListener {
+
+        }
     }
 
     override fun getItemCount(): Int {
