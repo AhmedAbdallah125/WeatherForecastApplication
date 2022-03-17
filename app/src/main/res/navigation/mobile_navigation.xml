@@ -26,12 +26,12 @@
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.weatherforecastapplication.ui.notifications.NotificationsFragment"
+        android:name="com.example.weatherforecastapplication.alert.view.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/settingScreen"
-        android:name="com.example.weatherforecastapplication.SettingScreen"
+        android:name="com.example.weatherforecastapplication.setting.SettingScreen"
         android:label="fragment_setting_screen"
         tools:layout="@layout/fragment_setting_screen" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
-        android:name="com.example.weatherforecastapplication.MapsFragment"
+        android:name="com.example.weatherforecastapplication.map.MapsFragment"
         android:label="fragment_maps"
         tools:layout="@layout/fragment_maps" >
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <dialog
         android:id="@+id/customDialog"
-        android:name="com.example.weatherforecastapplication.home.view.CustomDialog"
+        android:name="com.example.weatherforecastapplication.dialog.customdialog.CustomDialog"
         android:label="CustomDialog" >
         <action
             android:id="@+id/action_customDialog_to_mapsFragment"

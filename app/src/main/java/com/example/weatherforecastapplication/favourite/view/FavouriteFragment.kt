@@ -57,8 +57,11 @@ class FavouriteFragment : Fragment() {
                 Navigation.findNavController(requireView())
                     .navigate(R.id.action_favouriteFragment_to_mapsFragment)
             } else
-                Toast.makeText(requireContext(), "You must connect to NetWork", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.YMCN),
+                    Toast.LENGTH_SHORT
+                ).show()
 
         }
     }

@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 
 import com.example.weatherforecastapplication.model.OpenWeatherJason
+import com.example.weatherforecastapplication.model.WeatherAlert
 
 interface LocalSourceInterface {
     suspend fun insertWeather(openWeatherJason: OpenWeatherJason)
@@ -25,5 +26,10 @@ interface LocalSourceInterface {
 
     suspend fun deleteWeather(openWeatherJason: OpenWeatherJason)
     suspend fun deleteFavWeather(timezone: String)
+
+    //for Alerts
+    suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)
+    suspend fun getWeatherAlerts(): List<WeatherAlert>
+    suspend fun deleteWeatherAlert(id: Int)
 
 }

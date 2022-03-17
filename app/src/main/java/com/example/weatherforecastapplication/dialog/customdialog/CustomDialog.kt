@@ -1,21 +1,13 @@
-package com.example.weatherforecastapplication.home.view
-
-import android.Manifest
+package com.example.weatherforecastapplication.dialog.customdialog
 
 import android.content.Context
 import android.content.DialogInterface
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.Navigation
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.DialogIntialSetupBinding
 import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
@@ -75,7 +67,7 @@ class CustomDialog : DialogFragment() {
                 }
             }
             dialog!!.dismiss()
-            val activity = getActivity();
+            val activity = activity
             if (activity is DialogInterface.OnDismissListener) {
                 (activity as (DialogInterface.OnDismissListener)).onDismiss(dialog);
 

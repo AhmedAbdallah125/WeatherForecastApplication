@@ -114,13 +114,30 @@ class Repository(
         return localSourceInterface.deleteFavWeather(timzone)
     }
 
-    private suspend fun updateCurrentFavWeather(lat: Double, long: Double, lan: String, unit: String) {
+    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert) {
+        localSourceInterface.insertWeatherAlert(weatherAlert)
+    }
+
+    override suspend fun getWeatherAlerts(): List<WeatherAlert> {
+        return localSourceInterface.getWeatherAlerts()
+    }
+
+    override suspend fun deleteWeatherAlert(id: Int) {
+        localSourceInterface.deleteWeatherAlert(id)
+    }
+
+    private suspend fun updateCurrentFavWeather(
+        lat: Double,
+        long: Double,
+        lan: String,
+        unit: String
+    ) {
         try {
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
             if (response.isSuccessful) {
 
-               val openWeatherJason =response.body()
-                openWeatherJason?.isFavourite=true
+                val openWeatherJason = response.body()
+                openWeatherJason?.isFavourite = true
                 // must insert
                 localSourceInterface.insertWeather(openWeatherJason!!)
             }

@@ -8,9 +8,11 @@ import androidx.room.TypeConverters
 import com.example.weatherforecastapplication.model.Converters
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Weather
+import com.example.weatherforecastapplication.model.WeatherAlert
+
 //, exportSchema = false
 
-@Database(entities = [OpenWeatherJason::class], version = 2)
+@Database(entities = [OpenWeatherJason::class, WeatherAlert::class], version = 2)
 @TypeConverters(Converters::class)
 abstract class WeatherDB : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao

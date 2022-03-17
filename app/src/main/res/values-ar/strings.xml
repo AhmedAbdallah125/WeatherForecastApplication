@@ -3,9 +3,9 @@
     <string name="_24_hour_weather_report">تقرير الطقس خلال ۲٤ ساعه </string>
     <string name="_7_day_weather_report">تقرير الطقس خلال ٧ ساعه</string>
     <string name="tomorrow">غدا</string>
-    <string name="home">الصفحه الرئيسية</string>
+    <string name="home"> الرئيسية</string>
     <string name="pressure">الضغط</string>
-    <string name="title_home">الصفحه الرئيسية</string>
+    <string name="title_home"> الرئيسية</string>
     <string name="Humidity">الرطوبة</string>
     <string name="Wind">سرعة الرياح</string>
     <string name="Visiblity">الرؤية</string>
@@ -17,7 +17,7 @@
     <string name="WindSpeed">سرعةالرياح</string>
     <string name="weather_setup">أعدادات الطقس</string>
     <string name="location">الموقع</string>
-    <string name="gps">تحدبد المواقع</string>
+    <string name="gps">تحديد المواقع</string>
     <string name="map">خريطة</string>
     <string name="settings">الاعدادات</string>
     <string name="language">اللغة</string>
@@ -31,7 +31,7 @@
     <string name="Ferherhit">F</string>
     <string name="KELVIN">°K</string>
     <string name="MeterPerSecond">م/ث</string>
-    <string name="MiliPerHour">ملى/الساعه </string>
+    <string name="MiliPerHour">مم/س </string>
     <string name="Pascal">باسكال</string>
     <string name="units">الوحدات</string>
     <string name="favourite">المفضلة</string>
@@ -39,5 +39,12 @@
     <string name="AWTD">هل تريد حذف</string>
     <string name="SuccessDeleted">تم الحذف بنجاح</string>
     <string name="save">حفظ</string>
+    <string name="YMCN">يجب عليك الاتصال بالانترنت</string>
+    <string name="LPG">Location Permission Granted</string>
+    <string name="from">من</string>
+    <string name="to">الى</string>
+    <string name="SAT">حدد الوقت</string>
+    <string name="choose_time">حدد الوقت</string>
+    <string name="alerts">التنبيهات</string>
 
 </resources>

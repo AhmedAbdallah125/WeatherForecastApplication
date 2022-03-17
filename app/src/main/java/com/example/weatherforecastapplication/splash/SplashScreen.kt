@@ -1,4 +1,4 @@
-package com.example.weatherforecastapplication
+package com.example.weatherforecastapplication.splash
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

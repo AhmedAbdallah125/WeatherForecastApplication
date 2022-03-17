@@ -1,4 +1,4 @@
-package com.example.weatherforecastapplication
+package com.example.weatherforecastapplication.setting
 
 import android.Manifest
 import android.content.Context
@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import androidx.navigation.Navigation
+import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentSettingScreenBinding
 import com.example.weatherforecastapplication.model.*
 import java.util.*
@@ -23,11 +24,6 @@ class SettingScreen : Fragment() {
     )
     private val requestId = 22
     private var _binding: FragmentSettingScreenBinding? = null
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     private val binding get() = _binding!!
 
@@ -49,7 +45,7 @@ class SettingScreen : Fragment() {
         // handle Map
         binding.radioButtonMaps.setOnClickListener {
             // init for GPS
-            initSharedPref(requireContext()).edit().apply() {
+            initSharedPref(requireContext()).edit().apply {
                 //1 meaning GPS
                 putInt(getString(R.string.LOCATION), 1)
                 apply()
@@ -136,25 +132,22 @@ class SettingScreen : Fragment() {
                     }
             }
         }
-        Navigation.findNavController(requireView())
-            .navigate(R.id.action_settingScreen_to_navigation_home)
-
+        activity?.finish()
+        activity?.startActivity(activity?.intent)
     }
 
     private fun setLan(language: String) {
         val metric = resources.displayMetrics
         val configuration = resources.configuration
         configuration.locale = Locale(language)
+        Locale.setDefault(Locale(language))
+
         configuration.setLayoutDirection(Locale(language))
         // update configuration
         resources.updateConfiguration(configuration, metric)
         // notify configuration
         onConfigurationChanged(configuration)
 
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
     }
 
 
@@ -180,10 +173,10 @@ class SettingScreen : Fragment() {
     private fun handleLanRadio(context: Context) {
         // get First
         when (getCurrentLan(context)) {
-            Languages.ENGLISH.name -> {
+            "en" -> {
                 updateLan(english = true)
             }
-            Languages.ARABIC.name -> {
+            "ar" -> {
                 updateLan(arabic = true)
             }
         }
@@ -202,6 +195,7 @@ class SettingScreen : Fragment() {
     private fun updateLan(english: Boolean = false, arabic: Boolean = false) {
         binding.radioButtonEnglish.isChecked = english
         binding.radioButtonArabic.isChecked = arabic
+
     }
 
 }

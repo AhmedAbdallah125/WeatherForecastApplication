@@ -137,4 +137,18 @@ enum class Languages(var language: String) {
 enum class Location(var location: String) {
     MAP("MAP"),
     GPS("GPS")
+
+
 }
+
+//
+@Entity(tableName = "Alert")
+data class WeatherAlert(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val startTime: Long,
+    val endTime: Long,
+    val startDay: Long,
+    val endDay: Long
+)
+

@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Result
+import com.example.weatherforecastapplication.model.WeatherAlert
 
 @Dao
 interface WeatherDao {
@@ -34,4 +35,13 @@ interface WeatherDao {
     @Query("Delete from weather where timezone=:timezone And isFavourite=1 ")
     suspend fun deleteFavWeather(timezone: String)
 
+    // for Alerts
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertWeatherAlert(alert: WeatherAlert)
+
+    @Query("Select * from Alert ")
+    suspend fun getWeatherAlerts(): List<WeatherAlert>
+
+    @Query("Delete from Alert where id=:id")
+    suspend fun deleteWeatherAlert(id: Int)
 }

@@ -1,25 +1,19 @@
-package com.example.weatherforecastapplication
+package com.example.weatherforecastapplication.map
 
-import android.location.Geocoder
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentMapsBinding
 import com.example.weatherforecastapplication.model.initFavSharedPref
 import com.example.weatherforecastapplication.model.initSharedPref
 import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.GoogleMap.OnMarkerDragListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
-import java.io.IOException
 import java.util.*
 
 

@@ -1,32 +1,20 @@
 package com.example.weatherforecastapplication.home.view
 
-import android.Manifest
 import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
-import android.location.LocationManager
-import android.os.Build
 import android.os.Bundle
-import android.os.Looper
-import android.provider.Settings
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.ActivityHomeBinding
+import com.example.weatherforecastapplication.dialog.customdialog.CustomDialog
 import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
 import com.example.weatherforecastapplication.model.*
-import com.google.android.gms.location.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
-import kotlin.math.log
 
 class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
     private lateinit var binding: ActivityHomeBinding
@@ -86,4 +74,5 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
         finish()
         startActivity(intent)
     }
+
 }

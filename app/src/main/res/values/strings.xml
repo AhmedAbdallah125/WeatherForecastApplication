@@ -56,4 +56,11 @@
     <string name="AWTD">Are You Want to delete</string>
     <string name="SuccessDeleted">Successfully Deleted</string>
     <string name="save">save</string>
+    <string name="YMCN">You should connect to network to get weather update</string>
+    <string name="LPG">Location Permission Granted</string>
+    <string name="from">From</string>
+    <string name="to">To</string>
+    <string name="SAT">Select Appointment time</string>
+    <string name="choose_time">Choose time</string>
+    <string name="alerts">Alerts</string>
 </resources>

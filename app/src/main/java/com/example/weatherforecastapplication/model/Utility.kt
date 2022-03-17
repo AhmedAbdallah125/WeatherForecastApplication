@@ -41,9 +41,9 @@ fun getIconImage(icon: String): Int {
 
 // convert to hours
 @SuppressLint("SimpleDateFormat")
-fun convertToTime(dt: Long): String {
+fun convertToTime(dt: Long,context: Context): String {
     val date = Date(dt * 1000)
-    val format = SimpleDateFormat("h:mm a")
+    val format = SimpleDateFormat("h:mm a",Locale(getCurrentLan(context)))
     return format.format(date)
 }
 

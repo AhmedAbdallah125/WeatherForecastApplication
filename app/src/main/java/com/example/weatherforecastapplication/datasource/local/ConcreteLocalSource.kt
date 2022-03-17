@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.weatherforecastapplication.model.OpenWeatherJason
+import com.example.weatherforecastapplication.model.WeatherAlert
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -51,5 +52,19 @@ class ConcreteLocalSource(
     override suspend fun deleteFavWeather(timezone: String) {
         return weatherDao.deleteFavWeather(timezone)
     }
+
+    // handle Alerts
+    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert) {
+        return weatherDao.insertWeatherAlert(weatherAlert)
+    }
+
+    override suspend fun getWeatherAlerts(): List<WeatherAlert> {
+        return weatherDao.getWeatherAlerts()
+    }
+
+    override suspend fun deleteWeatherAlert(id: Int) {
+        return deleteWeatherAlert(id)
+    }
+
 
 }

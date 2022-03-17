@@ -2,8 +2,6 @@ package com.example.weatherforecastapplication.home.view
 
 import android.Manifest
 import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
@@ -12,7 +10,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +19,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,15 +27,12 @@ import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
-import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
-import com.example.weatherforecastapplication.home.viewmodel.HomeViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
 import com.example.weatherforecastapplication.model.*
 import com.google.android.gms.location.*
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-import kotlin.math.log
 
 class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     // for permission
@@ -101,10 +94,11 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onResume()
 //1 means GPS //2 means MAPS //3 draw Location
 
+        handleAlignment()
         if (!isConnected(requireContext())) {
             Toast.makeText(
                 requireContext(),
-                "You should connect to network to get weather update",
+                getString(R.string.YMCN),
                 Toast.LENGTH_SHORT
             ).show()
         }
@@ -129,7 +123,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 lat.toDouble(),
                 long.toDouble(),
                 getCurrentLan(requireContext()),
-                getCurrentUnit(requireContext()),true
+                getCurrentUnit(requireContext()), true
             )
             viewModel.openWeather.observe(viewLifecycleOwner) {
                 bindViewCurrent(openWeatherJason = it)
@@ -166,7 +160,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     lat.toDouble(),
                     long.toDouble(),
                     getCurrentLan(requireContext()),
-                    getCurrentUnit(requireContext()),false
+                    getCurrentUnit(requireContext()), false
                 )
                 viewModel.openWeather.observe(viewLifecycleOwner) {
                     bindViewCurrent(openWeatherJason = it)
@@ -199,7 +193,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 -> {
                     Toast.makeText(
                         requireActivity().applicationContext,
-                        "Location Permission Granted",
+                        getString(R.string.LPG),
                         Toast.LENGTH_SHORT
                     )
                         .show()
@@ -308,11 +302,16 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     }
 
+    private fun handleAlignment() {
+        if(getCurrentLan(requireContext()) == "ar")
+            binding.txtTodayTemp.textAlignment =View.TEXT_ALIGNMENT_TEXT_END
+
+    }
 
     //
     private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
         binding.txtCityName.text = getCityText(
-            openWeatherJason.lat, openWeatherJason.lon,openWeatherJason.timezone
+            openWeatherJason.lat, openWeatherJason.lon, openWeatherJason.timezone
         )
 
 
@@ -347,7 +346,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             ),
             Condition(
                 R.drawable.ic_sunrise,
-                convertToTime(current.sunrise!!.toLong()),
+                convertToTime(current.sunrise!!.toLong(),requireContext()),
                 getString(
                     R.string.Sun_Rise
                 )
