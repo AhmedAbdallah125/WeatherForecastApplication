@@ -41,11 +41,11 @@ class FavouriteAdapter(
     override fun onBindViewHolder(holder: FavouriteAdapter.ViewHolder, position: Int) {
         // change to city
         var cityName = getCityText(
-            favWeather[position].lat, favWeather[position].lon
+            favWeather[position].lat, favWeather[position].lon,favWeather[position].timezone
         )
         holder.binding.txtFavTimeZone.text = cityName
         // handle click
-        holder.binding.cardFavView.setOnClickListener {
+        holder.binding.txtFavTimeZone.setOnClickListener {
             // init shared
 
             initFavSharedPref(fragment.requireContext())
@@ -64,7 +64,7 @@ class FavouriteAdapter(
         }
         // handle delete
         holder.binding.imgDelete.setOnClickListener {
-            onDelete(favWeather[position].timezone,cityName)
+            onDelete(favWeather[position].timezone, cityName)
         }
     }
 
@@ -78,8 +78,8 @@ class FavouriteAdapter(
 
     }
 
-    private fun getCityText(lat: Double, lon: Double): String {
-        var city = "Unknown!"
+    private fun getCityText(lat: Double, lon: Double, timezone: String): String {
+        var city = "city"
         val geocoder =
             Geocoder(fragment.requireContext(), Locale(getCurrentLan(fragment.requireContext())))
         val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
@@ -87,7 +87,10 @@ class FavouriteAdapter(
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
             city = "$state, $country"
+            if (state.isNullOrEmpty()) city = country
         }
+        if (city == "city")
+            city = timezone
         return city
     }
 }

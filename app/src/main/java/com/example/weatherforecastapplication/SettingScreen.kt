@@ -136,14 +136,16 @@ class SettingScreen : Fragment() {
                     }
             }
         }
-        Navigation.findNavController(requireView()).navigate(R.id.action_settingScreen_to_navigation_home)
+        Navigation.findNavController(requireView())
+            .navigate(R.id.action_settingScreen_to_navigation_home)
 
     }
 
     private fun setLan(language: String) {
-        var metric = resources.displayMetrics
-        var configuration = resources.configuration
+        val metric = resources.displayMetrics
+        val configuration = resources.configuration
         configuration.locale = Locale(language)
+        configuration.setLayoutDirection(Locale(language))
         // update configuration
         resources.updateConfiguration(configuration, metric)
         // notify configuration

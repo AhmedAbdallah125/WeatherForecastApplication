@@ -312,7 +312,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     //
     private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
         binding.txtCityName.text = getCityText(
-            openWeatherJason.lat, openWeatherJason.lon
+            openWeatherJason.lat, openWeatherJason.lon,openWeatherJason.timezone
         )
 
 
@@ -428,15 +428,19 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         _binding = null
     }
 
-    private fun getCityText(lat: Double, lon: Double): String {
-        var city = "Unknown!"
-        val geocoder = Geocoder(requireContext(), Locale(getCurrentLan(requireContext())))
+    private fun getCityText(lat: Double, lon: Double, timezone: String): String {
+        var city = "city"
+        val geocoder =
+            Geocoder(requireContext(), Locale(getCurrentLan(requireContext())))
         val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea
             val country = addresses[0].countryName
             city = "$state, $country"
+            if (state.isNullOrEmpty()) city = country
         }
+        if (city == "city")
+            city = timezone
         return city
     }
 

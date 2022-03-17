@@ -18,9 +18,9 @@ data class OpenWeatherJason(
     @SerializedName("current") var current: Current,
     @SerializedName("hourly") var hourly: List<Hourly>,
     @SerializedName("daily") var daily: List<Daily>,
-//    @Nullable
-//    @SerializedName("alerts")
-//    var alerts: List<Alerts?> = ArrayList()
+    @Nullable
+    @SerializedName("alerts")
+    var alerts: List<Alerts>?
 )
 
 data class Weather(
@@ -117,7 +117,7 @@ data class Alerts(
     @SerializedName("start") var start: Int? = null,
     @SerializedName("end") var end: Int? = null,
     @SerializedName("description") var description: String? = null,
-    @SerializedName("tags") var tags: ArrayList<String> = arrayListOf()
+    @SerializedName("tags") var tags: List<String> = emptyList()
 
 )
 

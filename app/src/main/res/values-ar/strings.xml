@@ -17,13 +17,13 @@
     <string name="WindSpeed">سرعةالرياح</string>
     <string name="weather_setup">أعدادات الطقس</string>
     <string name="location">الموقع</string>
-    <string name="gps">GPS</string>
+    <string name="gps">تحدبد المواقع</string>
     <string name="map">خريطة</string>
     <string name="settings">الاعدادات</string>
-    <string name="language">Language</string>
-    <string name="English">English</string>
-    <string name="arabic">Arabic</string>
-    <string name="temperature">Temperature</string>
+    <string name="language">اللغة</string>
+    <string name="English">الانجليزيه</string>
+    <string name="arabic">العربية</string>
+    <string name="temperature">درجة الحرارة</string>
     <string name="celsius">درجة الحراره بالسليزيس والسرعه متر على الثانيه</string>
     <string name="Kelvin">درجة الحراره بالكلفن والسرعه ملى متر على الساعة</string>
     <string name="fahrenheit">درجة الحراره بالكلفن والسرعه متر على الثانيه</string>
@@ -33,10 +33,11 @@
     <string name="MeterPerSecond">م/ث</string>
     <string name="MiliPerHour">ملى/الساعه </string>
     <string name="Pascal">باسكال</string>
-    <string name="units">Units</string>
+    <string name="units">الوحدات</string>
     <string name="favourite">المفضلة</string>
-    <string name="Delete">Delete</string>
-    <string name="AWTD">\"Are You Want to delete \"</string>
-    <string name="SuccessDeleted">Successfully Deleted</string>
+    <string name="Delete">حذف</string>
+    <string name="AWTD">هل تريد حذف</string>
+    <string name="SuccessDeleted">تم الحذف بنجاح</string>
+    <string name="save">حفظ</string>
 
 </resources>

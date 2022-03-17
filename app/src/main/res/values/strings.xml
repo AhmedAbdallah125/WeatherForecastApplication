@@ -31,28 +31,29 @@
     <string name="English">English</string>
     <string name="arabic">Arabic</string>
     <string name="temperature">Temperature</string>
-    <string name="units">الوحدات</string>
+    <string name="units">Units</string>
     <string name="celsius">Temperature is Celsius, Speed is m/s </string>
     <string name="Kelvin">Temperature is Kelvin, Speed is m/s</string>
     <string name="fahrenheit">Temperature is Fahrenheit, Speed is mm/h</string>
-    <string name="TIMEZONE">TIMEZONE</string>
+    <string name="TIMEZONE" translatable="false">TIMEZONE</string>
     <string name="MAP" translatable="false">MAP</string>
-    <string name="FIRST">FIRST</string>
-    <string name="GPS">تحديد المواقع</string>
-    <string name="LOCATION">LOCATION</string>
+    <string name="FIRST" translatable="false">FIRST</string>
+    <string name="GPS" translatable="false">GPS</string>
+    <string name="LOCATION" translatable="false">LOCATION</string>
     <string name="LAN" translatable="false">LAN</string>
-    <string name="UNITS">UNITS</string>
+    <string name="UNITS" translatable="false">UNITS</string>
     <string name="LOCATIONCHOICE" translatable="false">LOCATIONCHOICE</string>
     <string name="Celsusi">°C</string>
     <string name="Ferherhit">F</string>
     <string name="KELVIN">°K</string>
     <string name="MeterPerSecond">m/s</string>
-    <string name="MiliPerHour">mm/hour</string>
+    <string name="MiliPerHour">mm/h</string>
     <string name="Pascal">PA</string>
     <string name="favourite">Favourite</string>
     <string name="shared_fav_pref" translatable="false">shared_fav_pref</string>
     <string name="FAV_FLAG" translatable="false">FLAG</string>
     <string name="Delete">Delete</string>
-    <string name="AWTD">\"Are You Want to delete \"</string>
+    <string name="AWTD">Are You Want to delete</string>
     <string name="SuccessDeleted">Successfully Deleted</string>
+    <string name="save">save</string>
 </resources>
