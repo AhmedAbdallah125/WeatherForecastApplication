@@ -11,10 +11,7 @@ import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.CardLayoutAlertBinding
 import com.example.weatherforecastapplication.databinding.CardLayoutFavouriteBinding
 import com.example.weatherforecastapplication.favourite.view.FavouriteAdapter
-import com.example.weatherforecastapplication.model.OpenWeatherJason
-import com.example.weatherforecastapplication.model.WeatherAlert
-import com.example.weatherforecastapplication.model.getCurrentLan
-import com.example.weatherforecastapplication.model.initFavSharedPref
+import com.example.weatherforecastapplication.model.*
 import java.util.*
 
 class AlertAdapter(
@@ -23,7 +20,7 @@ class AlertAdapter(
 
 ) : RecyclerView.Adapter<AlertAdapter.ViewHolder>() {
     private var weatherAlerts = emptyList<WeatherAlert>()
-    fun weatherAlerts(favWeather: List<WeatherAlert>) {
+    fun setWeatherAlerts(favWeather: List<WeatherAlert>) {
         this.weatherAlerts = weatherAlerts
         notifyDataSetChanged()
     }
@@ -42,34 +39,16 @@ class AlertAdapter(
     }
 
     override fun onBindViewHolder(holder: AlertAdapter.ViewHolder, position: Int) {
+        holder.binding.txtFrom.text =
+            getText(weatherAlerts[position].startTime, weatherAlerts[position].startDay)
+        holder.binding.txtTo.text =
+            getText(weatherAlerts[position].endTime, weatherAlerts[position].endDay)
 
-        // change to city
-//        var cityName = getCityText(
-//            favWeather[position].lat, favWeather[position].lon, favWeather[position].timezone
-//        )
-//        holder.binding.txtFavTimeZone.text = cityName
-        // handle click
-//        holder.binding.txtFavTimeZone.setOnClickListener {
-//            // init shared
-//
-//            initFavSharedPref(fragment.requireContext())
-//                .edit()
-//                .apply {
-//                    putFloat(fragment.getString(R.string.LON), favWeather[position].lon.toFloat())
-//                    putFloat(fragment.getString(R.string.LAT), favWeather[position].lat.toFloat())
-//                    putString(fragment.getString(R.string.TIMEZONE), favWeather[position].timezone)
-//                    putInt(fragment.getString(R.string.FAV_FLAG), 1)
-//                    apply()
-//                }
-//            // make some cond
-//
-//            Navigation.findNavController(fragment.requireView())
-//                .navigate(R.id.action_favouriteFragment_to_navigation_home)
-//        }
-//        // handle delete
-//        holder.binding.imgDelete.setOnClickListener {
-//            onDelete(weatherAlerts[position].id)
-//        }
+
+        // handle delete
+        holder.binding.imgDelete.setOnClickListener {
+            onDelete(weatherAlerts[position].id)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -82,20 +61,10 @@ class AlertAdapter(
 
     }
 
-    private fun getCityText(lat: Double, lon: Double, timezone: String): String {
-        var city = "city"
-        val geocoder =
-            Geocoder(fragment.requireContext(), Locale(getCurrentLan(fragment.requireContext())))
-        val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
-        if (addresses.isNotEmpty()) {
-            val state = addresses[0].adminArea
-            val country = addresses[0].countryName
-            city = "$state, $country"
-            if (state.isNullOrEmpty()) city = country
-        }
-        if (city == "city")
-            city = timezone
-        return city
+    private fun getText(time: Long, day: Long): String {
+        return convertToDate(time, fragment.requireContext()).plus("\n")
+            .plus(convertLongToDay(day, fragment.requireContext()))
     }
+
 
 }

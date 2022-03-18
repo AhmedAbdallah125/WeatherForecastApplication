@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.AlertTimeDialogViewModel
 import com.example.weatherforecastapplication.R
@@ -19,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class AlertTimeDialog : Fragment() {
+class AlertTimeDialog : DialogFragment() {
 
     private lateinit var binding: AlertTimeDialogFragmentBinding
     private var timeList = mutableListOf<Long>()
@@ -47,7 +48,7 @@ class AlertTimeDialog : Fragment() {
         binding.btnTo.setOnClickListener {
             initDayPicker(false)
         }
-        // handle save --> check empty put Default
+        TODO("handle save --> check empty put Default")
 
     }
 
@@ -132,6 +133,12 @@ class AlertTimeDialog : Fragment() {
         } else {
             binding.btnTo.text = text
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val width = (resources.displayMetrics.widthPixels * 0.85).toInt()
+        dialog!!.window!!.setLayout(width, ViewGroup.LayoutParams.WRAP_CONTENT)
     }
 
 }
