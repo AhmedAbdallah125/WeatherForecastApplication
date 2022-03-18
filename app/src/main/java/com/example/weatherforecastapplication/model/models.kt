@@ -145,11 +145,12 @@ enum class Location(var location: String) {
 //
 @Entity(tableName = "Alert")
 data class WeatherAlert(
+    @NonNull
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val startTime: Long,
-    val endTime: Long,
-    val startDay: Long,
-    val endDay: Long
+    val id: Int?=null,
+    var startTime: Long,
+    var endTime: Long,
+    var startDay: Long,
+    var endDay: Long
 )
 

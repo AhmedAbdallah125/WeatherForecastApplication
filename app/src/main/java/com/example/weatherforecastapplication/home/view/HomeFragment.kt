@@ -303,8 +303,8 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun handleAlignment() {
-        if(getCurrentLan(requireContext()) == "ar")
-            binding.txtTodayTemp.textAlignment =View.TEXT_ALIGNMENT_TEXT_END
+        if (getCurrentLan(requireContext()) == "ar")
+            binding.txtTodayTemp.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
 
     }
 
@@ -346,7 +346,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             ),
             Condition(
                 R.drawable.ic_sunrise,
-                convertToTime(current.sunrise!!.toLong(),requireContext()),
+                convertToTime(current.sunrise!!.toLong(), requireContext()),
                 getString(
                     R.string.Sun_Rise
                 )
@@ -429,8 +429,10 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun getCityText(lat: Double, lon: Double, timezone: String): String {
         var city = "city"
+        Locale.setDefault(Locale(getCurrentLan(requireContext()),"eg"))
+        val new_locale = Locale.getDefault()
         val geocoder =
-            Geocoder(requireContext(), Locale(getCurrentLan(requireContext())))
+            Geocoder(requireContext(), new_locale)
         val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea

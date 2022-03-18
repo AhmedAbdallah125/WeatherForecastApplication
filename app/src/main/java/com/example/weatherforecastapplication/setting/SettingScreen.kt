@@ -17,12 +17,7 @@ import java.util.*
 
 
 class SettingScreen : Fragment() {
-    // for permission
-    private val permission = arrayOf<String>(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-    private val requestId = 22
+
     private var _binding: FragmentSettingScreenBinding? = null
 
     private val binding get() = _binding!!
@@ -30,7 +25,7 @@ class SettingScreen : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
         _binding = FragmentSettingScreenBinding.inflate(inflater, container, false)
 
@@ -44,28 +39,39 @@ class SettingScreen : Fragment() {
         handleRadioButton(requireContext())
         // handle Map
         binding.radioButtonMaps.setOnClickListener {
-            // init for GPS
-            initSharedPref(requireContext()).edit().apply {
-                //1 meaning GPS
-                putInt(getString(R.string.LOCATION), 1)
-                apply()
-            }
-            if (binding.radioButtonMaps.isChecked) {
-                Navigation.findNavController(binding.root)
-                    .navigate(R.id.action_settingScreen_to_mapsFragment)
-            }
-        }
-        // for location
-        binding.radioButtonGPS.setOnClickListener {
-            //0 means
-            if (binding.radioButtonGPS.isChecked) {
+            if (isConnected(requireContext())) {
+                // init for GPS
                 initSharedPref(requireContext()).edit().apply {
+                    //1 meaning GPS
                     putInt(getString(R.string.LOCATION), 1)
                     apply()
                 }
+                if (binding.radioButtonMaps.isChecked) {
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_settingScreen_to_mapsFragment)
+                }
+            }else{
                 Navigation.findNavController(binding.root)
                     .navigate(R.id.action_settingScreen_to_navigation_home)
             }
+
+
+        }
+        // for location
+        binding.radioButtonGPS.setOnClickListener {
+            if (isConnected(requireContext())) {
+                //0 means
+                if (binding.radioButtonGPS.isChecked) {
+                    initSharedPref(requireContext()).edit().apply {
+                        putInt(getString(R.string.LOCATION), 1)
+                        apply()
+                    }
+
+                }
+            }
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.action_settingScreen_to_navigation_home)
+
         }
         // handle change in Units
         binding.radioButtonTempMetricCelsius.setOnClickListener {

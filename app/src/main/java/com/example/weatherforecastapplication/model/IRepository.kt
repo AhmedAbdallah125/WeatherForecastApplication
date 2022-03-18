@@ -1,6 +1,7 @@
 package com.example.weatherforecastapplication.model
 
 import androidx.lifecycle.LiveData
+import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
     suspend fun getCurrentWeather(
@@ -24,6 +25,6 @@ interface IRepository {
 
     // for Alerts
     suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)
-    suspend fun getWeatherAlerts(): List<WeatherAlert>
+     fun getWeatherAlerts(): Flow<List<WeatherAlert>>
     suspend fun deleteWeatherAlert(id: Int)
 }

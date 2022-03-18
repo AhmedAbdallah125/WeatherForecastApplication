@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.WeatherAlert
+import kotlinx.coroutines.flow.Flow
 
 interface LocalSourceInterface {
     suspend fun insertWeather(openWeatherJason: OpenWeatherJason):Long
@@ -31,7 +32,7 @@ interface LocalSourceInterface {
 
     //for Alerts
     suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)
-    suspend fun getWeatherAlerts(): List<WeatherAlert>
+     fun getWeatherAlerts(): Flow<List<WeatherAlert>>
     suspend fun deleteWeatherAlert(id: Int)
 
 }

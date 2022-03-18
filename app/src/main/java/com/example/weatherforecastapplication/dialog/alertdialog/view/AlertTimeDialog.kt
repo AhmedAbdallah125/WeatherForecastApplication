@@ -13,9 +13,10 @@ import androidx.fragment.app.viewModels
 import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.AlertTimeDialogViewModel
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.AlertTimeDialogFragmentBinding
-import com.example.weatherforecastapplication.model.convertLongToDay
-import com.example.weatherforecastapplication.model.convertToTime
-import com.example.weatherforecastapplication.model.getCurrentLan
+import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
+import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
+import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.FactoryAlertTimeDialigViewModel
+import com.example.weatherforecastapplication.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -23,23 +24,33 @@ import java.util.concurrent.TimeUnit
 class AlertTimeDialog : DialogFragment() {
 
     private lateinit var binding: AlertTimeDialogFragmentBinding
-    private var timeList = mutableListOf<Long>()
-    private var dayList = mutableListOf<Long>()
+
+    private lateinit var weatherAlert: WeatherAlert
 
 
-    private val viewModel: AlertTimeDialogViewModel by viewModels()
+    private val viewModel: AlertTimeDialogViewModel by viewModels {
+        FactoryAlertTimeDialigViewModel(
+            (Repository(
+                ConcreteLocalSource(requireContext()),
+                RetrofitHelper
+            ))
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = AlertTimeDialogFragmentBinding.inflate(layoutInflater, container, false)
+        dialog!!.window!!.setBackgroundDrawableResource(R.drawable.round_corner)
+        isCancelable = false
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val current = Calendar.getInstance().timeInMillis
+
 
         setInitialTime(current)
         binding.btnFrom.setOnClickListener {
@@ -48,20 +59,27 @@ class AlertTimeDialog : DialogFragment() {
         binding.btnTo.setOnClickListener {
             initDayPicker(false)
         }
-        TODO("handle save --> check empty put Default")
+        binding.btnSaveAlert.setOnClickListener {
+            viewModel.insertWeatherAlert(weatherAlert)
+            dismiss()
+        }
 
     }
 
 
     private fun setInitialTime(current: Long) {
+        val current = current.div(1000L)
         val timeNow = convertToTime(current, requireContext())
-        val oneHour = 1000 * 60 * 60 * 60
-        val timeAfter = convertToTime(current + oneHour, requireContext())
+        val oneHour = (3600L) + current
+        val timeAfter = convertToTime((oneHour), requireContext())
         // date
-        val dateNow = convertLongToDay(current, requireContext())
+        val dateNow = convertToDate(current, requireContext())
         //apply
         binding.btnFrom.text = timeNow.plus("\n").plus(dateNow)
         binding.btnTo.text = timeAfter.plus("\n").plus(dateNow)
+
+        // set here object
+        weatherAlert = WeatherAlert(null, current, oneHour, current, current)
     }
 
 
@@ -75,12 +93,16 @@ class AlertTimeDialog : DialogFragment() {
         val listener: (TimePicker?, Int, Int) -> Unit =
             { timePicker: TimePicker?, hour: Int, minute: Int ->
                 //save
-                val time = TimeUnit.MINUTES.toMillis(minute.toLong()) + TimeUnit.HOURS.toMillis(
-                    minute.toLong()
+                var time = (TimeUnit.MINUTES.toSeconds(minute.toLong()) + TimeUnit.HOURS.toSeconds(
+                    hour.toLong())
                 )
-                timeList.add(time)
+                time =time.minus(3600L*2)
+                if (isFrom) {
+                    weatherAlert.startTime = time
+                } else
+                    weatherAlert.endTime = time
                 val timeString = convertToTime(time, requireContext())
-                val dayString = convertLongToDay(dayPicker, requireContext())
+                val dayString = convertToDate(dayPicker, requireContext())
                 bindView(timeString, dayString, isFrom)
             }
 
@@ -104,8 +126,13 @@ class AlertTimeDialog : DialogFragment() {
         val myDateListener =
             DatePickerDialog.OnDateSetListener { view, year, month, day ->
                 if (view.isShown) {
+
                     val date = "$day/${month + 1}/$year"
-                    dayList.add(getDateMillis(date))
+                    if (isFrom) {
+                        weatherAlert.startDay = getDateMillis(date)
+                    } else
+                        weatherAlert.endDay = getDateMillis(date)
+
                     initTimePicker(isFrom, getDateMillis(date))
                 }
             }
@@ -122,7 +149,7 @@ class AlertTimeDialog : DialogFragment() {
     private fun getDateMillis(date: String): Long {
         val f = SimpleDateFormat("dd/MM/yyyy", Locale(getCurrentLan(requireContext())))
         val d: Date = f.parse(date)
-        return d.time
+        return (d.time).div(1000)
     }
 
     private fun bindView(timeString: String, dayString: String, isFrom: Boolean) {

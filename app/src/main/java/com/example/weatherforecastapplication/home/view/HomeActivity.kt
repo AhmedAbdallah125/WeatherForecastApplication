@@ -21,12 +21,11 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
     private lateinit var sharedPreferences: SharedPreferences
 
 
-    // view Model
-    private val viewModel: HomeActivityViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         // init shared pref
         sharedPreferences = initSharedPref(this)
 
@@ -52,15 +51,13 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
         val navView: BottomNavigationView = binding.navView
 
         val navController = findNavController(R.id.nav_host_fragment_activity_home)
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-//        val appBarConfiguration = AppBarConfiguration(
-//            setOf(
-//                R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications
-//            )
-//        )
-//        setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setLan(getCurrentLan(this))
+
     }
 
 
@@ -73,6 +70,19 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
 
         finish()
         startActivity(intent)
+    }
+    private fun setLan(language: String) {
+        val metric = resources.displayMetrics
+        val configuration = resources.configuration
+        configuration.locale = Locale(language)
+        Locale.setDefault(Locale(language))
+
+        configuration.setLayoutDirection(Locale(language))
+        // update configuration
+        resources.updateConfiguration(configuration, metric)
+        // notify configuration
+        onConfigurationChanged(configuration)
+
     }
 
 }

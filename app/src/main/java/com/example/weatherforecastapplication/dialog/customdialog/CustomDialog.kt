@@ -66,13 +66,13 @@ class CustomDialog : DialogFragment() {
                         }
                 }
             }
-            dialog!!.dismiss()
-            val activity = activity
             if (activity is DialogInterface.OnDismissListener) {
                 (activity as (DialogInterface.OnDismissListener)).onDismiss(dialog);
 
 
             }
+            dialog!!.dismiss()
+
         }
     }
 

@@ -46,5 +46,6 @@
     <string name="SAT">حدد الوقت</string>
     <string name="choose_time">حدد الوقت</string>
     <string name="alerts">التنبيهات</string>
+    <string name="succ_deleted">Successfully Deleted</string>
 
 </resources>

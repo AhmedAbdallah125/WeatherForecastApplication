@@ -81,8 +81,10 @@ class FavouriteAdapter(
 
     private fun getCityText(lat: Double, lon: Double, timezone: String): String {
         var city = "city"
+        Locale.setDefault(Locale(getCurrentLan(fragment.requireContext()),"eg"))
+        val new_locale = Locale.getDefault()
         val geocoder =
-            Geocoder(fragment.requireContext(), Locale(getCurrentLan(fragment.requireContext())))
+            Geocoder(fragment.requireContext(),new_locale)
         val addresses: List<Address> = geocoder.getFromLocation(lat, lon, 1)
         if (addresses.isNotEmpty()) {
             val state = addresses[0].adminArea

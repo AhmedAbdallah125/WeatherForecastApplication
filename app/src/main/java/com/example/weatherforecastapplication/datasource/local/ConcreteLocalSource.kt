@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.WeatherAlert
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 
 class ConcreteLocalSource(
@@ -57,12 +58,12 @@ class ConcreteLocalSource(
         return weatherDao.insertWeatherAlert(weatherAlert)
     }
 
-    override suspend fun getWeatherAlerts(): List<WeatherAlert> {
+    override  fun getWeatherAlerts(): Flow<List<WeatherAlert>> {
         return weatherDao.getWeatherAlerts()
     }
 
     override suspend fun deleteWeatherAlert(id: Int) {
-        return deleteWeatherAlert(id)
+        return weatherDao.deleteWeatherAlert(id)
     }
 
 

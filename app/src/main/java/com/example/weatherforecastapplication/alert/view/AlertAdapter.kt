@@ -2,6 +2,7 @@ package com.example.weatherforecastapplication.alert.view
 
 import android.location.Address
 import android.location.Geocoder
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -20,8 +21,8 @@ class AlertAdapter(
 
 ) : RecyclerView.Adapter<AlertAdapter.ViewHolder>() {
     private var weatherAlerts = emptyList<WeatherAlert>()
-    fun setWeatherAlerts(favWeather: List<WeatherAlert>) {
-        this.weatherAlerts = weatherAlerts
+    fun setWeatherAlerts(weatherAlert: List<WeatherAlert>) {
+        this.weatherAlerts = weatherAlert
         notifyDataSetChanged()
     }
 
@@ -47,7 +48,7 @@ class AlertAdapter(
 
         // handle delete
         holder.binding.imgDelete.setOnClickListener {
-            onDelete(weatherAlerts[position].id)
+            onDelete(weatherAlerts[position].id!!)
         }
     }
 
@@ -62,8 +63,8 @@ class AlertAdapter(
     }
 
     private fun getText(time: Long, day: Long): String {
-        return convertToDate(time, fragment.requireContext()).plus("\n")
-            .plus(convertLongToDay(day, fragment.requireContext()))
+        return convertToDate(day, fragment.requireContext()).plus("\n")
+            .plus(convertToTime(time, fragment.requireContext()))
     }
 
 

@@ -5,6 +5,7 @@ import androidx.room.*
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Result
 import com.example.weatherforecastapplication.model.WeatherAlert
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface WeatherDao {
@@ -40,7 +41,7 @@ interface WeatherDao {
     suspend fun insertWeatherAlert(alert: WeatherAlert)
 
     @Query("Select * from Alert ")
-    suspend fun getWeatherAlerts(): List<WeatherAlert>
+     fun getWeatherAlerts(): Flow<List<WeatherAlert>>
 
     @Query("Delete from Alert where id=:id")
     suspend fun deleteWeatherAlert(id: Int)

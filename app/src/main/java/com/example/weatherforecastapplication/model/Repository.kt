@@ -7,6 +7,7 @@ import com.example.weatherforecastapplication.datasource.network.RemoteSource
 import kotlinx.coroutines.*
 import retrofit2.Response
 import  com.example.weatherforecastapplication.model.initSharedPref
+import kotlinx.coroutines.flow.Flow
 
 class Repository(
     private val localSourceInterface: LocalSourceInterface,
@@ -118,7 +119,7 @@ class Repository(
         localSourceInterface.insertWeatherAlert(weatherAlert)
     }
 
-    override suspend fun getWeatherAlerts(): List<WeatherAlert> {
+    override  fun getWeatherAlerts(): Flow<List<WeatherAlert>> {
         return localSourceInterface.getWeatherAlerts()
     }
 
