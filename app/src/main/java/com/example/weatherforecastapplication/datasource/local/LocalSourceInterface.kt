@@ -7,10 +7,10 @@ import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.WeatherAlert
 
 interface LocalSourceInterface {
-    suspend fun insertWeather(openWeatherJason: OpenWeatherJason)
+    suspend fun insertWeather(openWeatherJason: OpenWeatherJason):Long
 
     suspend fun getCurrentWeatherZone(
-        timezone: String,
+        id: Int,
         isFavourite: Boolean
     ): OpenWeatherJason
 
@@ -25,7 +25,9 @@ interface LocalSourceInterface {
     ): List<OpenWeatherJason>
 
     suspend fun deleteWeather(openWeatherJason: OpenWeatherJason)
-    suspend fun deleteFavWeather(timezone: String)
+    suspend fun deleteFavWeather(
+        id: Int,
+    )
 
     //for Alerts
     suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)

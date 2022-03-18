@@ -8,10 +8,11 @@ import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "weather")
 data class OpenWeatherJason(
+    @PrimaryKey(autoGenerate = true)
+    var id: Int,
     var isFavourite: Boolean = false,
     @SerializedName("lat") var lat: Double,
     @SerializedName("lon") var lon: Double,
-    @PrimaryKey
     @NonNull
     @SerializedName("timezone") var timezone: String,
     @SerializedName("timezone_offset") var timezoneOffset: Int,

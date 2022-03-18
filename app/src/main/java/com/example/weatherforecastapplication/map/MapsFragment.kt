@@ -89,6 +89,7 @@ class MapsFragment : Fragment() {
                     .apply {
                         putFloat(getString(R.string.LON), long)
                         putFloat(getString(R.string.LAT), lat)
+                        putInt("SIGN",2)
                         apply()
                     }
             }

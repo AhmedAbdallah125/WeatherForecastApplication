@@ -63,4 +63,5 @@
     <string name="SAT">Select Appointment time</string>
     <string name="choose_time">Choose time</string>
     <string name="alerts">Alerts</string>
+    <string name="ID">ID</string>
 </resources>

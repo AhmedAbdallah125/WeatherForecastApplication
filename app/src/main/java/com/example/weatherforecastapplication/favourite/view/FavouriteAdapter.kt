@@ -16,7 +16,7 @@ import java.util.*
 
 class FavouriteAdapter(
     private val fragment: Fragment,
-    private val onDelete: (String, String) -> Unit
+    private val onDelete: (Int, String) -> Unit
 
 ) : RecyclerView.Adapter<FavouriteAdapter.ViewHolder>() {
     private var favWeather = emptyList<OpenWeatherJason>()
@@ -41,7 +41,7 @@ class FavouriteAdapter(
     override fun onBindViewHolder(holder: FavouriteAdapter.ViewHolder, position: Int) {
         // change to city
         var cityName = getCityText(
-            favWeather[position].lat, favWeather[position].lon,favWeather[position].timezone
+            favWeather[position].lat, favWeather[position].lon, favWeather[position].timezone
         )
         holder.binding.txtFavTimeZone.text = cityName
         // handle click
@@ -53,7 +53,8 @@ class FavouriteAdapter(
                 .apply {
                     putFloat(fragment.getString(R.string.LON), favWeather[position].lon.toFloat())
                     putFloat(fragment.getString(R.string.LAT), favWeather[position].lat.toFloat())
-                    putString(fragment.getString(R.string.TIMEZONE), favWeather[position].timezone)
+
+                    putInt(fragment.getString(R.string.ID), favWeather[position].id)
                     putInt(fragment.getString(R.string.FAV_FLAG), 1)
                     apply()
                 }
@@ -64,7 +65,7 @@ class FavouriteAdapter(
         }
         // handle delete
         holder.binding.imgDelete.setOnClickListener {
-            onDelete(favWeather[position].timezone, cityName)
+            onDelete(favWeather[position].id, cityName)
         }
     }
 

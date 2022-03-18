@@ -18,7 +18,7 @@ class Repository(
     ): Result<OpenWeatherJason> {
         if (isConnected(localSourceInterface.getContext())) {
             try {
-                updateCurrentWeatherTimeZone(lat, long, lan, unit)
+                updateCurrentWeatherID(lat, long, lan, unit)
             } catch (exception: Exception) {
                 Log.i("AA", "Ex: " + exception.message)
             }
@@ -26,12 +26,12 @@ class Repository(
 
 
         val sharedPreferences = initSharedPref(localSourceInterface.getContext())
-        val timeZone = sharedPreferences.getString(
-            localSourceInterface.getContext().getString(R.string.TIMEZONE), ""
+        val id = sharedPreferences.getInt(
+            localSourceInterface.getContext().getString(R.string.ID), -3
         )
 
 
-        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!, isFavourite)
+        val result = localSourceInterface.getCurrentWeatherZone(id, isFavourite)
 //        Log.i("AA", "getCurrentWeather: " + result.timezone)
         return if (result == null) {
             Result.Error("this is not exist")
@@ -92,12 +92,12 @@ class Repository(
         }
 
 
-        val timeZone = initFavSharedPref(localSourceInterface.getContext()).getString(
-            localSourceInterface.getContext().getString(R.string.TIMEZONE), ""
+        val id = initFavSharedPref(localSourceInterface.getContext()).getInt(
+            localSourceInterface.getContext().getString(R.string.ID), -1
         )
 
 
-        val result = localSourceInterface.getCurrentWeatherZone(timeZone!!, isFavourite)
+        val result = localSourceInterface.getCurrentWeatherZone(id, isFavourite)
 //        Log.i("AA", "getCurrentWeather: " + result.timezone)
         return if (result == null) {
             Result.Error("this is not exist")
@@ -110,8 +110,8 @@ class Repository(
 
     }
 
-    override suspend fun deleteFavWeather(timzone: String) {
-        return localSourceInterface.deleteFavWeather(timzone)
+    override suspend fun deleteFavWeather(id: Int) {
+        return localSourceInterface.deleteFavWeather(id)
     }
 
     override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert) {
@@ -135,11 +135,26 @@ class Repository(
         try {
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
             if (response.isSuccessful) {
-
+                val sharedPreferences = initFavSharedPref(localSourceInterface.getContext())
+                val idResult = sharedPreferences.getInt(
+                    localSourceInterface.getContext().getString(R.string.ID), -3
+                )
                 val openWeatherJason = response.body()
                 openWeatherJason?.isFavourite = true
+                if (idResult!=-3){
+                    openWeatherJason?.id=idResult
+                }
+
+
                 // must insert
-                localSourceInterface.insertWeather(openWeatherJason!!)
+               val id= localSourceInterface.insertWeather(openWeatherJason!!).toInt()
+                initFavSharedPref(localSourceInterface.getContext()).edit().apply{
+                    putInt(
+                        localSourceInterface.getContext().getString(R.string.ID),id
+                    )
+                    apply()
+                }
+
             }
         } catch (exception: Exception) {
             Log.i("AA", "Exception: " + exception.message)
@@ -168,7 +183,7 @@ class Repository(
         }
     }
 
-    private suspend fun updateCurrentWeatherTimeZone(
+    private suspend fun updateCurrentWeatherID(
         lat: Double,
         long: Double,
         lan: String,
@@ -177,11 +192,23 @@ class Repository(
         try {
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
             if (response.isSuccessful) {
+
                 val sharedPreferences = initSharedPref(localSourceInterface.getContext())
+                // check if already exist or not
+                val idResult = sharedPreferences.getInt(
+                    localSourceInterface.getContext().getString(R.string.ID), -3
+                )
+                // At Beginning
+                if (idResult != -3) {
+                    //means no id for home yet
+                    response.body()?.id = idResult
+                }
+                val id = localSourceInterface.insertWeather(response.body()!!).toInt()
+
                 sharedPreferences.edit().apply {
-                    putString(
-                        localSourceInterface.getContext().getString(R.string.TIMEZONE),
-                        response.body()!!.timezone
+                    putInt(
+                        localSourceInterface.getContext().getString(R.string.ID),
+                        id
                     )
                     putFloat(
                         localSourceInterface.getContext().getString(R.string.LAT),
@@ -200,7 +227,6 @@ class Repository(
                     )
                 )
                 // must insert
-                localSourceInterface.insertWeather(response.body()!!)
             }
         } catch (exception: Exception) {
             Log.i("AA", "Exception: " + exception.message)
@@ -209,13 +235,7 @@ class Repository(
 
     }
 
-    private suspend fun deleteWeatherZone(openWeatherJason: OpenWeatherJason) {
-//        localSourceInterface.d
-    }
 
-    private suspend fun insertWeatherZone(openWeatherJason: OpenWeatherJason) {
-        localSourceInterface.insertWeather(openWeatherJason)
-    }
 
 
 }

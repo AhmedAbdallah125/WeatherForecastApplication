@@ -14,17 +14,16 @@ class ConcreteLocalSource(
         .weatherDao()
 ) : LocalSourceInterface {
 
-    override suspend fun insertWeather(openWeatherJason: OpenWeatherJason) {
-        withContext(Dispatchers.IO) {
-            weatherDao.insertWeather(openWeatherJason)
-        }
+    override suspend fun insertWeather(openWeatherJason: OpenWeatherJason):Long {
+           return weatherDao.insertWeather(openWeatherJason)
+
     }
 
     override suspend fun getCurrentWeatherZone(
-        timezone: String,
+        id: Int,
         isFavourite: Boolean
     ): OpenWeatherJason {
-        return weatherDao.getCurrentWeatherZone(timezone, isFavourite)
+        return weatherDao.getCurrentWeatherZone(id, isFavourite)
     }
 
     override suspend fun getWeather(lat: Double, long: Double): OpenWeatherJason {
@@ -49,8 +48,8 @@ class ConcreteLocalSource(
         return weatherDao.deleteWeatherTimeZone(openWeatherJason)
     }
 
-    override suspend fun deleteFavWeather(timezone: String) {
-        return weatherDao.deleteFavWeather(timezone)
+    override suspend fun deleteFavWeather(id: Int) {
+        return weatherDao.deleteFavWeather(id)
     }
 
     // handle Alerts

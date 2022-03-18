@@ -10,11 +10,11 @@ import com.example.weatherforecastapplication.model.WeatherAlert
 interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeather(openWeatherJason: OpenWeatherJason)
+    suspend fun insertWeather(openWeatherJason: OpenWeatherJason):Long
 
     // for home screen not fav
-    @Query("Select * from weather where  timezone =:timezone And isFavourite  =:isFavourite ")
-    suspend fun getCurrentWeatherZone(timezone: String, isFavourite: Boolean): OpenWeatherJason
+    @Query("Select * from weather where  id =:id And isFavourite  =:isFavourite ")
+    suspend fun getCurrentWeatherZone(id: Int, isFavourite: Boolean): OpenWeatherJason
 
     @Query("Select * from weather where  lat =:lat AND lon =:lon")
     suspend fun getCurrentWeather(lat: Double, lon: Double): OpenWeatherJason
@@ -32,8 +32,8 @@ interface WeatherDao {
     suspend fun getFavWeathersZone(): List<OpenWeatherJason>
 
     // delete Favourite Weather
-    @Query("Delete from weather where timezone=:timezone And isFavourite=1 ")
-    suspend fun deleteFavWeather(timezone: String)
+    @Query("Delete from weather where  id =:id  And isFavourite=1 ")
+    suspend fun deleteFavWeather(id: Int)
 
     // for Alerts
     @Insert(onConflict = OnConflictStrategy.REPLACE)

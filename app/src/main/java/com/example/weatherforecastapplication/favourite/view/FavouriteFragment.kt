@@ -52,6 +52,10 @@ class FavouriteFragment : Fragment() {
         initFavWeatherRecycle()
         binding.fabAddLocation.setOnClickListener {
             if (isConnected(requireContext())) {
+                initFavSharedPref(requireContext()).edit().apply {
+                    putInt(requireContext().getString(R.string.ID), -3)
+                    apply()
+                }
                 // go to map
                 // will return lat and long
                 Navigation.findNavController(requireView())
@@ -69,67 +73,70 @@ class FavouriteFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         // if previous destination is map means is adding
-        when (Navigation.findNavController(requireView()).previousBackStackEntry?.destination?.id) {
-            R.id.mapsFragment -> {
-                val lat = initFavSharedPref(requireContext()).getFloat(getString(R.string.LAT), 0f)
-                val long = initFavSharedPref(requireContext()).getFloat(getString(R.string.LON), 0f)
-                //means add
-                viewModel.getWeather(
-                    lat.toDouble(),
-                    long.toDouble(),
-                    getCurrentLan(requireContext()),
-                    getCurrentUnit(requireContext())
-                )
-                viewModel.favWeather.observe(viewLifecycleOwner) {
-                    bindFavWeather(it)
-
-                }
-            }
-            else -> {
-                // just retrieve Data
-                viewModel.getLocalFavWeathers()
-                viewModel.favWeather.observe(viewLifecycleOwner) {
-                    bindFavWeather(it)
-
-                }
-            }
-
-        }
-    }
-
-    private fun initFavWeatherRecycle() {
-        favWeatherAdapter = FavouriteAdapter(requireParentFragment(), deleteAction)
-        binding.recFavWeathers.apply {
-            this.adapter = favWeatherAdapter
-            this.layoutManager = LinearLayoutManager(
-                requireParentFragment().requireContext(),
-                RecyclerView.VERTICAL, false
+        if ((initFavSharedPref(requireContext()).getInt("SIGN", 0) == 2)) {
+            Toast.makeText(requireContext(), "hhhh", Toast.LENGTH_SHORT).show()
+            val lat = initFavSharedPref(requireContext()).getFloat(getString(R.string.LAT), 0f)
+            val long = initFavSharedPref(requireContext()).getFloat(getString(R.string.LON), 0f)
+            //means add
+            viewModel.getWeather(
+                lat.toDouble(),
+                long.toDouble(),
+                getCurrentLan(requireContext()),
+                getCurrentUnit(requireContext())
             )
-        }
-    }
+            initFavSharedPref(requireContext()).edit().apply {
+                putInt("SIGN", 0)
+                apply()
+            }
+            viewModel.favWeather.observe(viewLifecycleOwner) {
+                bindFavWeather(it)
 
-    private fun bindFavWeather(favWeathers: List<OpenWeatherJason>) {
-        favWeatherAdapter.setFavWeather(favWeathers)
-    }
+            }
+        } else {
+            // just retrieve Data
+            viewModel.getLocalFavWeathers()
+            viewModel.favWeather.observe(viewLifecycleOwner) {
+                bindFavWeather(it)
 
-    // lambda
-    var deleteAction: (String, String) -> Unit = { timezone: String, cityName: String ->
-        deleteFavWeather(timezone, cityName)
-    }
+            }
 
-    private fun deleteFavWeather(timezone: String, cityName: String) {
-        val builder = AlertDialog.Builder(requireContext())
-        builder.setPositiveButton("Yes") { _, _ ->
-            viewModel.deleteFavWeather(timezone)
-            Toast.makeText(requireContext(), getString(R.string.SuccessDeleted), Toast.LENGTH_SHORT)
-                .show()
-        }
-        builder.setNegativeButton("No") { _, _ ->
-
-        }
-        builder.setTitle(getString(R.string.Delete).plus(cityName))
-        builder.setMessage(getString(R.string.AWTD).plus(cityName))
-        builder.create().show()
 
     }
+}
+
+private fun initFavWeatherRecycle() {
+    favWeatherAdapter = FavouriteAdapter(requireParentFragment(), deleteAction)
+    binding.recFavWeathers.apply {
+        this.adapter = favWeatherAdapter
+        this.layoutManager = LinearLayoutManager(
+            requireParentFragment().requireContext(),
+            RecyclerView.VERTICAL, false
+        )
+    }
+}
+
+private fun bindFavWeather(favWeathers: List<OpenWeatherJason>) {
+    favWeatherAdapter.setFavWeather(favWeathers)
+}
+
+// lambda
+var deleteAction: (Int, String) -> Unit = { id: Int, cityName: String ->
+    deleteFavWeather(id, cityName)
+}
+
+private fun deleteFavWeather(id: Int, cityName: String) {
+    val builder = AlertDialog.Builder(requireContext())
+    builder.setPositiveButton("Yes") { _, _ ->
+        viewModel.deleteFavWeather(id)
+        Toast.makeText(requireContext(), getString(R.string.SuccessDeleted), Toast.LENGTH_SHORT)
+            .show()
+    }
+    builder.setNegativeButton("No") { _, _ ->
+
+    }
+    builder.setTitle(getString(R.string.Delete).plus(cityName))
+    builder.setMessage(getString(R.string.AWTD).plus(cityName))
+    builder.create().show()
+
+}
 }

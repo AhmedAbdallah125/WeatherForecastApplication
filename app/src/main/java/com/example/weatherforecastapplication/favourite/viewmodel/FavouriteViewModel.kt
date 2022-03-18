@@ -45,9 +45,9 @@ class FavouriteViewModel(private val myRepository: IRepository) : ViewModel() {
         }
     }
 
-    fun deleteFavWeather(timezone: String) {
+    fun deleteFavWeather(id:Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            myRepository.deleteFavWeather(timezone)
+            myRepository.deleteFavWeather(id)
             getLocalFavWeathers()
         }
     }

@@ -20,7 +20,7 @@ interface IRepository {
 
     //
     suspend fun deleteWeather(openWeatherJason: OpenWeatherJason)
-    suspend fun deleteFavWeather(timzone: String)
+    suspend fun deleteFavWeather(id: Int)
 
     // for Alerts
     suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)
