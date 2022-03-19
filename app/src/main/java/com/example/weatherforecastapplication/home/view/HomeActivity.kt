@@ -60,6 +60,7 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
         super.onResume()
         setLan(getCurrentLan(this))
 
+
     }
 
 

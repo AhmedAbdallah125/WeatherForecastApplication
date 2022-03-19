@@ -1,10 +1,12 @@
 package com.example.weatherforecastapplication.home.view
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.LocationManager
@@ -68,7 +70,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-
+        binding
         return binding.root
     }
 
@@ -77,6 +79,23 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         initHourRecycle()
         intDayRecycle()
         initConditions()
+        //handle refresh
+
+        binding.refreshing.setOnRefreshListener {
+            if(isConnected(requireContext())){
+                getRefreshData()
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.YMCN),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            binding.refreshing.isRefreshing = false
+
+        }
+
+
         //1 means GPS //2 means MAPS //3 draw Location
         sharedPreferences = initSharedPref(requireContext())
         if (sharedPreferences.getInt(getString(R.string.LOCATION), 3) == 2) {
@@ -93,8 +112,15 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     }
 
+    @SuppressLint("ResourceAsColor")
     override fun onResume() {
         super.onResume()
+        binding.refreshing.apply {
+
+            setProgressBackgroundColorSchemeColor(R.color.navy)
+            setColorSchemeColors(Color.WHITE,Color.WHITE,Color.WHITE)
+        }
+
 //1 means GPS //2 means MAPS //3 draw Location
 
         if (!isConnected(requireContext())) {
@@ -143,7 +169,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
 
         } else {
-            if (checkGPS() or (initSharedPref(requireContext()).getInt("B",2)==1)) {
+            if (checkGPS() or (initSharedPref(requireContext()).getInt("B", 2) == 1)) {
                 getLocation()
                 initSharedPref(requireContext()).edit().apply {
                     putInt(getString(R.string.LOCATION), 3)
@@ -245,6 +271,28 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     }
 
+    private fun getRefreshData() {
+        val lat = sharedPreferences.getFloat(getString(R.string.LAT), 0f)
+        val long = sharedPreferences.getFloat(getString(R.string.LON), 0f)
+
+        if (lat != 0f) {
+            viewModel.getWeather(
+                lat.toDouble(),
+                long.toDouble(),
+                getCurrentLan(requireContext()),
+                getCurrentUnit(requireContext())
+            )
+            viewModel.openWeather.observe(viewLifecycleOwner) {
+                bindViewCurrent(openWeatherJason = it)
+                // bind others
+                bindCurrentGrid(it.current)
+                bindHourlyWeather(it.hourly)
+                bindDailyWeather(it.daily)
+
+            }
+        }
+    }
+
     private fun requestPermission() {
         EasyPermissions.requestPermissions(
             this,
@@ -304,7 +352,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
 
-
     //
     private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
         binding.txtCityName.text = getCityText(
@@ -324,6 +371,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
         binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt, requireContext()))
     }
+
     fun isLocationEnabled(): Boolean {
         val locationManager =
             requireActivity().application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
@@ -333,13 +381,13 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun bindCurrentGrid(current: Current) {
         var isArabic = getCurrentLan(requireContext()) == "ar"
-        var preesure =current.pressure.toString()
-        var humidity=current.humidity.toString()
-        var cloud=current.clouds.toString()
-        var visibilty=current.visibility.toString()
-        var wind=current.windSpeed.toString()
+        var preesure = current.pressure.toString()
+        var humidity = current.humidity.toString()
+        var cloud = current.clouds.toString()
+        var visibilty = current.visibility.toString()
+        var wind = current.windSpeed.toString()
         if (isArabic) {
-            preesure= convertNumbersToArabic(current.pressure!!)
+            preesure = convertNumbersToArabic(current.pressure!!)
             wind = convertNumbersToArabic(current.windSpeed!!)
             cloud = convertNumbersToArabic(current.clouds!!)
             visibilty = convertNumbersToArabic(current.visibility!!)
@@ -477,8 +525,8 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         if (checkLocationPermission()) {
 
             if (isLocationProviderEnabled()) {
-                initSharedPref(requireContext()).edit().apply{
-                    putInt("B",2)
+                initSharedPref(requireContext()).edit().apply {
+                    putInt("B", 2)
                     apply()
                 }
                 fusedLocationProviderClient =
@@ -488,9 +536,9 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     locationCallback,
                     Looper.getMainLooper()
                 )
-            }else{
-                initSharedPref(requireContext()).edit().apply{
-                    putInt("B",1)
+            } else {
+                initSharedPref(requireContext()).edit().apply {
+                    putInt("B", 1)
                     apply()
                 }
                 enableLocationSetting()
@@ -499,11 +547,13 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
 
     }
+
     private fun enableLocationSetting() {
         val settingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-        requireActivity().startActivityForResult(settingIntent,2)
+        requireActivity().startActivityForResult(settingIntent, 2)
 
     }
+
     override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
         if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
             AppSettingsDialog.Builder(this).build().show()
@@ -511,7 +561,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             requestPermission()
         }
     }
-
 
 
     override fun onRequestPermissionsResult(

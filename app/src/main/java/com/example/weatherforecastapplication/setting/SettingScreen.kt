@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
+import android.widget.Toast
 import androidx.navigation.Navigation
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentSettingScreenBinding
@@ -35,6 +36,7 @@ class SettingScreen : Fragment() {
     override fun onResume() {
 
         super.onResume()
+
         // check for every setting
         handleRadioButton(requireContext())
         // handle Map

@@ -1,208 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constrain"
+    android:id="@+id/refreshing"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gg"
-    android:layoutDirection="locale">
+ >
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/constrain"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context=".home.view.HomeFragment">
+        android:layout_height="match_parent"
+        android:background="@drawable/gg"
+        android:layoutDirection="locale">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/card_drawer"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="16dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            tools:context=".home.view.HomeFragment">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/card_drawer"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/blueTran">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
+                    android:background="@color/blueTran">
 
-                    android:text="@string/home"
-                    android:textColor="@color/navy"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                        android:id="@+id/refresh"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="visible"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
 
-        <TextView
-            android:id="@+id/txt_city_name"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/navy"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_drawer"
-            tools:text="Alsherqia egypt" />
+                        android:text="@string/home"
+                        android:textColor="@color/navy"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/txt_today_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-
-            android:layout_marginEnd="16dp"
-            android:textColor="@color/navy"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_drawer"
-            tools:text="23/3/2022" />
-
-        <TextView
-            android:id="@+id/txt_today_temp"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="16dp"
-            android:textColor="#CC090909"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/txt_city_name"
-            app:layout_constraintTop_toBottomOf="@+id/txt_city_name"
-            tools:text="32 c" />
-
-        <TextView
-            android:id="@+id/txt_todat_desc"
-            android:layout_width="200dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="16dp"
-            android:textColor="@color/navy"
-            android:textSize="20sp"
-            app:layout_constraintStart_toStartOf="@+id/txt_today_temp"
-            app:layout_constraintTop_toBottomOf="@+id/txt_today_temp"
-            tools:text="clear sky" />
-
-        <TextView
-            android:id="@+id/txt_24_weather_Report"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
 
-            android:text="@string/_24_hour_weather_report"
+            <TextView
+                android:id="@+id/txt_city_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/navy"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_drawer"
+                tools:text="Alsherqia egypt" />
 
-            android:textColor="@color/navy"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_todat_desc" />
+            <TextView
+                android:id="@+id/txt_today_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recy_view_hour_weather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/black"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_24_weather_Report"
-            tools:itemCount="6"
-            tools:listitem="@layout/card_layout_hours_weather" />
+                android:layout_marginEnd="16dp"
+                android:textColor="@color/navy"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/card_drawer"
+                tools:text="23/3/2022" />
 
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/constarin_recy_view_condition_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:padding="10dp"
-            app:cardCornerRadius="24dp"
-            app:cardBackgroundColor="@android:color/transparent"
-            app:cardElevation="0dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recy_view_hour_weather">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:background="@color/blueTran"
+            <TextView
+                android:id="@+id/txt_today_temp"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
 
-                android:layout_gravity="center_horizontal">
+                android:layout_marginTop="16dp"
+                android:textColor="#CC090909"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/txt_city_name"
+                app:layout_constraintTop_toBottomOf="@+id/txt_city_name"
+                tools:text="32 c" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recy_view_condition_description"
+            <TextView
+                android:id="@+id/txt_todat_desc"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+                android:textColor="@color/navy"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/txt_today_temp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_today_temp"
+                tools:text="clear sky" />
+
+            <TextView
+                android:id="@+id/txt_24_weather_Report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+
+
+                android:text="@string/_24_hour_weather_report"
+
+                android:textColor="@color/navy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.497"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_todat_desc" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recy_view_hour_weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_24_weather_Report"
+                tools:itemCount="6"
+                tools:listitem="@layout/card_layout_hours_weather" />
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/constarin_recy_view_condition_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="24dp"
+                app:cardElevation="0dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/recy_view_hour_weather">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:itemCount="6"
-                    tools:listitem="@layout/card_layout_grid_item" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_gravity="center_horizontal"
+
+                    android:background="@color/blueTran">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recy_view_condition_description"
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:orientation="horizontal"
+                        android:padding="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:itemCount="6"
+                        tools:listitem="@layout/card_layout_grid_item" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
 
 
-        <TextView
-            android:id="@+id/txt_7_day_weat_report"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
+            <TextView
+                android:id="@+id/txt_7_day_weat_report"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
 
-            android:text="@string/_7_day_weather_report"
+                android:text="@string/_7_day_weather_report"
 
-            android:textColor="@color/navy"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/constarin_recy_view_condition_description" />
+                android:textColor="@color/navy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constarin_recy_view_condition_description" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recy_view_day_weather"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txt_7_day_weat_report"
-            tools:listitem="@layout/card_layout_day_weather" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recy_view_day_weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/txt_7_day_weat_report"
+                tools:listitem="@layout/card_layout_day_weather" />
 
-        <ImageView
-            android:id="@+id/img_current"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_todat_desc"
-            app:layout_constraintEnd_toStartOf="@+id/txt_today_date"
-            app:layout_constraintTop_toTopOf="@+id/txt_city_name"
-            app:srcCompat="@drawable/a02d" />
+            <ImageView
+                android:id="@+id/img_current"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="@+id/txt_todat_desc"
+                app:layout_constraintEnd_toStartOf="@+id/txt_today_date"
+                app:layout_constraintTop_toTopOf="@+id/txt_city_name"
+                app:srcCompat="@drawable/a02d" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.core.widget.NestedScrollView>
+    </androidx.core.widget.NestedScrollView>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
