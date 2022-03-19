@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     app:cardCornerRadius="16dp"
+
     android:padding="8dp"
     android:layout_margin="8dp"
     android:layout_height="wrap_content">
@@ -12,9 +13,10 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/alert_constrain"
         android:layout_width="match_parent"
+
         android:layout_height="match_parent"
 
-        android:background="@color/teal_700">
+        android:background="@color/blueTran">
 
         <ImageView
             android:id="@+id/alert_img"
@@ -32,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:textColor="@color/white"
+            android:textColor="@color/navy"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/alert_img"
@@ -49,7 +51,7 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/white"
             android:text="@string/ok"
-            android:textColor="@color/black"
+            android:textColor="@color/navy"
             app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

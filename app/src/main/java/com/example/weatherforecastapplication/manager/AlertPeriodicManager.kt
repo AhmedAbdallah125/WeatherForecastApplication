@@ -62,7 +62,7 @@ class AlertPeriodicManager(private val appContext: Context, params: WorkerParame
                 setOnTimeWorkManger(isAlert, description, getPeriod(weatherAlert.startTime), id,weatherAlert.endDay)
             }
         } else {
-            myRepo.deleteWeatherAlert(id)
+//            myRepo.deleteWeatherAlert(id)
         }
     }
 

@@ -30,7 +30,7 @@ class CustomDialog : DialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = DialogIntialSetupBinding.inflate(inflater, container, false)
-        dialog!!.window!!.setBackgroundDrawableResource(R.drawable.round_radius_white)
+        dialog!!.window!!.setBackgroundDrawableResource(R.drawable.round_corner)
         isCancelable = false
         // Inflate the layout for this fragment
         return binding.root

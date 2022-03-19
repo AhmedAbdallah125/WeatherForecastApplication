@@ -32,8 +32,16 @@ class WeatherHourAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherHourAdapter.ViewHolder, position: Int) {
-        holder.binding.txtWeatHour.text = convertToTime(weatherHours[position + 1].dt,fragment.requireContext())
-        holder.binding.txtWeatherTemp.text = weatherHours[position + 1].temp.toString().plus(
+        holder.binding.txtWeatHour.text =
+            convertToTime(weatherHours[position + 1].dt, fragment.requireContext())
+        var temNumber = ""
+        temNumber = if (getCurrentLan(fragment.requireContext()) == "ar") {
+            convertNumbersToArabic(weatherHours[position + 1].temp!!)
+        } else {
+            (weatherHours[position + 1].temp!!).toString()
+        }
+        holder.binding.txtWeatherTemp.text = temNumber.plus(" ").
+        plus(
             getCurrentTemperature(fragment.requireContext())
         )
         holder.binding.imgWeaHour.setImageResource(getIconImage(weatherHours[position + 1].weather[0].icon!!))

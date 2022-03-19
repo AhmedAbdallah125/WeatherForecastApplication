@@ -41,9 +41,9 @@ fun getIconImage(icon: String): Int {
 
 // convert to hours
 @SuppressLint("SimpleDateFormat")
-fun convertToTime(dt: Long,context: Context): String {
+fun convertToTime(dt: Long, context: Context): String {
     val date = Date(dt * 1000)
-    val format = SimpleDateFormat("h:mm a",Locale(getCurrentLan(context)))
+    val format = SimpleDateFormat("h:mm a", Locale(getCurrentLan(context)))
     return format.format(date)
 }
 
@@ -55,7 +55,7 @@ fun convertToDay(dt: Long): String {
 }
 
 // return now day history
-fun convertToDate(dt: Long,context: Context): String {
+fun convertToDate(dt: Long, context: Context): String {
     val date = Date(dt * 1000)
     val format = SimpleDateFormat("d MMM, yyyy", Locale(getCurrentLan(context)))
     return format.format(date)
@@ -96,6 +96,7 @@ fun initSharedPref(context: Context): SharedPreferences {
     )
 
 }
+
 fun initFavSharedPref(context: Context): SharedPreferences {
     return context.getSharedPreferences(
         context.getString(R.string.shared_fav_pref),
@@ -118,9 +119,9 @@ fun checkShared(context: Context): Boolean {
 
 //
 //// history of Days
-fun convertLongToDay(time: Long,context: Context): String {
+fun convertLongToDay(time: Long, context: Context): String {
     val date = Date(TimeUnit.SECONDS.toMillis(time))
-    val format = SimpleDateFormat("EEE",Locale(getCurrentLan(context)))
+    val format = SimpleDateFormat("EEE", Locale(getCurrentLan(context)))
     return format.format(date)
 }
 
@@ -196,4 +197,23 @@ fun getCurrentSpeed(context: Context): String {
     }
 
 
+}
+
+//
+fun convertNumbersToArabic(value: Double): String {
+    return (value.toString() + "")
+        .replace("1".toRegex(), "١").replace("2".toRegex(), "٢")
+        .replace("3".toRegex(), "٣").replace("4".toRegex(), "٤")
+        .replace("5".toRegex(), "٥").replace("6".toRegex(), "٦")
+        .replace("7".toRegex(), "٧").replace("8".toRegex(), "٨")
+        .replace("9".toRegex(), "٩").replace("0".toRegex(), "٠")
+}
+
+fun convertNumbersToArabic(value: Int): String {
+    return (value.toString() + "")
+        .replace("1".toRegex(), "١").replace("2".toRegex(), "٢")
+        .replace("3".toRegex(), "٣").replace("4".toRegex(), "٤")
+        .replace("5".toRegex(), "٥").replace("6".toRegex(), "٦")
+        .replace("7".toRegex(), "٧").replace("8".toRegex(), "٨")
+        .replace("9".toRegex(), "٩").replace("0".toRegex(), "٠")
 }

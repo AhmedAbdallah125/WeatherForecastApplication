@@ -3,77 +3,87 @@
 
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_day_one"
+
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:padding="10dp"
 
     app:cardCornerRadius="24dp"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.0"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp"
-    android:layout_marginStart="16dp"
-    android:layout_marginEnd="16dp"
-    android:layout_marginTop="0dp"
-    >
+
+    app:layout_constraintTop_toTopOf="parent">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="32dp"
-        android:paddingBottom="32dp">
+        android:layout_height="match_parent"
+        android:background="@color/blueTran">
 
         <TextView
             android:id="@+id/txt_one_day"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="32dp"
+
             android:text="@string/tomorrow"
-            android:textSize="14sp" />
+            android:textColor="@color/navy"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/img_one"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_marginStart="8dp"
             android:src="@drawable/ic_baseline_wb_sunny_24"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
             app:layout_constraintStart_toEndOf="@+id/txt_one_history"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/txt_one_day" />
 
         <TextView
             android:id="@+id/txt_one_des"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
             android:text="clear"
-            android:textSize="14sp"
+            android:textColor="@color/navy"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
             app:layout_constraintEnd_toStartOf="@id/txt_one_temp"
+            app:layout_constraintStart_toEndOf="@+id/img_one"
             app:layout_constraintTop_toTopOf="@+id/txt_one_day" />
 
         <TextView
             android:id="@+id/txt_one_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:layout_marginStart="4dp"
+            android:textColor="@color/navy"
+            android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
             app:layout_constraintStart_toEndOf="@+id/txt_one_day"
             app:layout_constraintTop_toTopOf="@+id/txt_one_day" />
 
         <TextView
             android:id="@+id/txt_one_temp"
-            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/txt_one_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="14sp"
-            android:textSize="14sp" />
+            android:textColor="@color/navy"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@+id/txt_one_day"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/txt_one_day" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

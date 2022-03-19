@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/blueTran"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp"
+
     tools:context=".splash.SplashScreen">
 
     <com.airbnb.lottie.LottieAnimationView

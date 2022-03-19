@@ -27,9 +27,9 @@
     <string name="celsius">درجة الحراره بالسليزيس والسرعه متر على الثانيه</string>
     <string name="Kelvin">درجة الحراره بالكلفن والسرعه ملى متر على الساعة</string>
     <string name="fahrenheit">درجة الحراره بالكلفن والسرعه متر على الثانيه</string>
-    <string name="Celsusi">°C</string>
-    <string name="Ferherhit">F</string>
-    <string name="KELVIN">°K</string>
+    <string name="Celsusi">س</string>
+    <string name="Ferherhit">ف</string>
+    <string name="KELVIN">ك</string>
     <string name="MeterPerSecond">م/ث</string>
     <string name="MiliPerHour">مم/س </string>
     <string name="Pascal">باسكال</string>
@@ -40,18 +40,18 @@
     <string name="SuccessDeleted">تم الحذف بنجاح</string>
     <string name="save">حفظ</string>
     <string name="YMCN">يجب عليك الاتصال بالانترنت</string>
-    <string name="LPG">Location Permission Granted</string>
+    <string name="LPG">تم الحصول على الموقع المطلوب</string>
     <string name="from">من</string>
     <string name="to">الى</string>
     <string name="SAT">حدد الوقت</string>
     <string name="choose_time">حدد الوقت</string>
     <string name="alerts">التنبيهات</string>
-    <string name="succ_deleted">Successfully Deleted</string>
-    <string name="channel_name">ForcastWeather</string>
-    <string name="ther_is_no_alarm">There is no Alert for this time</string>
-    <string name="the_weather_is">The weather is</string>
-    <string name="ok">OK</string>
-    <string name="to_enjoy_features">To enjoy our features</string>
-    <string name="there_is_no_alarm_yet">There is No Alarm Yet</string>
+    <string name="succ_deleted">تم الحذف</string>
+    <string name="channel_name">حالة الطقس</string>
+    <string name="ther_is_no_alarm">لا يوجد تنبيهات اليوم</string>
+    <string name="the_weather_is">الطقس هو </string>
+    <string name="ok">حسنا</string>
+    <string name="to_enjoy_features">لكى تستمتع بكل المميزات</string>
+    <string name="there_is_no_alarm_yet">لا يوجد تنبيهات اليوم</string>
 
 </resources>

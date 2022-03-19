@@ -31,11 +31,19 @@ class WeatherDayAdapter(
     }
 
     override fun onBindViewHolder(holder: WeatherDayAdapter.ViewHolder, position: Int) {
-        holder.binding.txtOneDay.text = convertLongToDay(weatherDays[position + 1].dt,fragment.requireContext())
+        holder.binding.txtOneDay.text =
+            convertLongToDay(weatherDays[position + 1].dt, fragment.requireContext())
         holder.binding.txtOneDes.text = weatherDays[position].weather[0].description
-        holder.binding.txtOneHistory.text = convertToDate(weatherDays[position + 1].dt,fragment.requireContext())
-        holder.binding.txtOneTemp.text =
-            (weatherDays[position + 1].temp!!.day ?: 0).toString().plus(
+        holder.binding.txtOneHistory.text =
+            convertToDate(weatherDays[position + 1].dt, fragment.requireContext())
+        var temNumber = ""
+        temNumber = if (getCurrentLan(fragment.requireContext()) == "ar") {
+            convertNumbersToArabic(weatherDays[position + 1].temp!!.day!!)
+        } else {
+            (weatherDays[position + 1].temp!!.day ?: 0).toString()
+        }
+        holder.binding.txtOneTemp.text = temNumber.plus(" ")
+            .plus(
                 getCurrentTemperature(fragment.requireContext())
             )
         holder.binding.imgOne.setImageResource(getIconImage(weatherDays[position + 1].weather[0].icon!!))

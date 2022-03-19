@@ -94,7 +94,6 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         super.onResume()
 //1 means GPS //2 means MAPS //3 draw Location
 
-        handleAlignment()
         if (!isConnected(requireContext())) {
             Toast.makeText(
                 requireContext(),
@@ -302,20 +301,21 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     }
 
-    private fun handleAlignment() {
-        if (getCurrentLan(requireContext()) == "ar")
-            binding.txtTodayTemp.textAlignment = View.TEXT_ALIGNMENT_TEXT_END
 
-    }
 
     //
     private fun bindViewCurrent(openWeatherJason: OpenWeatherJason) {
         binding.txtCityName.text = getCityText(
             openWeatherJason.lat, openWeatherJason.lon, openWeatherJason.timezone
         )
+        var temNumber = ""
+        temNumber = if (getCurrentLan(requireContext()) == "ar") {
+            convertNumbersToArabic(openWeatherJason.current.temp!!)
+        } else {
+            openWeatherJason.current.temp.toString()
+        }
 
-
-        binding.txtTodayTemp.text = openWeatherJason.current.temp.toString().plus(
+        binding.txtTodayTemp.text = temNumber.plus(" ").plus(
             getCurrentTemperature(requireContext())
         )
         binding.txtTodatDesc.text = openWeatherJason.current.weather[0].description
@@ -324,23 +324,36 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     private fun bindCurrentGrid(current: Current) {
+        var isArabic = getCurrentLan(requireContext()) == "ar"
+        var preesure =current.pressure.toString()
+        var humidity=current.humidity.toString()
+        var cloud=current.clouds.toString()
+        var visibilty=current.visibility.toString()
+        var wind=current.windSpeed.toString()
+        if (isArabic) {
+            preesure= convertNumbersToArabic(current.pressure!!)
+            wind = convertNumbersToArabic(current.windSpeed!!)
+            cloud = convertNumbersToArabic(current.clouds!!)
+            visibilty = convertNumbersToArabic(current.visibility!!)
+        }
+
         val weatherCondition = listOf<Condition>(
             Condition(
                 R.drawable.ic_pressure,
-                ("${current.pressure ?: 0} ${getString(R.string.Pascal)}"),
+                ("${preesure} ${getString(R.string.Pascal)}"),
                 getString(
                     R.string.Pressure
                 )
             ),
             Condition(
                 R.drawable.ic_humidity,
-                ("${current.humidity ?: 0} %") as String,
+                ("${humidity} %") as String,
                 getString(
                     R.string.Humidity
                 )
             ),
             Condition(
-                R.drawable.ic_cloudy, ("${current.clouds} "), getString(
+                R.drawable.ic_cloudy, ("${cloud} "), getString(
                     R.string.Cloud
                 )
             ),
@@ -352,15 +365,15 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 )
             ),
             Condition(
-                R.drawable.ic_visibility,
-                ("${current.visibility ?: 0}"),
+                R.drawable.ic_visibility_newdp,
+                ("$visibilty"),
                 getString(
                     R.string.Visibility
                 )
             ),
             Condition(
                 R.drawable.ic_windspeed,
-                ("${current.windSpeed ?: 0} ${getCurrentSpeed(requireContext())} "),
+                ("$wind ${getCurrentSpeed(requireContext())} "),
                 getString(
                     R.string.WindSpeed
                 )
@@ -429,7 +442,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun getCityText(lat: Double, lon: Double, timezone: String): String {
         var city = "city"
-        Locale.setDefault(Locale(getCurrentLan(requireContext()),"eg"))
+        Locale.setDefault(Locale(getCurrentLan(requireContext()), "eg"))
         val new_locale = Locale.getDefault()
         val geocoder =
             Geocoder(requireContext(), new_locale)
