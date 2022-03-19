@@ -39,7 +39,7 @@ class AlertService : Service() {
                 .plus(getString(R.string.the_weather_is)).plus(alertDescription)
 
         } else {
-            icon = R.drawable.ic_baseline_wb_sunny_24
+            icon = R.drawable.ic_sunrise
             alertDescription = getString(R.string.ther_is_no_alarm).plus(".").plus("\n")
                 .plus(getString(R.string.the_weather_is)).plus("  ").plus(alertDescription)
         }

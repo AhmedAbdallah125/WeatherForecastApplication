@@ -40,17 +40,11 @@ class AlertFragment : Fragment() {
     }
     private lateinit var alertAdapter: AlertAdapter
 
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private
-    val binding
+    private val binding
         get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentNotificationsBinding.inflate(inflater, container, false)
         return binding.root
@@ -67,8 +61,11 @@ class AlertFragment : Fragment() {
                     putInt("A", 1)
                     apply()
                 }
-            }else{
-                AlertTimeDialog().show(requireActivity().supportFragmentManager, "MyAlertDialogFragment")
+            } else {
+                AlertTimeDialog().show(
+                    requireActivity().supportFragmentManager,
+                    "MyAlertDialogFragment"
+                )
             }
 
         }
@@ -76,10 +73,22 @@ class AlertFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+
         viewModel.getWeatherAlerts()
+
         lifecycleScope.launchWhenStarted {
             viewModel.weatherAlerts.collect {
-                bindAlertWeathers(it)
+                if(it.isNullOrEmpty()){
+                    binding.animationView.visibility=View.VISIBLE
+                    binding.recAlertsWeathers.visibility=View.GONE
+                }else{
+                    binding.animationView.visibility=View.GONE
+                    binding.recAlertsWeathers.visibility=View.VISIBLE
+
+
+                    bindAlertWeathers(it)
+
+                }
             }
         }
 

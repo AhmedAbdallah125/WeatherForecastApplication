@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/constrain"
     android:layout_width="match_parent"
-    android:layoutDirection="locale"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/back"
+    android:layoutDirection="locale">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -118,27 +119,27 @@
             android:id="@+id/constarin_recy_view_condition_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:cardCornerRadius="24dp"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="16dp"
             android:padding="16dp"
-            android:layout_gravity="center_horizontal"
+            app:cardCornerRadius="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/recy_view_hour_weather">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_gravity="center_horizontal"
+                android:layout_height="wrap_content"
 
-                android:layout_height="wrap_content">
+                android:layout_gravity="center_horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recy_view_condition_description"
-                    android:layout_gravity="center"
-
                     android:layout_width="match_parent"
+
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_marginTop="16dp"
                     android:orientation="horizontal"
                     android:padding="16dp"

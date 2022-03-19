@@ -76,4 +76,6 @@
     <string name="ok">OK</string>
     <string name="to_enjoy_features">To enjoy our features</string>
     <string name="ENDDAY">endDay</string>
+    <string name="there_is_no_alarm_yet">There is No Alarm Yet</string>
+    <string name="no_places">No Places</string>
 </resources>

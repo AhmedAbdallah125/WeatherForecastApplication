@@ -74,7 +74,6 @@ class FavouriteFragment : Fragment() {
         super.onResume()
         // if previous destination is map means is adding
         if ((initFavSharedPref(requireContext()).getInt("SIGN", 0) == 2)) {
-            Toast.makeText(requireContext(), "hhhh", Toast.LENGTH_SHORT).show()
             val lat = initFavSharedPref(requireContext()).getFloat(getString(R.string.LAT), 0f)
             val long = initFavSharedPref(requireContext()).getFloat(getString(R.string.LON), 0f)
             //means add
@@ -89,54 +88,72 @@ class FavouriteFragment : Fragment() {
                 apply()
             }
             viewModel.favWeather.observe(viewLifecycleOwner) {
-                bindFavWeather(it)
+                if (it.isEmpty()) {
+                    binding.recFavWeathers.visibility = View.GONE
+                    binding.imgEmpty.visibility = View.VISIBLE
+                    binding.txtEmpty.visibility = View.VISIBLE
+                } else {
+                    binding.recFavWeathers.visibility = View.VISIBLE
+                    binding.imgEmpty.visibility = View.GONE
+                    binding.txtEmpty.visibility = View.GONE
+                    bindFavWeather(it)
+                }
 
             }
         } else {
             // just retrieve Data
             viewModel.getLocalFavWeathers()
             viewModel.favWeather.observe(viewLifecycleOwner) {
-                bindFavWeather(it)
+                if (it.isEmpty()) {
+                    binding.recFavWeathers.visibility = View.GONE
+                    binding.imgEmpty.visibility = View.VISIBLE
+                    binding.txtEmpty.visibility = View.VISIBLE
+                } else {
+                    binding.recFavWeathers.visibility = View.VISIBLE
+                    binding.imgEmpty.visibility = View.GONE
+                    binding.txtEmpty.visibility = View.GONE
+                    bindFavWeather(it)
+                }
 
             }
 
 
+        }
     }
-}
 
-private fun initFavWeatherRecycle() {
-    favWeatherAdapter = FavouriteAdapter(requireParentFragment(), deleteAction)
-    binding.recFavWeathers.apply {
-        this.adapter = favWeatherAdapter
-        this.layoutManager = LinearLayoutManager(
-            requireParentFragment().requireContext(),
-            RecyclerView.VERTICAL, false
-        )
+    private fun initFavWeatherRecycle() {
+        favWeatherAdapter = FavouriteAdapter(requireParentFragment(), deleteAction)
+        binding.recFavWeathers.apply {
+            this.adapter = favWeatherAdapter
+            this.layoutManager = LinearLayoutManager(
+                requireParentFragment().requireContext(),
+                RecyclerView.VERTICAL, false
+            )
+        }
     }
-}
 
-private fun bindFavWeather(favWeathers: List<OpenWeatherJason>) {
-    favWeatherAdapter.setFavWeather(favWeathers)
-}
-
-// lambda
-var deleteAction: (Int, String) -> Unit = { id: Int, cityName: String ->
-    deleteFavWeather(id, cityName)
-}
-
-private fun deleteFavWeather(id: Int, cityName: String) {
-    val builder = AlertDialog.Builder(requireContext())
-    builder.setPositiveButton("Yes") { _, _ ->
-        viewModel.deleteFavWeather(id)
-        Toast.makeText(requireContext(), getString(R.string.SuccessDeleted), Toast.LENGTH_SHORT)
-            .show()
+    private fun bindFavWeather(favWeathers: List<OpenWeatherJason>) {
+        favWeatherAdapter.setFavWeather(favWeathers)
     }
-    builder.setNegativeButton("No") { _, _ ->
+
+    // lambda
+    var deleteAction: (Int, String) -> Unit = { id: Int, cityName: String ->
+        deleteFavWeather(id, cityName)
+    }
+
+    private fun deleteFavWeather(id: Int, cityName: String) {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes") { _, _ ->
+            viewModel.deleteFavWeather(id)
+            Toast.makeText(requireContext(), getString(R.string.SuccessDeleted), Toast.LENGTH_SHORT)
+                .show()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+
+        }
+        builder.setTitle(getString(R.string.Delete).plus(cityName))
+        builder.setMessage(getString(R.string.AWTD).plus(cityName))
+        builder.create().show()
 
     }
-    builder.setTitle(getString(R.string.Delete).plus(cityName))
-    builder.setMessage(getString(R.string.AWTD).plus(cityName))
-    builder.create().show()
-
-}
 }
