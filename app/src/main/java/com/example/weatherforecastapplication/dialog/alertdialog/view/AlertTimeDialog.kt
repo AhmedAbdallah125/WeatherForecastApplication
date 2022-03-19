@@ -64,7 +64,7 @@ class AlertTimeDialog : DialogFragment() {
         binding.btnSaveAlert.setOnClickListener {
 
             viewModel.insertWeatherAlert(weatherAlert)
-            viewModel.id.observe(viewLifecycleOwner){
+            viewModel.id.observe(viewLifecycleOwner) {
                 //have id now
                 // make work manager here
                 getPermission()
@@ -75,14 +75,15 @@ class AlertTimeDialog : DialogFragment() {
         }
 
     }
-    private fun callPeriodicWorkManager(id:Int){
+
+    private fun callPeriodicWorkManager(id: Int) {
         val shared = initSharedPref(requireContext())
-        val lat =shared.getFloat(getString(R.string.LAT),0f)
-        val long =shared.getFloat(getString(R.string.LON),0f)
+        val lat = shared.getFloat(getString(R.string.LAT), 0f)
+        val long = shared.getFloat(getString(R.string.LON), 0f)
         val data = Data.Builder()
-            .putFloat(getString(R.string.LAT),lat)
-            .putFloat(getString(R.string.LON),long)
-            .putInt(getString(R.string.ID),id).build()
+            .putFloat(getString(R.string.LAT), lat)
+            .putFloat(getString(R.string.LON), long)
+            .putInt(getString(R.string.ID), id).build()
         //constrains
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)
@@ -101,11 +102,12 @@ class AlertTimeDialog : DialogFragment() {
             periodicWorkRequest
         )
     }
-    private fun getPermission(){
+
+    private fun getPermission() {
 
     }
 
-    private fun setInitialTime(current: Long) {
+    private fun setInitialView(current: Long){
         val current = current.div(1000L)
         val timeNow = convertToTime(current, requireContext())
         val oneHour = (3600L) + current
@@ -115,16 +117,35 @@ class AlertTimeDialog : DialogFragment() {
         //apply
         binding.btnFrom.text = timeNow.plus("\n").plus(dateNow)
         binding.btnTo.text = timeAfter.plus("\n").plus(dateNow)
-
+    }
+    private fun setInitialTime(current: Long) {
+        setInitialView(current)
         // set here object
-        weatherAlert = WeatherAlert(null, current, oneHour, current, current)
+        val calendar = Calendar.getInstance()
+        val time = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        val year = calendar[Calendar.YEAR]
+        val month = calendar[Calendar.MONTH]
+        val day = calendar[Calendar.DAY_OF_MONTH]
+        val date = "$day/${month + 1}/$year"
+        val currentNow =getDateMillis(date)
+
+        weatherAlert = WeatherAlert(
+            null, (
+                    time.toLong() + minute.toLong()), ((time.plus(1)).toLong() + minute.toLong()
+                    ), currentNow, currentNow
+        )
     }
 
 
     private fun initTimePicker(isFrom: Boolean, dayPicker: Long) {
 
         val calendar = Calendar.getInstance()
-        val currentHour: Int = calendar.get(Calendar.HOUR_OF_DAY)
+        var currentHour: Int = calendar.get(Calendar.HOUR_OF_DAY)
+        if (!isFrom) {
+            currentHour = currentHour.plus(1)
+        }
+
         val currentMinute: Int = calendar.get(Calendar.MINUTE)
 
 
@@ -132,9 +153,10 @@ class AlertTimeDialog : DialogFragment() {
             { timePicker: TimePicker?, hour: Int, minute: Int ->
                 //save
                 var time = (TimeUnit.MINUTES.toSeconds(minute.toLong()) + TimeUnit.HOURS.toSeconds(
-                    hour.toLong())
+                    hour.toLong()
                 )
-                time =time.minus(3600L*2)
+                        )
+                time = time.minus(3600L * 2)
                 if (isFrom) {
                     weatherAlert.startTime = time
                 } else

@@ -75,4 +75,5 @@
     <string name="the_weather_is">The weather is</string>
     <string name="ok">OK</string>
     <string name="to_enjoy_features">To enjoy our features</string>
+    <string name="ENDDAY">endDay</string>
 </resources>

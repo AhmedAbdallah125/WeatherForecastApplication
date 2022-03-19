@@ -8,12 +8,9 @@ import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSour
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.model.*
 import com.example.weatherforecastapplication.model.Result.Success
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import javax.xml.datatype.DatatypeConstants.SECONDS
 
 class AlertPeriodicManager(private val appContext: Context, params: WorkerParameters) :
     CoroutineWorker(appContext, params) {
@@ -62,17 +59,25 @@ class AlertPeriodicManager(private val appContext: Context, params: WorkerParame
                     isAlert = true
                     description = openWeatherJason.alerts!![0].tags[0]
                 }
-                setOnTimeWorkManger(isAlert, description, getPeriod(weatherAlert.startTime), id)
+                setOnTimeWorkManger(isAlert, description, getPeriod(weatherAlert.startTime), id,weatherAlert.endDay)
             }
         } else {
             myRepo.deleteWeatherAlert(id)
         }
     }
 
-    private fun setOnTimeWorkManger(isAlert: Boolean,description: String,period: Long,id: Int) {
+    private fun setOnTimeWorkManger(
+        isAlert: Boolean,
+        description: String,
+        period: Long,
+        id: Int,
+        endDay: Long
+    ) {
         val data = Data.Builder().apply {
             putBoolean(appContext.getString(R.string.IsAlert), isAlert)
             putString(appContext.getString(R.string.DESC), description)
+                putInt(appContext.getString(R.string.ID),id)
+            putLong(appContext.getString(R.string.ENDDAY),endDay)
         }.build()
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)

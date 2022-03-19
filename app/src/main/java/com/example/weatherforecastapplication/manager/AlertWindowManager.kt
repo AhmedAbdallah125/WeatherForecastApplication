@@ -3,6 +3,8 @@ package com.example.weatherforecastapplication.manager
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
+import android.media.MediaParser
+import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
@@ -19,6 +21,9 @@ class AlertWindowManager(
 ) {
     var binding: AlertWindowManagerBinding? = null
     var customDialog: View? = null
+    private val mediaPlayer by lazy {
+       MediaPlayer.create(context, R.raw.weather_sound)
+    }
 
     // check connection first
     fun setWindowManager() {
@@ -26,10 +31,15 @@ class AlertWindowManager(
         customDialog = inflater.inflate(R.layout.alert_window_manager, null)
         binding = AlertWindowManagerBinding.bind(customDialog!!)
         bindViews()
+        //make sound
+//        val mediaParser=   MediaParser.create(context.applicationContext,2)
+
         val LAYOUT_FLAG: Int = getLayoutFlag()
         val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val layoutParams: WindowManager.LayoutParams = getWindowParams(LAYOUT_FLAG)
         windowManager.addView(customDialog, layoutParams)
+
+        mediaPlayer.start() // no need to call prepare(); create() does that for you
     }
 
     private fun getLayoutFlag(): Int {
@@ -75,6 +85,8 @@ class AlertWindowManager(
         } catch (e: Exception) {
             Log.d("Error", e.toString())
         }
+        mediaPlayer?.release()
+
     }
 
     private fun stopMyService() {

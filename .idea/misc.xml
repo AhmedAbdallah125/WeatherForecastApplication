@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/round_corner.xml" value="0.1255" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/round_radius_white.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/activity_home.xml" value="0.4474885844748858" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/activity_main.xml" value="0.17074275362318841" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/alert_time_dialog_fragment.xml" value="0.22" />

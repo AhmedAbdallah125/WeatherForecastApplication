@@ -35,13 +35,13 @@ class AlertService : Service() {
 
         if (isAlert) {
             icon = R.drawable.ic_warning_com
-            alertDescription = "You should be careful".plus("\n")
+            alertDescription = "You should be careful".plus(".").plus("\n")
                 .plus(getString(R.string.the_weather_is)).plus(alertDescription)
 
         } else {
             icon = R.drawable.ic_baseline_wb_sunny_24
-            alertDescription = getString(R.string.ther_is_no_alarm).plus("\n")
-                .plus(getString(R.string.the_weather_is)) .plus("  ").plus( alertDescription)
+            alertDescription = getString(R.string.ther_is_no_alarm).plus(".").plus("\n")
+                .plus(getString(R.string.the_weather_is)).plus("  ").plus(alertDescription)
         }
         startForeground(
             FOREGROUND_ID,
@@ -73,12 +73,12 @@ class AlertService : Service() {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         //        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(),
 //                0, intent, 0);
-
+        val sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE)
         return NotificationCompat.Builder(
             applicationContext,
             CHANNEL_ID.toString()
         )
-
+            .setSound(sound)
             .setSmallIcon(icon)
             .setContentTitle(getString(R.string.weather_alerts))
             .setContentText(alertDescription)

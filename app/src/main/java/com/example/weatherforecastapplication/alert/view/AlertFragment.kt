@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.work.WorkManager
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.alert.view.viewmodel.AlertViewModel
 import com.example.weatherforecastapplication.alert.viewmodel.FactoryAlertViewModel
@@ -66,9 +67,10 @@ class AlertFragment : Fragment() {
                     putInt("A", 1)
                     apply()
                 }
+            }else{
+                AlertTimeDialog().show(requireActivity().supportFragmentManager, "MyAlertDialogFragment")
             }
 
-            AlertTimeDialog().show(requireFragmentManager(), "MyAlertDialogFragment")
         }
     }
 
@@ -99,6 +101,8 @@ class AlertFragment : Fragment() {
         // will delete in room and delete work manager
         // if this is end day will delete also
         viewModel.deleteAlertWeather(id)
+        WorkManager.getInstance()?.cancelUniqueWork(id.toString())
+
         Toast.makeText(requireContext(), getString(R.string.succ_deleted), Toast.LENGTH_SHORT)
             .show()
 
@@ -139,13 +143,11 @@ class AlertFragment : Fragment() {
                         1
                     ) //It will call onActivityResult Function After you press Yes/No and go Back after giving permission
                     dialog.dismiss()
-                    AlertTimeDialog().show(requireFragmentManager(), "MyAlertDialogFragment")
 
                 }.setNegativeButton(
                     "Cancel"
                 ) { dialog: DialogInterface, i: Int ->
                     dialog.dismiss()
-                    AlertTimeDialog().show(requireFragmentManager(), "MyAlertDialogFragment")
                 }.show()
         }
     }
