@@ -2,6 +2,7 @@ package com.example.weatherforecastapplication.home.view
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.location.Address
@@ -10,6 +11,7 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +33,7 @@ import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
 import com.example.weatherforecastapplication.model.*
 import com.google.android.gms.location.*
+import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
 
@@ -140,8 +143,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             }
 
         } else {
-            if (checkGPS()) {
-                Log.i("GEDO", "commm: ")
+            if (checkGPS() or (initSharedPref(requireContext()).getInt("B",2)==1)) {
                 getLocation()
                 initSharedPref(requireContext()).edit().apply {
                     putInt(getString(R.string.LOCATION), 3)
@@ -322,6 +324,12 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         binding.imgCurrent.setImageResource(getIconImage(openWeatherJason.current.weather[0].icon!!))
         binding.txtTodayDate.text = (convertToDate(openWeatherJason.current.dt, requireContext()))
     }
+    fun isLocationEnabled(): Boolean {
+        val locationManager =
+            requireActivity().application.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+                || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
+    }
 
     private fun bindCurrentGrid(current: Current) {
         var isArabic = getCurrentLan(requireContext()) == "ar"
@@ -467,7 +475,12 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
             priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         }
         if (checkLocationPermission()) {
+
             if (isLocationProviderEnabled()) {
+                initSharedPref(requireContext()).edit().apply{
+                    putInt("B",2)
+                    apply()
+                }
                 fusedLocationProviderClient =
                     LocationServices.getFusedLocationProviderClient(requireContext())
                 fusedLocationProviderClient.requestLocationUpdates(
@@ -475,15 +488,31 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                     locationCallback,
                     Looper.getMainLooper()
                 )
+            }else{
+                initSharedPref(requireContext()).edit().apply{
+                    putInt("B",1)
+                    apply()
+                }
+                enableLocationSetting()
             }
         }
 
 
     }
+    private fun enableLocationSetting() {
+        val settingIntent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        requireActivity().startActivityForResult(settingIntent,2)
 
-    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
-        // apologize
     }
+    override fun onPermissionsDenied(requestCode: Int, perms: MutableList<String>) {
+        if (EasyPermissions.somePermissionPermanentlyDenied(this, perms)) {
+            AppSettingsDialog.Builder(this).build().show()
+        } else {
+            requestPermission()
+        }
+    }
+
+
 
     override fun onRequestPermissionsResult(
         requestCode: Int,

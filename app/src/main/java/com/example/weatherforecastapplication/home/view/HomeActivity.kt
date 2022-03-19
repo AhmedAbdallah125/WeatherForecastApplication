@@ -1,9 +1,11 @@
 package com.example.weatherforecastapplication.home.view
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -84,5 +86,16 @@ class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
         onConfigurationChanged(configuration)
 
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if(requestCode==2){
+            finish()
+            startActivity(intent)
+
+        }
+
+    }
+
 
 }
