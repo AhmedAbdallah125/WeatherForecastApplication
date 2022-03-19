@@ -1,7 +1,11 @@
 package com.example.weatherforecastapplication.alert.view
 
 import android.content.DialogInterface
+import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +22,11 @@ import com.example.weatherforecastapplication.databinding.FragmentNotificationsB
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.dialog.alertdialog.view.AlertTimeDialog
+import com.example.weatherforecastapplication.home.view.HomeActivity
 import com.example.weatherforecastapplication.model.Repository
 import com.example.weatherforecastapplication.model.WeatherAlert
+import com.example.weatherforecastapplication.model.initSharedPref
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.flow.collect
 
 class AlertFragment : Fragment() {
@@ -51,12 +58,17 @@ class AlertFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initAlertWeatherRecycle()
-        binding.addAlert.setOnClickListener{
-            //show dilog to insert
+        binding.addAlert.setOnClickListener {
+            val once = initSharedPref(requireContext()).getInt("A", 0)
+            if (once == 0) {
+                checkDrawOverlayPermission()
+                initSharedPref(requireContext()).edit().apply {
+                    putInt("A", 1)
+                    apply()
+                }
+            }
+
             AlertTimeDialog().show(requireFragmentManager(), "MyAlertDialogFragment")
-
-            //then show data from local
-
         }
     }
 
@@ -64,7 +76,7 @@ class AlertFragment : Fragment() {
         super.onResume()
         viewModel.getWeatherAlerts()
         lifecycleScope.launchWhenStarted {
-            viewModel.weatherAlerts.collect{
+            viewModel.weatherAlerts.collect {
                 bindAlertWeathers(it)
             }
         }
@@ -87,7 +99,8 @@ class AlertFragment : Fragment() {
         // will delete in room and delete work manager
         // if this is end day will delete also
         viewModel.deleteAlertWeather(id)
-        Toast.makeText(requireContext(), getString(R.string.succ_deleted), Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.succ_deleted), Toast.LENGTH_SHORT)
+            .show()
 
     }
 
@@ -100,5 +113,41 @@ class AlertFragment : Fragment() {
         _binding = null
     }
 
+    private fun checkDrawOverlayPermission() {
+        // Check if we already  have permission to draw over other apps
+        if (
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                !Settings.canDrawOverlays(requireContext())
+            } else {
+                TODO("VERSION.SDK_INT < M")
+            }
+        ) {
+            // if not construct intent to request permission
+            val alertDialogBuilder = MaterialAlertDialogBuilder(requireContext())
+            alertDialogBuilder.setTitle(getString(R.string.weather_alerts))
+                .setMessage(getString(R.string.to_enjoy_features))
+                .setPositiveButton("Let's Go") { dialog: DialogInterface, i: Int ->
+                    val intent = Intent(
+                        Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                        Uri.parse("package:" + requireContext().applicationContext.packageName)
+
+
+                    )
+                    // request permission via start activity for result
+                    startActivityForResult(
+                        intent,
+                        1
+                    ) //It will call onActivityResult Function After you press Yes/No and go Back after giving permission
+                    dialog.dismiss()
+                    AlertTimeDialog().show(requireFragmentManager(), "MyAlertDialogFragment")
+
+                }.setNegativeButton(
+                    "Cancel"
+                ) { dialog: DialogInterface, i: Int ->
+                    dialog.dismiss()
+                    AlertTimeDialog().show(requireFragmentManager(), "MyAlertDialogFragment")
+                }.show()
+        }
+    }
 
 }

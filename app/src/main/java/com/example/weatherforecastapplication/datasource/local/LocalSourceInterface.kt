@@ -31,8 +31,9 @@ interface LocalSourceInterface {
     )
 
     //for Alerts
-    suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)
+    suspend fun insertWeatherAlert(weatherAlert: WeatherAlert):Long
      fun getWeatherAlerts(): Flow<List<WeatherAlert>>
     suspend fun deleteWeatherAlert(id: Int)
+    suspend fun getWeatherAlert(id:Int):WeatherAlert
 
 }

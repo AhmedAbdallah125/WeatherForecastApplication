@@ -115,16 +115,20 @@ class Repository(
         return localSourceInterface.deleteFavWeather(id)
     }
 
-    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert) {
-        localSourceInterface.insertWeatherAlert(weatherAlert)
+    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert): Int {
+        return localSourceInterface.insertWeatherAlert(weatherAlert).toInt()
     }
 
-    override  fun getWeatherAlerts(): Flow<List<WeatherAlert>> {
+    override fun getWeatherAlerts(): Flow<List<WeatherAlert>> {
         return localSourceInterface.getWeatherAlerts()
     }
 
     override suspend fun deleteWeatherAlert(id: Int) {
         localSourceInterface.deleteWeatherAlert(id)
+    }
+
+    override suspend fun getWeatherAlert(id: Int):WeatherAlert {
+       return localSourceInterface.getWeatherAlert(id)
     }
 
     private suspend fun updateCurrentFavWeather(
@@ -142,16 +146,16 @@ class Repository(
                 )
                 val openWeatherJason = response.body()
                 openWeatherJason?.isFavourite = true
-                if (idResult!=-3){
-                    openWeatherJason?.id=idResult
+                if (idResult != -3) {
+                    openWeatherJason?.id = idResult
                 }
 
 
                 // must insert
-               val id= localSourceInterface.insertWeather(openWeatherJason!!).toInt()
-                initFavSharedPref(localSourceInterface.getContext()).edit().apply{
+                val id = localSourceInterface.insertWeather(openWeatherJason!!).toInt()
+                initFavSharedPref(localSourceInterface.getContext()).edit().apply {
                     putInt(
-                        localSourceInterface.getContext().getString(R.string.ID),id
+                        localSourceInterface.getContext().getString(R.string.ID), id
                     )
                     apply()
                 }
@@ -235,8 +239,6 @@ class Repository(
         }
 
     }
-
-
 
 
 }

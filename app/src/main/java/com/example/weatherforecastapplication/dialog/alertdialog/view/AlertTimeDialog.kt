@@ -3,19 +3,21 @@ package com.example.weatherforecastapplication.dialog.alertdialog.view
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.AlertTimeDialogViewModel
+import androidx.work.*
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.AlertTimeDialogFragmentBinding
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
 import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
+import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.AlertTimeDialogViewModel
 import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.FactoryAlertTimeDialigViewModel
+import com.example.weatherforecastapplication.manager.AlertPeriodicManager
 import com.example.weatherforecastapplication.model.*
 import java.text.SimpleDateFormat
 import java.util.*
@@ -60,12 +62,48 @@ class AlertTimeDialog : DialogFragment() {
             initDayPicker(false)
         }
         binding.btnSaveAlert.setOnClickListener {
+
             viewModel.insertWeatherAlert(weatherAlert)
+            viewModel.id.observe(viewLifecycleOwner){
+                //have id now
+                // make work manager here
+                getPermission()
+                callPeriodicWorkManager(it)
+
+            }
             dismiss()
         }
 
     }
+    private fun callPeriodicWorkManager(id:Int){
+        val shared = initSharedPref(requireContext())
+        val lat =shared.getFloat(getString(R.string.LAT),0f)
+        val long =shared.getFloat(getString(R.string.LON),0f)
+        val data = Data.Builder()
+            .putFloat(getString(R.string.LAT),lat)
+            .putFloat(getString(R.string.LON),long)
+            .putInt(getString(R.string.ID),id).build()
+        //constrains
+        val constraints = Constraints.Builder()
+            .setRequiresBatteryNotLow(true)
+            .build()
+        //periodic request
+        val periodicWorkRequest = PeriodicWorkRequest.Builder(
+            AlertPeriodicManager::class.java,
+            24, TimeUnit.HOURS
+        )
+            .setInputData(data)
+            .setConstraints(constraints)
+            .addTag(id.toString())
+            .build()
+        WorkManager.getInstance(requireContext()).enqueueUniquePeriodicWork(
+            id.toString(), ExistingPeriodicWorkPolicy.REPLACE,
+            periodicWorkRequest
+        )
+    }
+    private fun getPermission(){
 
+    }
 
     private fun setInitialTime(current: Long) {
         val current = current.div(1000L)

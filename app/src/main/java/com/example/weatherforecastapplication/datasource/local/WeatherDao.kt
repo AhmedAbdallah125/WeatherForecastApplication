@@ -38,11 +38,13 @@ interface WeatherDao {
 
     // for Alerts
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertWeatherAlert(alert: WeatherAlert)
+    suspend fun insertWeatherAlert(alert: WeatherAlert):Long
 
     @Query("Select * from Alert ")
      fun getWeatherAlerts(): Flow<List<WeatherAlert>>
 
     @Query("Delete from Alert where id=:id")
     suspend fun deleteWeatherAlert(id: Int)
+    @Query("Select * from Alert where id=:id")
+    suspend fun getWeatherAlert(id:Int):WeatherAlert
 }

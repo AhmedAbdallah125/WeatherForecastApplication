@@ -54,7 +54,7 @@ class ConcreteLocalSource(
     }
 
     // handle Alerts
-    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert) {
+    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert):Long {
         return weatherDao.insertWeatherAlert(weatherAlert)
     }
 
@@ -64,6 +64,10 @@ class ConcreteLocalSource(
 
     override suspend fun deleteWeatherAlert(id: Int) {
         return weatherDao.deleteWeatherAlert(id)
+    }
+
+    override suspend fun getWeatherAlert(id: Int):WeatherAlert {
+        return weatherDao.getWeatherAlert(id)
     }
 
 

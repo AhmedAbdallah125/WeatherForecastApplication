@@ -24,7 +24,9 @@ interface IRepository {
     suspend fun deleteFavWeather(id: Int)
 
     // for Alerts
-    suspend fun insertWeatherAlert(weatherAlert: WeatherAlert)
+    suspend fun insertWeatherAlert(weatherAlert: WeatherAlert):Int
      fun getWeatherAlerts(): Flow<List<WeatherAlert>>
     suspend fun deleteWeatherAlert(id: Int)
+    suspend fun getWeatherAlert(id:Int):WeatherAlert
+
 }

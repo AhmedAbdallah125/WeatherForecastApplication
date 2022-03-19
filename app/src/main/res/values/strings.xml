@@ -65,4 +65,14 @@
     <string name="alerts">Alerts</string>
     <string name="ID">ID</string>
     <string name="succ_deleted">Successfully Deleted</string>
+    <string name="DESC">DESC</string>
+    <string name="IsAlert">isAlert</string>
+    <string name="ISALERT">isAlert</string>
+    <string name="channel_name">ForcastWeather</string>
+    <string name="weather_Fine">The Weather is Fine</string>
+    <string name="weather_alerts">Weather Alerts</string>
+    <string name="ther_is_no_alarm">There is No Alert for this time</string>
+    <string name="the_weather_is">The weather is</string>
+    <string name="ok">OK</string>
+    <string name="to_enjoy_features">To enjoy our features</string>
 </resources>
