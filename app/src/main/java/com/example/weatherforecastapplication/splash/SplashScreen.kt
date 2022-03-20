@@ -18,7 +18,7 @@ class SplashScreen : AppCompatActivity() {
         setContentView(binding.root)
         // will be go to main Screen
         splashScreenScope.launch(Dispatchers.Default) {
-            delay(500)
+            delay(2000)
             val intent = Intent(this@SplashScreen, HomeActivity::class.java)
             startActivity(intent)
             finish()

@@ -3,7 +3,6 @@ package com.example.weatherforecastapplication.manager
 import android.content.Context
 import android.content.Intent
 import android.graphics.PixelFormat
-import android.media.MediaParser
 import android.media.MediaPlayer
 import android.os.Build
 import android.util.Log
@@ -22,7 +21,7 @@ class AlertWindowManager(
     var binding: AlertWindowManagerBinding? = null
     var customDialog: View? = null
     private val mediaPlayer by lazy {
-       MediaPlayer.create(context, R.raw.weather_sound)
+       MediaPlayer.create(context, R.raw.summer)
     }
 
     // check connection first

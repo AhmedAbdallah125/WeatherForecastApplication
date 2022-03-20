@@ -4,14 +4,18 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
+import android.content.ContentResolver
 import android.content.Intent
+import android.media.AudioAttributes
 import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Build
 import android.os.IBinder
 import android.provider.Settings
 import androidx.core.app.NotificationCompat
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.home.view.HomeActivity
+
 
 class AlertService : Service() {
     private var alertDescription: String = ""
@@ -78,17 +82,23 @@ class AlertService : Service() {
             applicationContext,
             CHANNEL_ID.toString()
         )
-            .setSound(sound)
             .setSmallIcon(icon)
+
             .setContentTitle(getString(R.string.weather_alerts))
             .setContentText(alertDescription)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT) //                .setContentIntent(pendingIntent)
 //            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
+            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.summer))//Here is FILE_NAME is the name of file that you want to play
 
             .setAutoCancel(true).build()
     }
 
     private fun createNotificationChannel() {
+        val sound =
+            Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.summer) //Here is FILE_NAME is the name of file that you want to play
+        var attributes =  AudioAttributes.Builder()
+            .setUsage(AudioAttributes.USAGE_NOTIFICATION)
+            .build();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val name: CharSequence = getString(R.string.channel_name)
 
@@ -98,6 +108,8 @@ class AlertService : Service() {
                 name, importance
             )
             channel.description = alertDescription
+            channel.setSound(sound, attributes); //
+
             notificationManager = this.getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)
         }

@@ -125,20 +125,23 @@ class SettingScreen : Fragment() {
         if (view is RadioButton) {
             // Is the button now checked?
             val checked = view.isChecked
-
-            // Check which radio button was clicked
-            when (view.getId()) {
-                R.id.radioButton_English ->
-                    if (checked) {
-                        initLan("en", requireContext())
-                        setLan("en")
-                    }
-                R.id.radio_button_Arabic ->
-                    if (checked) {
-                        initLan("ar", requireContext())
-                        setLan("ar")
-                    }
+            if(isConnected(requireContext())){
+                // Check which radio button was clicked
+                when (view.getId()) {
+                    R.id.radioButton_English ->
+                        if (checked) {
+                            initLan("en", requireContext())
+                            setLan("en")
+                        }
+                    R.id.radio_button_Arabic ->
+                        if (checked) {
+                            initLan("ar", requireContext())
+                            setLan("ar")
+                        }
+                }
             }
+
+
         }
         activity?.finish()
         activity?.startActivity(activity?.intent)
