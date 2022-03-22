@@ -30,7 +30,7 @@ visibility distance, relative humidity, Wind Speed
 ## ScreenShots
 <div>
  <p align="center">
-<img src="https://drive.google.com/file/d/1VsvwQ4Lc1OAw0yFMW9_ZgTgSU69-kp2R/view?usp=sharing" width="200" align="left"
+<img src="![photo_2022-03-22_11-31-43](https://user-images.githubusercontent.com/57001378/159455815-d03a2c3b-8a1b-4d70-8405-dbf80a9d694e.jpg)" width="200" align="left"
     hspace="10" vspace="10">
  
 <img src="https://drive.google.com/uc?export=view&id=1Qnw-X94LU0Y1rVBHBiUt6mwk-OaMjOGO" width="200" align="right"
