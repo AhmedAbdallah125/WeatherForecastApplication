@@ -28,55 +28,18 @@ visibility distance, relative humidity, Wind Speed
 * Location Permission.
 
 ## ScreenShots
-<div>
- <p align="center">
-<img src="![photo_2022-03-22_11-31-43](https://user-images.githubusercontent.com/57001378/159455815-d03a2c3b-8a1b-4d70-8405-dbf80a9d694e.jpg)" width="200" align="left"
-    hspace="10" vspace="10">
- 
-<img src="https://drive.google.com/uc?export=view&id=1Qnw-X94LU0Y1rVBHBiUt6mwk-OaMjOGO" width="200" align="right"
-    hspace="10" vspace="10">
-  </p>
- 
- <p align="center">
-<img src="https://drive.google.com/uc?export=view&id=1wkmpUpHwS5nczN0X7OdgapcG_O6bGcpg" width="200" align="left"
-    hspace="10" vspace="10">
-
-<img src="https://drive.google.com/uc?export=view&id=1dCDis7Obw-jxtkPmscceajCquUnFN_H-" width="200" align="right"
-    hspace="10" vspace="10">
-  </p>
- 
- <p align="center">
- <img src="https://drive.google.com/uc?export=view&id=19Nz44OYabLHaEUcn1vep_t2JQAHoh2Es" width="200" align="left"
-    hspace="10" vspace="10">
- 
- <img src="https://drive.google.com/uc?export=view&id=1_pzOgMZSaaGttQU6fmVJCYlQRwcqdBqE" width="200" align="right"
-    hspace="10" vspace="10">
-  </p>
- <p align="center">
- <img src="https://drive.google.com/uc?export=view&id=14CbbsJkHNmM7nzVWHIGeJksU4P22JBNz" width="200" align="left"
-    hspace="10" vspace="10">
- 
- <img src="https://drive.google.com/uc?export=view&id=1jIEYk566MXnLG8CVYV_GxnkAOXg0DgeY" width="200" align="right"
-    hspace="10" vspace="10">
-  </p>
- <p align="center">
-  <img src="https://drive.google.com/uc?export=view&id=1ottjmQpim1VJzZ13HM7yWf2La3vMnygm" width="200" align="left"
-    hspace="10" vspace="10">
- 
-  <img src="https://drive.google.com/uc?export=view&id=1-_cUV5XGj2RlU5tG8BeWhC5d6TRdFZEt" width="200" align="right"
-    hspace="10" vspace="10">
- </p>
- <p align="center">
-  <img src="https://drive.google.com/uc?export=view&id=1ZZIS9rQLqe0gP5Q7PNHhI2bYchzr9pzs" width="200" align="left"
-    hspace="10" vspace="10">
- 
-  <img src="https://drive.google.com/uc?export=view&id=1ik2vd82P--FPCqCr7Ggtler36YyzmwHk" width="200" align="right"
-    hspace="10" vspace="10">
-  </p>
- <p align="center">
- <img src="https://drive.google.com/uc?export=view&id=1gVNv5ToUONmoLt499FpncS-DIz_JSqQJ" width="200" align="left"
-    hspace="10" vspace="10">
-  </p>
-</div>
-
-
+![photo_2022-03-22_11-31-43](https://user-images.githubusercontent.com/57001378/159458845-bf64a5f3-e01e-4c66-9146-d83f92f0eb0a.jpg)
+![photo_2022-03-22_11-31-53](https://user-images.githubusercontent.com/57001378/159458866-89181b5c-21b8-45f3-9de5-afc3725633c2.jpg)
+![photo_2022-03-22_11-31-56](https://user-images.githubusercontent.com/57001378/159458869-407fa8c4-04bd-460d-a3fd-369c1cc483c2.jpg)
+![photo_2022-03-22_11-31-59](https://user-images.githubusercontent.com/57001378/159458886-3455e567-7af2-4ed0-9d12-32ad4c3faccc.jpg)
+![photo_2022-03-22_11-32-01](https://user-images.githubusercontent.com/57001378/159458915-be6be4a4-3d57-4942-8778-2f6eb30c916c.jpg)
+![photo_2022-03-22_11-32-04](https://user-images.githubusercontent.com/57001378/159458932-89e52969-a3ae-46a4-8ef6-a05a568fc844.jpg)
+![photo_2022-03-22_11-32-07](https://user-images.githubusercontent.com/57001378/159458956-784370cf-c20b-4a5c-bbbc-3380b2266457.jpg)
+![photo_2022-03-22_11-32-10](https://user-images.githubusercontent.com/57001378/159458962-a40f187e-8eb1-4a75-95e3-39435e53b56b.jpg)
+![photo_2022-03-22_11-32-13](https://user-images.githubusercontent.com/57001378/159458967-e01fa0a4-86ca-41a9-85bf-3b8f167f1a20.jpg)
+![photo_2022-03-22_11-32-16](https://user-images.githubusercontent.com/57001378/159458976-0b22c0e3-2329-4269-84cd-8c3272cbaf45.jpg)
+![photo_2022-03-22_11-32-27](https://user-images.githubusercontent.com/57001378/159458980-b22c1ede-8d36-43dd-a7ea-7efa790179f4.jpg)
+![photo_2022-03-22_11-32-31](https://user-images.githubusercontent.com/57001378/159458985-2953584b-9ac3-44ca-a382-1fe0f918c0ca.jpg)
+![photo_2022-03-22_11-33-08](https://user-images.githubusercontent.com/57001378/159458988-6501e64b-c57b-43f0-ba38-019ef8ec8a6d.jpg)
+![photo_2022-03-22_11-33-11](https://user-images.githubusercontent.com/57001378/159458994-907eea2c-e020-4b43-be2f-bb4c8a298756.jpg)
+![photo_2022-03-22_11-33-14](https://user-images.githubusercontent.com/57001378/159458999-a8f4e5b5-ea26-440a-a2e4-589f4876f854.jpg)
