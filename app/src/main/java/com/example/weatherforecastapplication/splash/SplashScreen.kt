@@ -12,6 +12,7 @@ class SplashScreen : AppCompatActivity() {
     private lateinit var binding: ScreenSplashBinding
     private val splashScreenScope = lifecycleScope
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ScreenSplashBinding.inflate(layoutInflater)

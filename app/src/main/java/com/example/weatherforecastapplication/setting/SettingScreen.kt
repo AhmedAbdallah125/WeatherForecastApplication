@@ -101,23 +101,32 @@ class SettingScreen : Fragment() {
             // Is the button now checked?
             val checked = view.isChecked
 
-            // Check which radio button was clicked
-            when (view.getId()) {
-                R.id.radioButton_temp_metric_celsius ->
-                    if (checked) {
-                        initUNIT(Units.METRIC.name, requireContext())
+            if(isConnected(requireContext())){
+                // Check which radio button was clicked
+                when (view.getId()) {
+                    R.id.radioButton_temp_metric_celsius ->
+                        if (checked) {
+                            initUNIT(Units.METRIC.name, requireContext())
 
-                    }
-                R.id.radioButton_temp_metric_Kelvin ->
-                    if (checked) {
-                        initUNIT(Units.STANDARD.name, requireContext())
+                        }
+                    R.id.radioButton_temp_metric_Kelvin ->
+                        if (checked) {
+                            initUNIT(Units.STANDARD.name, requireContext())
 
-                    }
-                R.id.radioButton_temp_metric_Fahrenheit ->
-                    if (checked) {
-                        initUNIT(Units.IMPERIAL.name, requireContext())
-                    }
+                        }
+                    R.id.radioButton_temp_metric_Fahrenheit ->
+                        if (checked) {
+                            initUNIT(Units.IMPERIAL.name, requireContext())
+                        }
+                }
+            }else{
+                Toast.makeText(
+                    requireContext(),
+                    getString(R.string.YMCN),
+                    Toast.LENGTH_SHORT
+                ).show()
             }
+
         }
     }
 

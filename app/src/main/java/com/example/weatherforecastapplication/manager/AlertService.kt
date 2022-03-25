@@ -88,7 +88,7 @@ class AlertService : Service() {
             .setContentText(alertDescription)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT) //                .setContentIntent(pendingIntent)
 //            .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))
-            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.summer))//Here is FILE_NAME is the name of file that you want to play
+//            .setSound(Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE + "://" + this.packageName + "/" + R.raw.summer))//Here is FILE_NAME is the name of file that you want to play
 
             .setAutoCancel(true).build()
     }
@@ -109,6 +109,7 @@ class AlertService : Service() {
             )
             channel.description = alertDescription
             channel.setSound(sound, attributes); //
+            channel.enableVibration(true)
 
             notificationManager = this.getSystemService(NotificationManager::class.java)
             notificationManager.createNotificationChannel(channel)

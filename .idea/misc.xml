@@ -10,6 +10,7 @@
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/ic_humidity.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/ic_pressure.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/ic_setting_tool_com.xml" value="0.1255" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/ic_weather.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/ic_windspeed.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/round_corner.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/drawable/round_radius_white.xml" value="0.1255" />
@@ -33,6 +34,8 @@
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_setting.xml" value="0.2" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/layout/fragment_setting_screen.xml" value="0.18297101449275363" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1255" />
+        <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1255" />
       </map>
     </option>
   </component>
