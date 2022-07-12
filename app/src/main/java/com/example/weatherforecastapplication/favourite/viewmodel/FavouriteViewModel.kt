@@ -7,8 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherforecastapplication.model.IRepository
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Result
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlin.system.measureTimeMillis
 
 class FavouriteViewModel(private val myRepository: IRepository) : ViewModel() {
     // get from shared the required Data
@@ -28,7 +31,17 @@ class FavouriteViewModel(private val myRepository: IRepository) : ViewModel() {
                 Log.i("AA", "Failed: ")
             }
         }
+        runBlocking {
+             flow<String> {
+                val list = listOf<String>("A", "B", "c")
+                for (i in list) {
+                    delay(1000)
+                    emit(i)
+                }
+            }.collect {
 
+             }
+        }
     }
 
     fun getLocalFavWeathers() {
@@ -45,7 +58,7 @@ class FavouriteViewModel(private val myRepository: IRepository) : ViewModel() {
         }
     }
 
-    fun deleteFavWeather(id:Int) {
+    fun deleteFavWeather(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             myRepository.deleteFavWeather(id)
             getLocalFavWeathers()

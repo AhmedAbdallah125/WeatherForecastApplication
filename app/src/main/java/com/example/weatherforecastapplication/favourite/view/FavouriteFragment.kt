@@ -8,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,7 +35,6 @@ class FavouriteFragment : Fragment() {
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
 
@@ -66,8 +67,10 @@ class FavouriteFragment : Fragment() {
                     getString(R.string.YMCN),
                     Toast.LENGTH_SHORT
                 ).show()
+            lifecycleScope
 
-        }
+
+       }
     }
 
     override fun onResume() {
@@ -116,7 +119,6 @@ class FavouriteFragment : Fragment() {
                 }
 
             }
-
 
         }
     }

@@ -36,6 +36,13 @@
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/menu/bottom_nav_menu.xml" value="0.20416666666666666" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1255" />
         <entry key="..\:/ahmed engineering/ITI/Android/AndroidKotlinProject/WeatherForecastApplication/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1255" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/card_layout_alert.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/card_layout_favourite.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/fragment_alert_reminder.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/fragment_favourite.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/fragment_setting_screen.xml" value="0.17552083333333332" />
       </map>
     </option>
   </component>
