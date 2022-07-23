@@ -28,7 +28,6 @@ visibility distance, relative humidity, Wind Speed
 * Location Permission.
 
 ## ScreenShots
-![photo_2022-03-22_11-31-43](https://user-images.githubusercontent.com/57001378/159458845-bf64a5f3-e01e-4c66-9146-d83f92f0eb0a.jpg)
 ![photo_2022-03-22_11-31-53](https://user-images.githubusercontent.com/57001378/159458866-89181b5c-21b8-45f3-9de5-afc3725633c2.jpg)
 ![photo_2022-03-22_11-31-56](https://user-images.githubusercontent.com/57001378/159458869-407fa8c4-04bd-460d-a3fd-369c1cc483c2.jpg)
 ![photo_2022-03-22_11-31-59](https://user-images.githubusercontent.com/57001378/159458886-3455e567-7af2-4ed0-9d12-32ad4c3faccc.jpg)
