@@ -7,12 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherforecastapplication.model.IRepository
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.WeatherAlert
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AlertViewModel(private val myRepository: IRepository) : ViewModel() {
+@HiltViewModel
+class AlertViewModel @Inject constructor(private val myRepository: IRepository) : ViewModel() {
     private var _weatherAlerts: MutableStateFlow<List<WeatherAlert>> = MutableStateFlow(emptyList())
     val weatherAlerts = _weatherAlerts
 

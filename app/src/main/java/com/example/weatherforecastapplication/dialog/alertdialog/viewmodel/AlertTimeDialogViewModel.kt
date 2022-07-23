@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.weatherforecastapplication.model.IRepository
 import com.example.weatherforecastapplication.model.WeatherAlert
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class AlertTimeDialogViewModel(private val myRepository: IRepository) : ViewModel() {
+@HiltViewModel
+class AlertTimeDialogViewModel @Inject constructor(private val myRepository: IRepository) : ViewModel() {
     private var _id: MutableLiveData<Int> = MutableLiveData()
     val id = _id
     fun insertWeatherAlert(weatherAlert: WeatherAlert) {

@@ -18,26 +18,18 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.work.WorkManager
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.alert.view.viewmodel.AlertViewModel
-import com.example.weatherforecastapplication.alert.viewmodel.FactoryAlertViewModel
 import com.example.weatherforecastapplication.databinding.FragmentNotificationsBinding
-import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.dialog.alertdialog.view.AlertTimeDialog
-import com.example.weatherforecastapplication.home.view.HomeActivity
-import com.example.weatherforecastapplication.model.Repository
 import com.example.weatherforecastapplication.model.WeatherAlert
 import com.example.weatherforecastapplication.model.initSharedPref
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.flow.collect
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AlertFragment : Fragment() {
 
     private var _binding: FragmentNotificationsBinding? = null
-    private val viewModel: AlertViewModel by viewModels {
-        FactoryAlertViewModel(
-            (Repository(ConcreteLocalSource(requireContext()), RetrofitHelper))
-        )
-    }
+    private val viewModel: AlertViewModel by viewModels()
     private lateinit var alertAdapter: AlertAdapter
 
     private val binding
@@ -110,7 +102,7 @@ class AlertFragment : Fragment() {
         // will delete in room and delete work manager
         // if this is end day will delete also
         viewModel.deleteAlertWeather(id)
-        WorkManager.getInstance()?.cancelUniqueWork(id.toString())
+        WorkManager.getInstance().cancelUniqueWork(id.toString())
 
         Toast.makeText(requireContext(), getString(R.string.succ_deleted), Toast.LENGTH_SHORT)
             .show()

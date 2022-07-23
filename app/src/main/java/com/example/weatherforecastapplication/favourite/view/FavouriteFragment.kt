@@ -8,29 +8,24 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentFavouriteBinding
-import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.favourite.viewmodel.FavouriteViewModel
-import com.example.weatherforecastapplication.favourite.viewmodel.FavouriteViewModelFactory
 import com.example.weatherforecastapplication.model.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class FavouriteFragment : Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null
     private lateinit var favWeatherAdapter: FavouriteAdapter
 
     //viewModels
-    private val viewModel: FavouriteViewModel by viewModels {
-        FavouriteViewModelFactory(Repository(ConcreteLocalSource(requireContext()), RetrofitHelper))
-    }
+    private val viewModel: FavouriteViewModel by viewModels ()
 
     private val binding get() = _binding!!
     override fun onCreate(savedInstanceState: Bundle?) {

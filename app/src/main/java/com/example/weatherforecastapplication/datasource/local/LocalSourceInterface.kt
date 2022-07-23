@@ -18,7 +18,7 @@ interface LocalSourceInterface {
     suspend fun getWeather(lat: Double, long: Double): OpenWeatherJason
 
     suspend fun updateWeather(openWeatherJason: OpenWeatherJason)
-    fun getContext(): Context
+//    fun getContext(): Context
 
     // for fav
     suspend fun getFavWeathersZone(

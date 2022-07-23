@@ -1,23 +1,25 @@
 package com.example.weatherforecastapplication.model
 
+import android.content.Context
 import android.util.Log
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.datasource.local.LocalSourceInterface
 import com.example.weatherforecastapplication.datasource.network.RemoteSource
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.*
-import retrofit2.Response
-import  com.example.weatherforecastapplication.model.initSharedPref
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class Repository(
+class Repository  @Inject constructor(
+    @ApplicationContext
+    private val applicationContext: Context,
     private val localSourceInterface: LocalSourceInterface,
     private val remoteSource: RemoteSource,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : IRepository {
     override suspend fun getCurrentWeather(
         lat: Double, long: Double, lan: String, unit: String, isFavourite: Boolean
     ): Result<OpenWeatherJason> {
-        if (isConnected(localSourceInterface.getContext())) {
+        if (isConnected(applicationContext)) {
             try {
                 updateCurrentWeatherID(lat, long, lan, unit)
             } catch (exception: Exception) {
@@ -26,9 +28,9 @@ class Repository(
         }
 
 
-        val sharedPreferences = initSharedPref(localSourceInterface.getContext())
+        val sharedPreferences = initSharedPref(applicationContext)
         val id = sharedPreferences.getInt(
-            localSourceInterface.getContext().getString(R.string.ID), -3
+            applicationContext.getString(R.string.ID), -3
         )
 
 
@@ -48,7 +50,7 @@ class Repository(
         unit: String,
 
         ): Result<List<OpenWeatherJason>> {
-        if (isConnected(localSourceInterface.getContext())) {
+        if (isConnected(applicationContext)) {
             try {
                 updateFavWeathersTimeZone(lat, long, lan, unit)
             } catch (exception: Exception) {
@@ -84,7 +86,7 @@ class Repository(
         unit: String,
         isFavourite: Boolean
     ): Result<OpenWeatherJason> {
-        if (isConnected(localSourceInterface.getContext())) {
+        if (isConnected(applicationContext)) {
             try {
                 updateCurrentFavWeather(lat, long, lan, unit)
             } catch (exception: Exception) {
@@ -93,8 +95,8 @@ class Repository(
         }
 
 
-        val id = initFavSharedPref(localSourceInterface.getContext()).getInt(
-            localSourceInterface.getContext().getString(R.string.ID), -1
+        val id = initFavSharedPref(applicationContext).getInt(
+            applicationContext.getString(R.string.ID), -1
         )
 
 
@@ -127,8 +129,8 @@ class Repository(
         localSourceInterface.deleteWeatherAlert(id)
     }
 
-    override suspend fun getWeatherAlert(id: Int):WeatherAlert {
-       return localSourceInterface.getWeatherAlert(id)
+    override suspend fun getWeatherAlert(id: Int): WeatherAlert {
+        return localSourceInterface.getWeatherAlert(id)
     }
 
     private suspend fun updateCurrentFavWeather(
@@ -140,9 +142,9 @@ class Repository(
         try {
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
             if (response.isSuccessful) {
-                val sharedPreferences = initFavSharedPref(localSourceInterface.getContext())
+                val sharedPreferences = initFavSharedPref(applicationContext)
                 val idResult = sharedPreferences.getInt(
-                    localSourceInterface.getContext().getString(R.string.ID), -3
+                    applicationContext.getString(R.string.ID), -3
                 )
                 val openWeatherJason = response.body()
                 openWeatherJason?.isFavourite = true
@@ -153,9 +155,9 @@ class Repository(
 
                 // must insert
                 val id = localSourceInterface.insertWeather(openWeatherJason!!).toInt()
-                initFavSharedPref(localSourceInterface.getContext()).edit().apply {
+                initFavSharedPref(applicationContext).edit().apply {
                     putInt(
-                        localSourceInterface.getContext().getString(R.string.ID), id
+                        applicationContext.getString(R.string.ID), id
                     )
                     apply()
                 }
@@ -198,10 +200,10 @@ class Repository(
             val response = remoteSource.getCurrentWeather(lat, long, lan, unit)
             if (response.isSuccessful) {
 
-                val sharedPreferences = initSharedPref(localSourceInterface.getContext())
+                val sharedPreferences = initSharedPref(applicationContext)
                 // check if already exist or not
                 val idResult = sharedPreferences.getInt(
-                    localSourceInterface.getContext().getString(R.string.ID), -3
+                    applicationContext.getString(R.string.ID), -3
                 )
                 // At Beginning
                 if (idResult != -3) {
@@ -212,15 +214,15 @@ class Repository(
 
                 sharedPreferences.edit().apply {
                     putInt(
-                        localSourceInterface.getContext().getString(R.string.ID),
+                        applicationContext.getString(R.string.ID),
                         id
                     )
                     putFloat(
-                        localSourceInterface.getContext().getString(R.string.LAT),
+                        applicationContext.getString(R.string.LAT),
                         response.body()!!.lat!!.toFloat()
                     )
                     putFloat(
-                        localSourceInterface.getContext().getString(R.string.LON),
+                        applicationContext.getString(R.string.LON),
                         response.body()!!.lon!!.toFloat()
                     )
                     apply()
@@ -228,7 +230,7 @@ class Repository(
                 Log.i(
                     "AA",
                     "inONline:lat  " + sharedPreferences.getFloat(
-                        localSourceInterface.getContext().getString(R.string.LAT), 0f
+                        applicationContext.getString(R.string.LAT), 0f
                     )
                 )
                 // must insert

@@ -1,22 +1,17 @@
 package com.example.weatherforecastapplication.datasource.local
 
 import android.content.Context
-import android.util.Log
-import androidx.lifecycle.LiveData
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.WeatherAlert
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ConcreteLocalSource(
-    private val context: Context,
-    private val weatherDao: WeatherDao = WeatherDB.getDataBase(context)
-        .weatherDao()
+class ConcreteLocalSource @Inject constructor(
+    private val weatherDao: WeatherDao
 ) : LocalSourceInterface {
 
-    override suspend fun insertWeather(openWeatherJason: OpenWeatherJason):Long {
-           return weatherDao.insertWeather(openWeatherJason)
+    override suspend fun insertWeather(openWeatherJason: OpenWeatherJason): Long {
+        return weatherDao.insertWeather(openWeatherJason)
 
     }
 
@@ -35,9 +30,9 @@ class ConcreteLocalSource(
         TODO("Not yet implemented")
     }
 
-    override fun getContext(): Context {
-        return context
-    }
+//    override fun getContext(): Context {
+//        return
+//    }
 
     override suspend fun getFavWeathersZone(
 
@@ -54,11 +49,11 @@ class ConcreteLocalSource(
     }
 
     // handle Alerts
-    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert):Long {
+    override suspend fun insertWeatherAlert(weatherAlert: WeatherAlert): Long {
         return weatherDao.insertWeatherAlert(weatherAlert)
     }
 
-    override  fun getWeatherAlerts(): Flow<List<WeatherAlert>> {
+    override fun getWeatherAlerts(): Flow<List<WeatherAlert>> {
         return weatherDao.getWeatherAlerts()
     }
 
@@ -66,7 +61,7 @@ class ConcreteLocalSource(
         return weatherDao.deleteWeatherAlert(id)
     }
 
-    override suspend fun getWeatherAlert(id: Int):WeatherAlert {
+    override suspend fun getWeatherAlert(id: Int): WeatherAlert {
         return weatherDao.getWeatherAlert(id)
     }
 

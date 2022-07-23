@@ -2,19 +2,26 @@ package com.example.weatherforecastapplication.manager
 
 import android.content.Context
 import android.util.Log
+import androidx.hilt.work.HiltWorker
 import androidx.work.*
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
+import com.example.weatherforecastapplication.datasource.network.ConcreteRemote
 import com.example.weatherforecastapplication.model.*
 import com.example.weatherforecastapplication.model.Result.Success
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-class AlertPeriodicManager(private val appContext: Context, params: WorkerParameters) :
+@HiltWorker
+class AlertPeriodicManager @AssistedInject constructor(
+    @Assisted private val appContext: Context,
+    @Assisted params: WorkerParameters,
+     var myRepo :Repository
+) :
     CoroutineWorker(appContext, params) {
-    var myRepo = Repository(ConcreteLocalSource(appContext), RetrofitHelper)
     override suspend fun doWork(): Result {
         //must have id of alert
         Log.i("ABC", "doWork: ")
@@ -43,7 +50,7 @@ class AlertPeriodicManager(private val appContext: Context, params: WorkerParame
     }
 
     private suspend fun processing(weatherAlert: WeatherAlert, lat: Float, long: Float, id: Int) {
-        if (checkDay(weatherAlert.startDay,weatherAlert.endDay)) {
+        if (checkDay(weatherAlert.startDay, weatherAlert.endDay)) {
             val result = myRepo.getCurrentWeather(
                 lat.toDouble(), long.toDouble(), "en", getCurrentUnit(appContext), false
             )
@@ -59,7 +66,13 @@ class AlertPeriodicManager(private val appContext: Context, params: WorkerParame
                     isAlert = true
                     description = openWeatherJason.alerts!![0].tags[0]
                 }
-                setOnTimeWorkManger(isAlert, description, getPeriod(weatherAlert.startTime), id,weatherAlert.endDay)
+                setOnTimeWorkManger(
+                    isAlert,
+                    description,
+                    getPeriod(weatherAlert.startTime),
+                    id,
+                    weatherAlert.endDay
+                )
             }
         } else {
 //            myRepo.deleteWeatherAlert(id)
@@ -76,8 +89,8 @@ class AlertPeriodicManager(private val appContext: Context, params: WorkerParame
         val data = Data.Builder().apply {
             putBoolean(appContext.getString(R.string.IsAlert), isAlert)
             putString(appContext.getString(R.string.DESC), description)
-                putInt(appContext.getString(R.string.ID),id)
-            putLong(appContext.getString(R.string.ENDDAY),endDay)
+            putInt(appContext.getString(R.string.ID), id)
+            putLong(appContext.getString(R.string.ENDDAY), endDay)
         }.build()
         val constraints = Constraints.Builder()
             .setRequiresBatteryNotLow(true)
@@ -99,9 +112,10 @@ class AlertPeriodicManager(private val appContext: Context, params: WorkerParame
         val currentHour: Int = calendar.get(Calendar.HOUR_OF_DAY)
         val currentMinute: Int = calendar.get(Calendar.MINUTE)
         var time = (TimeUnit.MINUTES.toSeconds(currentMinute.toLong()) + TimeUnit.HOURS.toSeconds(
-            currentHour.toLong())
+            currentHour.toLong()
+        )
                 )
-        time =time.minus(3600L*2)
+        time = time.minus(3600L * 2)
 
         Log.i("ABC", "timenow:${time} ")
         Log.i("ABC", "start $startTime: ")

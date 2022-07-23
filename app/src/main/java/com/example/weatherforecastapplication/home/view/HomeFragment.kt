@@ -29,16 +29,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.FragmentHomeBinding
-import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModel
-import com.example.weatherforecastapplication.home.viewmodel.WeatherViewModelFactory
 import com.example.weatherforecastapplication.model.*
 import com.google.android.gms.location.*
+import dagger.hilt.android.AndroidEntryPoint
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
 import java.util.*
-
+@AndroidEntryPoint
 class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     // for permission
     private val permission = arrayOf<String>(
@@ -56,9 +54,7 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     private lateinit var sharedPreferences: SharedPreferences
 
     //viewModels
-    private val viewModel: WeatherViewModel by viewModels {
-        WeatherViewModelFactory(Repository(ConcreteLocalSource(requireContext()), RetrofitHelper))
-    }
+    private val viewModel: WeatherViewModel by viewModels()
 
     private val binding get() = _binding!!
 
@@ -320,9 +316,9 @@ class HomeFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
             //store shredPref
             sharedPreferences.edit().apply {
-                putFloat(getString(R.string.LAT), location.latitude.toFloat())
-                putFloat(getString(R.string.LON), location.longitude.toFloat())
-                Log.i("AA", "The Result is: " + location.latitude)
+                location?.latitude?.toFloat()?.let { putFloat(getString(R.string.LAT), it) }
+                location?.longitude?.toFloat()?.let { putFloat(getString(R.string.LON), it) }
+                Log.i("AA", "The Result is: " + location?.latitude)
                 apply()
             }
             // handle the updated one

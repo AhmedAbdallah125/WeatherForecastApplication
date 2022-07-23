@@ -7,13 +7,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.weatherforecastapplication.model.IRepository
 import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Result
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 import kotlin.system.measureTimeMillis
-
-class FavouriteViewModel(private val myRepository: IRepository) : ViewModel() {
+@HiltViewModel
+class FavouriteViewModel @Inject constructor(private val myRepository: IRepository) : ViewModel() {
     // get from shared the required Data
     var favWeather: MutableLiveData<List<OpenWeatherJason>> = MutableLiveData()
     fun getWeather(

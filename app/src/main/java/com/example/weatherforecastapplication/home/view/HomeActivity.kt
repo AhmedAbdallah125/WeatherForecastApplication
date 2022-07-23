@@ -16,8 +16,9 @@ import com.example.weatherforecastapplication.dialog.customdialog.CustomDialog
 import com.example.weatherforecastapplication.home.viewmodel.HomeActivityViewModel
 import com.example.weatherforecastapplication.model.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
-
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity(), DialogInterface.OnDismissListener {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var sharedPreferences: SharedPreferences

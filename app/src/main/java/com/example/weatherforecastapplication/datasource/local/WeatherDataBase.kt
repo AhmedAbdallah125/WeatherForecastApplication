@@ -12,30 +12,8 @@ import com.example.weatherforecastapplication.model.WeatherAlert
 
 //, exportSchema = false
 
-@Database(entities = [OpenWeatherJason::class, WeatherAlert::class], version = 2)
+@Database(entities = [OpenWeatherJason::class, WeatherAlert::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class WeatherDB : RoomDatabase() {
     abstract fun weatherDao(): WeatherDao
-
-    companion object {
-        // Singleton prevents multiple instances of database opening at the
-        // same time.
-        @Volatile
-        private var INSTANCE: WeatherDB? = null
-        fun getDataBase(context: Context): WeatherDB {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    WeatherDB::class.java,
-                    "weather_db"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
-                INSTANCE = instance
-                instance
-            }
-
-        }
-    }
-
 }

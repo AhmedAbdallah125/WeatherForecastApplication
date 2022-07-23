@@ -3,7 +3,6 @@ package com.example.weatherforecastapplication.dialog.alertdialog.view
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,15 +13,15 @@ import androidx.work.*
 import com.example.weatherforecastapplication.R
 import com.example.weatherforecastapplication.databinding.AlertTimeDialogFragmentBinding
 import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
+import com.example.weatherforecastapplication.datasource.network.ConcreteRemote
 import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.AlertTimeDialogViewModel
-import com.example.weatherforecastapplication.dialog.alertdialog.viewmodel.FactoryAlertTimeDialigViewModel
 import com.example.weatherforecastapplication.manager.AlertPeriodicManager
 import com.example.weatherforecastapplication.model.*
+import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-
+@AndroidEntryPoint
 class AlertTimeDialog : DialogFragment() {
 
     private lateinit var binding: AlertTimeDialogFragmentBinding
@@ -30,14 +29,7 @@ class AlertTimeDialog : DialogFragment() {
     private lateinit var weatherAlert: WeatherAlert
 
 
-    private val viewModel: AlertTimeDialogViewModel by viewModels {
-        FactoryAlertTimeDialigViewModel(
-            (Repository(
-                ConcreteLocalSource(requireContext()),
-                RetrofitHelper
-            ))
-        )
-    }
+    private val viewModel: AlertTimeDialogViewModel by viewModels ()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

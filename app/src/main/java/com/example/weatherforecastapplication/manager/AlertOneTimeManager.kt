@@ -4,19 +4,24 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import androidx.core.content.ContextCompat
+import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.example.weatherforecastapplication.R
-import com.example.weatherforecastapplication.datasource.local.ConcreteLocalSource
-import com.example.weatherforecastapplication.datasource.network.RetrofitHelper
 import com.example.weatherforecastapplication.model.Repository
 import com.example.weatherforecastapplication.model.getCurrentLan
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import java.text.SimpleDateFormat
 import java.util.*
 
-class AlertOneTimeManager(private val appContext: Context, params: WorkerParameters) :
+@HiltWorker
+class AlertOneTimeManager @AssistedInject constructor(
+    @Assisted private val appContext: Context,
+    @Assisted params: WorkerParameters,
+    private var myRepo: Repository
+) :
     CoroutineWorker(appContext, params) {
-    var myRepo = Repository(ConcreteLocalSource(appContext), RetrofitHelper)
 
 
     override suspend fun doWork(): Result {

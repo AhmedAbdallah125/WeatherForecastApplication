@@ -4,12 +4,16 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.weatherforecastapplication.model.*
+import com.example.weatherforecastapplication.model.IRepository
+import com.example.weatherforecastapplication.model.OpenWeatherJason
 import com.example.weatherforecastapplication.model.Result.Success
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class WeatherViewModel(private val myRepository: IRepository) : ViewModel() {
+@HiltViewModel
+class WeatherViewModel @Inject constructor(private val myRepository: IRepository) : ViewModel() {
     // get from shared the required Data
     var openWeather: MutableLiveData<OpenWeatherJason> = MutableLiveData()
     fun getWeather(
